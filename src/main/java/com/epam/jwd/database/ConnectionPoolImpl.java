@@ -1,6 +1,6 @@
 package com.epam.jwd.database;
 
-import com.epam.jwd.exception.CouldNotInitializeConnectionPool;
+import com.epam.jwd.exception.CouldNotInitializeConnectionPoolError;
 import com.epam.jwd.logger.LoggerProvider;
 
 import java.sql.Connection;
@@ -11,6 +11,8 @@ import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class ConnectionPoolImpl implements ConnectionPool {
 
@@ -23,56 +25,86 @@ public class ConnectionPoolImpl implements ConnectionPool {
     private final Queue<ProxyConnection> availableConnections = new ConcurrentLinkedQueue();
     private final Queue<ProxyConnection> givenAwayConnections = new ConcurrentLinkedQueue<>();
 
+    private final ReentrantLock rentrantLock = new ReentrantLock();
+    Condition condition = rentrantLock.newCondition();
+
     private boolean initialized = false;
 
     @Override
     public boolean init(int connectionsAmount)
     {
-        if (!initialized){
-            registerDrivers();
-            initializeConnections(connectionsAmount,true);
-            initialized = true;
-            return true;
+        try {
+            rentrantLock.lock();
+            if (!initialized) {
+                registerDrivers();
+                initializeConnections(connectionsAmount, true);
+                initialized = true;
+                return true;
+            }
+            return false;
+        }finally {
+            rentrantLock.unlock();
         }
-             return false;
     }
 
     @Override
     public boolean shutdown() {
-       if (initialized){
-           closeConnections();
-           deregisterDrivers();
-           initialized = false;
-           return true;
-       }
-       return false;
+        try {
+            rentrantLock.lock();
+            if (initialized) {
+                closeConnections();
+                deregisterDrivers();
+                initialized = false;
+                return true;
+            }
+            return false;
+        }finally {
+            rentrantLock.unlock();
+        }
     }
 
     @Override
     public Connection takeConnection() throws InterruptedException {
-        while(availableConnections.isEmpty()){
-            this.wait();
+        try {
+            rentrantLock.lock();
+            while (availableConnections.isEmpty()) {
+                //  this.wait();
+                condition.await();
+            }
+            final ProxyConnection connection = availableConnections.poll();
+            givenAwayConnections.add(connection);
+            return connection;
+        }finally {
+            rentrantLock.unlock();
         }
-        final ProxyConnection connection = availableConnections.poll();
-        givenAwayConnections.add(connection);
-        return connection;
     }
 
     @Override
     public void returnConnection(Connection connection) {
-        if (givenAwayConnections.remove(connection)){
-            availableConnections.add((ProxyConnection) connection);
-            this.notifyAll();
-        } else {
-            LoggerProvider.getLOG().warn("Attempt to add unknown connection " +
-                    "to Connection Pool. Connection: {}", connection);
+        try {
+            rentrantLock.lock();
+            if (givenAwayConnections.remove(connection)) {
+                availableConnections.add((ProxyConnection) connection);
+                //this.notifyAll();
+                condition.signalAll();
+            } else {
+                LoggerProvider.getLOG().warn("Attempt to add unknown connection " +
+                        "to Connection Pool. Connection: {}", connection);
+            }
+        }finally{
+            rentrantLock.unlock();
         }
     }
 
 
     @Override
-    public boolean isInitialized() throws CouldNotInitializeConnectionPool {
-        return initialized;
+    public boolean isInitialized() throws CouldNotInitializeConnectionPoolError {
+        try {
+            rentrantLock.lock();
+            return initialized;
+        }finally {
+            rentrantLock.unlock();
+        }
     }
 
 
@@ -82,7 +114,7 @@ public class ConnectionPoolImpl implements ConnectionPool {
            DriverManager.registerDriver(DriverManager.getDriver(DATABASE_URL));
        }catch (SQLException e){
            LoggerProvider.getLOG().error("could not register database drivers");
-           throw new CouldNotInitializeConnectionPool("Unsuccessful db driver registration attempt", e);
+           throw new CouldNotInitializeConnectionPoolError("Unsuccessful db driver registration attempt", e);
        }
    }
 
@@ -132,14 +164,14 @@ public class ConnectionPoolImpl implements ConnectionPool {
        } catch (SQLException e) {
            LoggerProvider.getLOG().error("Error occurred creating connection");
            if (failOnConnectionException) {
-               throw new CouldNotInitializeConnectionPool("Failed to create connection", e);
+               throw new CouldNotInitializeConnectionPoolError("Failed to create connection", e);
            }
        }
    }
 
    public static void main(String [] args) throws InterruptedException, SQLException {
         final ConnectionPoolImpl cp = new ConnectionPoolImpl();
-        cp.init(1);
+        cp.init(3);
         final Connection conn = cp.takeConnection();
         cp.returnConnection(DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD));
         cp.shutdown();

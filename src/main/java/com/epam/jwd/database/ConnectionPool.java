@@ -1,6 +1,6 @@
 package com.epam.jwd.database;
 
-import com.epam.jwd.exception.CouldNotInitializeConnectionPool;
+import com.epam.jwd.exception.CouldNotInitializeConnectionPoolError;
 
 import java.sql.Connection;
 
@@ -14,7 +14,7 @@ public interface ConnectionPool {
 
     void returnConnection(Connection connection);
 
-    boolean isInitialized() throws CouldNotInitializeConnectionPool;
+    boolean isInitialized() throws CouldNotInitializeConnectionPoolError;
 
     static ConnectionPool locking() {
         return ConnectionPoolImpl.INSTANCE;
