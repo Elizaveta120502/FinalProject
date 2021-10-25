@@ -1,2 +1,4 @@
-package com.epam.jwd.dao;public class AccountDao {
+package com.epam.jwd.dao;
+
+public class AccountDAO {
 }
