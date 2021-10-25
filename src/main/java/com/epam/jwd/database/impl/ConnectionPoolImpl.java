@@ -1,5 +1,6 @@
-package com.epam.jwd.database;
+package com.epam.jwd.database.impl;
 
+import com.epam.jwd.database.ConnectionPool;
 import com.epam.jwd.exception.CouldNotInitializeConnectionPoolError;
 import com.epam.jwd.logger.LoggerProvider;
 
@@ -17,40 +18,53 @@ import java.util.concurrent.locks.ReentrantLock;
 public class ConnectionPoolImpl implements ConnectionPool {
 
 
-    public static final ConnectionPool INSTANCE = new ConnectionPoolImpl();
-    private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/mysql";
-    private static final String DATABASE_USER = "root";
-    private static final String DATABASE_PASSWORD = "root";
+
+    public static final String DATABASE_URL = "jdbc:mysql://localhost:3306/flowersauction";
+    public static final String DATABASE_USER = "root";
+    public static final String DATABASE_PASSWORD = "root";
+
+    private static final int AMOUNT_OF_CONNECTIONS = 8;
 
     private final Queue<ProxyConnection> availableConnections = new ConcurrentLinkedQueue();
     private final Queue<ProxyConnection> givenAwayConnections = new ConcurrentLinkedQueue<>();
 
-    private final ReentrantLock rentrantLock = new ReentrantLock();
-    Condition condition = rentrantLock.newCondition();
+    private final ReentrantLock reentrantLock = new ReentrantLock();
+    Condition condition = reentrantLock.newCondition();
 
     private boolean initialized = false;
 
+
+    public ConnectionPoolImpl() {
+    }
+
+    public static ConnectionPoolImpl getInstance(){
+        final ConnectionPoolImpl INSTANCE;
+        INSTANCE = new ConnectionPoolImpl();
+        return INSTANCE;
+    }
+
+
     @Override
-    public boolean init(int connectionsAmount)
+    public boolean init()
     {
         try {
-            rentrantLock.lock();
+            reentrantLock.lock();
             if (!initialized) {
                 registerDrivers();
-                initializeConnections(connectionsAmount, true);
+                initializeConnections(AMOUNT_OF_CONNECTIONS, true);
                 initialized = true;
                 return true;
             }
             return false;
         }finally {
-            rentrantLock.unlock();
+            reentrantLock.unlock();
         }
     }
 
     @Override
     public boolean shutdown() {
         try {
-            rentrantLock.lock();
+            reentrantLock.lock();
             if (initialized) {
                 closeConnections();
                 deregisterDrivers();
@@ -59,14 +73,14 @@ public class ConnectionPoolImpl implements ConnectionPool {
             }
             return false;
         }finally {
-            rentrantLock.unlock();
+            reentrantLock.unlock();
         }
     }
 
     @Override
     public Connection takeConnection() throws InterruptedException {
         try {
-            rentrantLock.lock();
+            reentrantLock.lock();
             while (availableConnections.isEmpty()) {
                 //  this.wait();
                 condition.await();
@@ -75,14 +89,14 @@ public class ConnectionPoolImpl implements ConnectionPool {
             givenAwayConnections.add(connection);
             return connection;
         }finally {
-            rentrantLock.unlock();
+            reentrantLock.unlock();
         }
     }
 
     @Override
     public void returnConnection(Connection connection) {
         try {
-            rentrantLock.lock();
+            reentrantLock.lock();
             if (givenAwayConnections.remove(connection)) {
                 availableConnections.add((ProxyConnection) connection);
                 //this.notifyAll();
@@ -92,7 +106,7 @@ public class ConnectionPoolImpl implements ConnectionPool {
                         "to Connection Pool. Connection: {}", connection);
             }
         }finally{
-            rentrantLock.unlock();
+            reentrantLock.unlock();
         }
     }
 
@@ -100,10 +114,10 @@ public class ConnectionPoolImpl implements ConnectionPool {
     @Override
     public boolean isInitialized() throws CouldNotInitializeConnectionPoolError {
         try {
-            rentrantLock.lock();
+            reentrantLock.lock();
             return initialized;
         }finally {
-            rentrantLock.unlock();
+            reentrantLock.unlock();
         }
     }
 
@@ -157,7 +171,7 @@ public class ConnectionPoolImpl implements ConnectionPool {
            for (int i = 0; i < amount; i++) {
                final Connection connection = DriverManager
                        .getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD);
-               LoggerProvider.getLOG().info("Initialized connection {}", connection);
+               LoggerProvider.getLOG().trace("Initialized connection {}", connection);
                final ProxyConnection proxyConnection = new ProxyConnection(connection, this);
                availableConnections.add(proxyConnection);
            }
@@ -169,12 +183,14 @@ public class ConnectionPoolImpl implements ConnectionPool {
        }
    }
 
-   public static void main(String [] args) throws InterruptedException, SQLException {
-        final ConnectionPoolImpl cp = new ConnectionPoolImpl();
-        cp.init(3);
-        final Connection conn = cp.takeConnection();
-        cp.returnConnection(DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD));
-        cp.shutdown();
 
-   }
+
+//   public static void main(String [] args) throws InterruptedException, SQLException {
+//        final ConnectionPoolImpl cp = new ConnectionPoolImpl();
+//        cp.init(3);
+//        final Connection conn = cp.takeConnection();
+//        cp.returnConnection(DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD));
+//        cp.shutdown();
+//
+//   }
 }

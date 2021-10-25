@@ -1,4 +1,6 @@
-package com.epam.jwd.database;
+package com.epam.jwd.database.impl;
+
+import com.epam.jwd.database.ConnectionPool;
 
 import java.sql.*;
 import java.util.Map;
