@@ -2,7 +2,7 @@ package com.epam.jwd.model;
 
 import java.util.Objects;
 
-public class Benefit {
+public class Benefit implements DBEntity{
 
     private final int id;
     private final int size;
@@ -17,7 +17,7 @@ public class Benefit {
         return size;
     }
 
-    public int getId() {
+    public int getAccountId() {
         return id;
     }
 

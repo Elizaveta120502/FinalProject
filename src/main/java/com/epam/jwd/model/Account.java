@@ -3,15 +3,16 @@ package com.epam.jwd.model;
 
 import java.util.Objects;
 
+
 public class Account implements DBEntity {
 
-    private Long accountId;
-    private String login;
+    private int accountId;
+    private final String login;
     transient private String password;
     private String email;
     private UserRole role;
 
-    public Account(Long accountId, String login, String password, String email, UserRole role) {
+    public Account(int accountId, String login, String password, String email, UserRole role) {
         this.accountId = accountId;
         this.login = login;
         this.password = password;
@@ -21,7 +22,7 @@ public class Account implements DBEntity {
 
 
     @Override
-    public Long getAccountId() {
+    public int getAccountId() {
         return accountId;
     }
 
@@ -57,7 +58,7 @@ public class Account implements DBEntity {
     @Override
     public String toString() {
         return "Account{" +
-                "accountId=" + accountId +
+                "id=" + accountId +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +

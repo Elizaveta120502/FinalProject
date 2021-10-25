@@ -2,7 +2,7 @@ package com.epam.jwd.model;
 
 import java.util.Objects;
 
-public class Lot {
+public class Lot implements DBEntity{
     private int id;
     private int startingPrice;
     private int itemsAmount;
@@ -25,8 +25,8 @@ public class Lot {
         this.payment = payment;
         this.lotStatus = lotStatus;
     }
-
-    public int getId() {
+  @Override
+    public int getAccountId() {
         return id;
     }
 
@@ -95,12 +95,12 @@ public class Lot {
         if (this == o) return true;
         if (!(o instanceof Lot)) return false;
         Lot lot = (Lot) o;
-        return getId() == lot.getId() && getStartingPrice() == lot.getStartingPrice() && getItemsAmount() == lot.getItemsAmount() && getCurrentPrice() == lot.getCurrentPrice() && Objects.equals(getAuctionItem(), lot.getAuctionItem()) && Objects.equals(getShipment(), lot.getShipment()) && Objects.equals(getPayment(), lot.getPayment()) && getLotStatus() == lot.getLotStatus();
+        return getAccountId() == lot.getAccountId() && getStartingPrice() == lot.getStartingPrice() && getItemsAmount() == lot.getItemsAmount() && getCurrentPrice() == lot.getCurrentPrice() && Objects.equals(getAuctionItem(), lot.getAuctionItem()) && Objects.equals(getShipment(), lot.getShipment()) && Objects.equals(getPayment(), lot.getPayment()) && getLotStatus() == lot.getLotStatus();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getStartingPrice(), getItemsAmount(), getCurrentPrice(), getAuctionItem(), getShipment(), getPayment(), getLotStatus());
+        return Objects.hash(getAccountId(), getStartingPrice(), getItemsAmount(), getCurrentPrice(), getAuctionItem(), getShipment(), getPayment(), getLotStatus());
     }
 
     @Override

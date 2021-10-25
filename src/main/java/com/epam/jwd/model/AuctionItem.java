@@ -2,7 +2,7 @@ package com.epam.jwd.model;
 
 import java.util.Objects;
 
-public class AuctionItem {
+public class AuctionItem implements DBEntity {
 
     private int id;
     private final String title;
@@ -16,7 +16,7 @@ public class AuctionItem {
         this.inStoke = inStoke;
     }
 
-    public int getId() {
+    public int getAccountId() {
         return id;
     }
 
@@ -37,12 +37,12 @@ public class AuctionItem {
         if (this == o) return true;
         if (!(o instanceof AuctionItem)) return false;
         AuctionItem that = (AuctionItem) o;
-        return getId() == that.getId() && getPrice() == that.getPrice() && getInStoke() == that.getInStoke() && Objects.equals(getTitle(), that.getTitle());
+        return getAccountId() == that.getAccountId() && getPrice() == that.getPrice() && getInStoke() == that.getInStoke() && Objects.equals(getTitle(), that.getTitle());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getTitle(), getPrice(), getInStoke());
+        return Objects.hash(getAccountId(), getTitle(), getPrice(), getInStoke());
     }
 
     @Override
@@ -54,4 +54,6 @@ public class AuctionItem {
                 ", inStoke=" + inStoke +
                 '}';
     }
+
+
 }

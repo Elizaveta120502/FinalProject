@@ -1,12 +1,13 @@
 package com.epam.jwd.model;
 
+
 public class Client extends Account {
-    private int id;
+    private int  id;
     private String name;
     private Account account;
     private Status status;
 
-    public Client(Long accountId, String login,
+    public Client(int accountId, String login,
                   String password,String email, UserRole role,
                   int id, String name,
                   Account account, Status status) {

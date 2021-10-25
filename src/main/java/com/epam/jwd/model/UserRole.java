@@ -1,19 +1,29 @@
 package com.epam.jwd.model;
 
-public enum UserRole {
-    ADMINISTRATOR("administrator", 1),
-    SIMPLE_USER("simple user", 2);
 
-    private final String description;
+public class UserRole {
+//    ADMINISTRATOR("administrator", 1),
+//    SIMPLE_USER("simple user", 2);
+
+    private  String roleName;
     private int roleId;
 
-    UserRole(String description, int roleId) {
-        this.description = description;
+    public UserRole(String roleName, int roleId) {
+        this.roleName = roleName;
+        this.roleId = roleId;
+    }
+
+    public UserRole(String roleName) {
+        this.roleName = roleName;
+    }
+
+
+    public UserRole(int roleId) {
         this.roleId = roleId;
     }
 
     public String getDescription() {
-        return description;
+        return roleName;
     }
 
     public  int getRoleId() {
@@ -23,7 +33,7 @@ public enum UserRole {
     @Override
     public String toString() {
         return "UserRole{" +
-                "description='" + description + '\'' +
+                "role_name='" + roleName + '\'' +
                 ", roleId=" + roleId +
                 '}';
     }

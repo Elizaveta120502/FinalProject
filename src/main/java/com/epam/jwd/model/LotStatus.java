@@ -1,6 +1,6 @@
 package com.epam.jwd.model;
 
-public enum LotStatus {
+public enum LotStatus implements DBEntity{
 
     CURRENT("current",1),
     INACTIVE("inactive",2);
@@ -13,7 +13,8 @@ public enum LotStatus {
         this.id = id;
     }
 
-    public int getId() {
+    @Override
+    public int getAccountId() {
         return id;
     }
 
