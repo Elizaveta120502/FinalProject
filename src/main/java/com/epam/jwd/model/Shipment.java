@@ -3,15 +3,15 @@ package com.epam.jwd.model;
 import java.util.Date;
 import java.util.Objects;
 
-public class Shipment {
+public class Shipment implements DBEntity {
 
-    private int id;
+    private Long id;
     private Date expectedDate;
     private Date actualDate;
     private int cost;
     private ShipmentMethod shipmentMethod;
 
-    public Shipment(int id, Date expectedDate, Date actualDate, int cost, ShipmentMethod shipmentMethod) {
+    public Shipment(Long id, Date expectedDate, Date actualDate, int cost, ShipmentMethod shipmentMethod) {
         this.id = id;
         this.expectedDate = expectedDate;
         this.actualDate = actualDate;
@@ -19,7 +19,7 @@ public class Shipment {
         this.shipmentMethod = shipmentMethod;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 

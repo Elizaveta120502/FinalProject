@@ -1,4 +1,14 @@
 package com.epam.jwd.dao;
 
-public class AccountDAO {
+import com.epam.jwd.model.Account;
+import com.epam.jwd.model.UserRole;
+
+
+public interface AccountDAO<T extends Account> extends DBEntityDAO<Account> {
+
+     T findUserByEmail(String email) throws InterruptedException;
+
+     T findUserByLogin(String login) throws InterruptedException;
+
+     UserRole returnUserRole(T entity);
 }

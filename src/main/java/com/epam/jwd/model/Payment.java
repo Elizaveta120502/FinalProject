@@ -3,20 +3,22 @@ package com.epam.jwd.model;
 import java.util.Date;
 import java.util.Objects;
 
-public class Payment {
+public class Payment implements DBEntity {
 
-    private int id;
+    private Long id;
     private Date dateTime;
 
     private PaymentMethod paymentMethod;
 
-    public Payment(int id, Date dateTime, PaymentMethod paymentMethod) {
+    public Payment(Long id, Date dateTime, PaymentMethod paymentMethod) {
         this.id = id;
         this.dateTime = dateTime;
         this.paymentMethod = paymentMethod;
     }
 
-    public int getId() {
+
+    @Override
+    public Long getId() {
         return id;
     }
 

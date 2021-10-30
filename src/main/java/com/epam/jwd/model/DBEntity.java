@@ -3,5 +3,5 @@ package com.epam.jwd.model;
 import java.io.Serializable;
 
 public interface DBEntity extends Serializable {
-   int getAccountId();
+    Long getId();
 }

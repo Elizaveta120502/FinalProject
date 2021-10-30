@@ -2,8 +2,8 @@ package com.epam.jwd.model;
 
 import java.util.Objects;
 
-public class Lot implements DBEntity{
-    private int id;
+public class Lot implements DBEntity {
+    private Long id;
     private int startingPrice;
     private int itemsAmount;
     private int currentPrice;
@@ -13,7 +13,7 @@ public class Lot implements DBEntity{
     private Payment payment;
     private LotStatus lotStatus;
 
-    public Lot(int id, int startingPrice, int itemsAmount,
+    public Lot(Long id, int startingPrice, int itemsAmount,
                int currentPrice, AuctionItem auctionItem, Shipment shipment,
                Payment payment, LotStatus lotStatus) {
         this.id = id;
@@ -25,12 +25,13 @@ public class Lot implements DBEntity{
         this.payment = payment;
         this.lotStatus = lotStatus;
     }
-  @Override
-    public int getAccountId() {
+
+    @Override
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -95,12 +96,12 @@ public class Lot implements DBEntity{
         if (this == o) return true;
         if (!(o instanceof Lot)) return false;
         Lot lot = (Lot) o;
-        return getAccountId() == lot.getAccountId() && getStartingPrice() == lot.getStartingPrice() && getItemsAmount() == lot.getItemsAmount() && getCurrentPrice() == lot.getCurrentPrice() && Objects.equals(getAuctionItem(), lot.getAuctionItem()) && Objects.equals(getShipment(), lot.getShipment()) && Objects.equals(getPayment(), lot.getPayment()) && getLotStatus() == lot.getLotStatus();
+        return getId() == lot.getId() && getStartingPrice() == lot.getStartingPrice() && getItemsAmount() == lot.getItemsAmount() && getCurrentPrice() == lot.getCurrentPrice() && Objects.equals(getAuctionItem(), lot.getAuctionItem()) && Objects.equals(getShipment(), lot.getShipment()) && Objects.equals(getPayment(), lot.getPayment()) && getLotStatus() == lot.getLotStatus();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getAccountId(), getStartingPrice(), getItemsAmount(), getCurrentPrice(), getAuctionItem(), getShipment(), getPayment(), getLotStatus());
+        return Objects.hash(getId(), getStartingPrice(), getItemsAmount(), getCurrentPrice(), getAuctionItem(), getShipment(), getPayment(), getLotStatus());
     }
 
     @Override

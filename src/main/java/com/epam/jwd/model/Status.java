@@ -1,17 +1,17 @@
 package com.epam.jwd.model;
 
-public enum Status {
-    MYSTERY("mystery", 1),
-    FRESHMAN("freshman", 2),
-    MIDDLE("middle", 3),
-    MASTER("master", 4),
-    SUPREME("supreme", 5);
+public enum Status implements DBEntity {
+    MYSTERY("mystery", 1L),
+    FRESHMAN("freshman", 2L),
+    MIDDLE("middle", 3L),
+    MASTER("master", 4L),
+    SUPREME("supreme", 5L);
 
     private String description;
-    private int id;
+    private Long id;
     private Benefit benefit;
 
-    Status(String description, int id) {
+    Status(String description, Long id) {
         this.description = description;
         this.id = id;
 
@@ -25,7 +25,9 @@ public enum Status {
         return description;
     }
 
-    public int getId() {
+    @Override
+    public Long getId() {
+
         return id;
     }
 

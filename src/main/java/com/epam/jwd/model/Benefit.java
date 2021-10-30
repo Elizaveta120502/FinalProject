@@ -2,24 +2,25 @@ package com.epam.jwd.model;
 
 import java.util.Objects;
 
-public class Benefit implements DBEntity{
+public class Benefit implements DBEntity {
 
-    private final int id;
+    private final Long id;
     private final int size;
 
-    public Benefit(int id, int size) {
+    public Benefit(Long id, int size) {
         this.id = id;
         this.size = size;
     }
 
+    @Override
+    public Long getId() {
+        return id;
+    }
 
     public int getSize() {
         return size;
     }
 
-    public int getAccountId() {
-        return id;
-    }
 
     @Override
     public boolean equals(Object o) {

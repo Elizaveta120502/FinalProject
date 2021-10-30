@@ -19,7 +19,7 @@ public class StatementProvider implements AutoCloseable {
     }
 
     @Override
-    public void close() throws Exception {
+    public void close()  {
         CONNECTION_POOL.shutdown();
     }
 

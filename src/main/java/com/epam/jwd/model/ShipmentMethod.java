@@ -1,21 +1,22 @@
 package com.epam.jwd.model;
 
-public enum ShipmentMethod {
+public enum ShipmentMethod implements DBEntity {
 
-    BY_MAIL("by mail",1),
-    DELIVERY("dilivery",2),
-    PICKUP("pickup",3),
-    EUROMAIL("euromail",4);
+    BY_MAIL("by mail", 1L),
+    DELIVERY("dilivery", 2L),
+    PICKUP("pickup", 3L),
+    EUROMAIL("euromail", 4L);
 
-    private int id;
+    private Long id;
     private String description;
 
-    ShipmentMethod(String description, int id) {
+    ShipmentMethod(String description, Long id) {
         this.description = description;
         this.id = id;
     }
 
-    public int getId() {
+    @Override
+    public Long getId() {
         return id;
     }
 

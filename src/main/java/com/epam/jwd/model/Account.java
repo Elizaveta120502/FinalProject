@@ -6,13 +6,13 @@ import java.util.Objects;
 
 public class Account implements DBEntity {
 
-    private int accountId;
+    private Long accountId;
     private final String login;
     transient private String password;
     private String email;
     private UserRole role;
 
-    public Account(int accountId, String login, String password, String email, UserRole role) {
+    public Account(Long accountId, String login, String password, String email, UserRole role) {
         this.accountId = accountId;
         this.login = login;
         this.password = password;
@@ -22,7 +22,7 @@ public class Account implements DBEntity {
 
 
     @Override
-    public int getAccountId() {
+    public Long getId() {
         return accountId;
     }
 
@@ -47,12 +47,12 @@ public class Account implements DBEntity {
         if (this == o) return true;
         if (!(o instanceof Account)) return false;
         Account account = (Account) o;
-        return Objects.equals(getAccountId(), account.getAccountId()) && Objects.equals(getLogin(), account.getLogin()) && Objects.equals(getPassword(), account.getPassword()) && Objects.equals(getEmail(), account.getEmail()) && getRole() == account.getRole();
+        return Objects.equals(getId(), account.getId()) && Objects.equals(getLogin(), account.getLogin()) && Objects.equals(getPassword(), account.getPassword()) && Objects.equals(getEmail(), account.getEmail()) && getRole() == account.getRole();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getAccountId(), getLogin(), getPassword(), getEmail(), getRole());
+        return Objects.hash(getId(), getLogin(), getPassword(), getEmail(), getRole());
     }
 
     @Override

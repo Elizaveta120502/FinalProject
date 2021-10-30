@@ -4,19 +4,20 @@ import java.util.Objects;
 
 public class AuctionItem implements DBEntity {
 
-    private int id;
+    private Long id;
     private final String title;
     private int price;
     private int inStoke;
 
-    public AuctionItem(int id, String title, int price, int inStoke) {
+    public AuctionItem(Long id, String title, int price, int inStoke) {
         this.id = id;
         this.title = title;
         this.price = price;
         this.inStoke = inStoke;
     }
 
-    public int getAccountId() {
+    @Override
+    public Long getId() {
         return id;
     }
 
@@ -37,12 +38,12 @@ public class AuctionItem implements DBEntity {
         if (this == o) return true;
         if (!(o instanceof AuctionItem)) return false;
         AuctionItem that = (AuctionItem) o;
-        return getAccountId() == that.getAccountId() && getPrice() == that.getPrice() && getInStoke() == that.getInStoke() && Objects.equals(getTitle(), that.getTitle());
+        return getId() == that.getId() && getPrice() == that.getPrice() && getInStoke() == that.getInStoke() && Objects.equals(getTitle(), that.getTitle());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getAccountId(), getTitle(), getPrice(), getInStoke());
+        return Objects.hash(getId(), getTitle(), getPrice(), getInStoke());
     }
 
     @Override
@@ -54,6 +55,5 @@ public class AuctionItem implements DBEntity {
                 ", inStoke=" + inStoke +
                 '}';
     }
-
 
 }

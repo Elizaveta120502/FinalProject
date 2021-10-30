@@ -1,16 +1,21 @@
 package com.epam.jwd.model;
 
 
-public class UserRole {
+public class UserRole implements DBEntity {
 //    ADMINISTRATOR("administrator", 1),
 //    SIMPLE_USER("simple user", 2);
 
-    private  String roleName;
-    private int roleId;
+    private String roleName;
+    private Long roleId;
 
-    public UserRole(String roleName, int roleId) {
+    public UserRole(String roleName, Long roleId) {
         this.roleName = roleName;
         this.roleId = roleId;
+    }
+
+    @Override
+    public Long getId() {
+        return roleId;
     }
 
     public UserRole(String roleName) {
@@ -18,7 +23,8 @@ public class UserRole {
     }
 
 
-    public UserRole(int roleId) {
+    public UserRole(Long roleId) {
+
         this.roleId = roleId;
     }
 
@@ -26,9 +32,6 @@ public class UserRole {
         return roleName;
     }
 
-    public  int getRoleId() {
-        return roleId;
-    }
 
     @Override
     public String toString() {

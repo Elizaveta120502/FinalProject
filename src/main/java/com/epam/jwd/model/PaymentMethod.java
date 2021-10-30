@@ -1,21 +1,23 @@
 package com.epam.jwd.model;
 
-public enum PaymentMethod {
-    ERIP("ERIP", 1),
-    MASTERCARD("Mastercard", 2),
-    ON_CREDIT("on Credit", 3),
-    MAESTRO("Maestro", 4);
+public enum PaymentMethod implements DBEntity {
+    ERIP("ERIP", 1L),
+    MASTERCARD("Mastercard", 2L),
+    ON_CREDIT("on Credit", 3L),
+    MAESTRO("Maestro", 4L);
 
 
-    private int id;
+    private Long id;
     private String description;
 
-    PaymentMethod(String description, int id) {
+    PaymentMethod(String description, Long id) {
         this.description = description;
         this.id = id;
     }
 
-    public int getId() {
+
+    @Override
+    public Long getId() {
         return id;
     }
 
