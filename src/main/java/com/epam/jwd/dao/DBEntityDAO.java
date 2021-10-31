@@ -4,6 +4,7 @@ package com.epam.jwd.dao;
 import com.epam.jwd.model.DBEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface DBEntityDAO<T extends DBEntity> {
@@ -13,9 +14,9 @@ public interface DBEntityDAO<T extends DBEntity> {
 
     List<T> readAll() throws InterruptedException;
 
-    List<T> readById(Long id) throws InterruptedException;
+    Optional<T> readById(Long id) throws InterruptedException;
 
-    boolean update(T entity) throws InterruptedException;
+    boolean update(T entity,Long id) throws InterruptedException;
 
     boolean deleteById(Long id) throws InterruptedException;
 

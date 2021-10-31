@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-public abstract class  AbstractDAO<T extends DBEntity> implements DBEntityDAO<T> {
+public abstract class AbstractDAO<T extends DBEntity> implements DBEntityDAO<T> {
 
     private static final String INSERT_ONE_QUERY = "insert into %s (%s)";
     private static final String INSERT_MANY_QUERIES = "insert into %s ";
@@ -31,18 +31,17 @@ public abstract class  AbstractDAO<T extends DBEntity> implements DBEntityDAO<T>
 
     protected AbstractDAO(ConnectionPool pool) {
         this.pool = pool;
-        this.selectAllExpression = SELECT_ALL_FROM + getTableName() ;
+        this.selectAllExpression = SELECT_ALL_FROM + getTableName();
         this.selectByIdExpression = selectAllExpression + SPACE + String.format(WHERE_FIELD, ID_COLUMN_NAME);
         this.insertSql = String.format(INSERT_ONE_QUERY, getTableName(), String.join(COMMA, getFields()));
     }
-
 
 
     protected abstract String getTableName();
 
     protected abstract List<String> getFields();
 
-  //  protected  abstract T extractResult(ResultSet rs) throws SQLException, EntityExtractionFailedException;
+    //  protected  abstract T extractResult(ResultSet rs) throws SQLException, EntityExtractionFailedException;
 
-   // protected abstract void fillEntity(PreparedStatement statement, T entity) throws SQLException;
+    protected abstract void fillEntity(PreparedStatement statement, T entity) throws SQLException;
 }
