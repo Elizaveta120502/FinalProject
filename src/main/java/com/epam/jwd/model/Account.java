@@ -1,8 +1,6 @@
 package com.epam.jwd.model;
 
 
-import com.epam.jwd.database.impl.ConnectionPoolImpl;
-
 import java.util.Objects;
 
 

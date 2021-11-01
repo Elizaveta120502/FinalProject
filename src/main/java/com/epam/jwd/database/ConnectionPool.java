@@ -2,7 +2,6 @@ package com.epam.jwd.database;
 
 
 import com.epam.jwd.database.impl.ConnectionPoolImpl;
-import com.epam.jwd.database.impl.ProxyConnection;
 import com.epam.jwd.exception.CouldNotInitializeConnectionPoolError;
 
 import java.sql.Connection;

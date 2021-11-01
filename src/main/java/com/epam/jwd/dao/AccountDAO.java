@@ -3,8 +3,6 @@ package com.epam.jwd.dao;
 import com.epam.jwd.model.Account;
 import com.epam.jwd.model.UserRole;
 
-import java.util.List;
-
 
 public interface AccountDAO<T extends Account> extends DBEntityDAO<Account> {
 

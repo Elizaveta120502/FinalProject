@@ -1,16 +1,16 @@
 package com.epam.jwd.model;
 
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 public class Payment implements DBEntity {
 
     private Long id;
-    private Date dateTime;
+    private Timestamp dateTime;
 
     private PaymentMethod paymentMethod;
 
-    public Payment(Long id, Date dateTime, PaymentMethod paymentMethod) {
+    public Payment(Long id, Timestamp dateTime, PaymentMethod paymentMethod) {
         this.id = id;
         this.dateTime = dateTime;
         this.paymentMethod = paymentMethod;
@@ -22,7 +22,7 @@ public class Payment implements DBEntity {
         return id;
     }
 
-    public Date getDateTime() {
+    public Timestamp getDateTime() {
         return dateTime;
     }
 

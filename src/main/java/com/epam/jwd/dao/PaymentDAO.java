@@ -1,17 +1,16 @@
 package com.epam.jwd.dao;
 
-
-import com.epam.jwd.model.Payment;
+import com.epam.jwd.model.DBEntity;
 import com.epam.jwd.model.PaymentMethod;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
-public interface PaymentDAO extends DBEntityDAO<Payment> {
+public interface PaymentDAO<Payment extends DBEntity> extends DBEntityDAO<Payment> {
 
-    Date returnDateById(Long id);
+    Timestamp returnDateById(Long id);
 
-    Payment fetchPaymentByDate(Date date);
+    Payment fetchPaymentByDate(Timestamp date);
 
-    PaymentMethod fetchPaymentTypeByDate(Date date);
+    PaymentMethod fetchPaymentTypeByDate(Timestamp date);
 
 }

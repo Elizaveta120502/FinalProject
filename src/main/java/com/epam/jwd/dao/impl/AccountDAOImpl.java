@@ -8,17 +8,11 @@ import com.epam.jwd.database.impl.StatementProvider;
 import com.epam.jwd.exception.EntityExtractionFailedException;
 import com.epam.jwd.logger.LoggerProvider;
 import com.epam.jwd.model.Account;
-
-
-import com.epam.jwd.model.DBEntity;
 import com.epam.jwd.model.UserRole;
-
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -26,18 +20,19 @@ import java.util.Optional;
 
 public class AccountDAOImpl extends AbstractDAO<Account> implements AccountDAO<Account> {
 
-    private static final String TABLE_NAME = "account";
-    private static final String ACCOUNT_ID = "id";
-    private static final String ACCOUNT_LOGIN = "login";
-    private static final String ACCOUNT_PASSWORD = "password";
-    private static final String ACCOUNT_EMAIL = "email";
+    private static final String TABLE_NAME = "account inner join role on account.role_id = role.id";
+    private static final String ACCOUNT_ID = "account.id";
+    private static final String ACCOUNT_LOGIN = "account.login";
+    private static final String ACCOUNT_PASSWORD = "account.password";
+    private static final String ACCOUNT_EMAIL = "account.email";
 
-    private static final String ACCOUNT_ROLE_ID = "role_id";
+    private static final String ACCOUNT_ROLE_ID = "account.role_id";
+    private static final String ACCOUNT_ROLE_NAME = "role_name";
 
 
     private static final String SPACE = " ";
-    private static final String SELECT_ALL_QUERY = String.format("select %s,%s,%s,%s,%s from " + TABLE_NAME,
-            ACCOUNT_ID, ACCOUNT_LOGIN, ACCOUNT_PASSWORD, ACCOUNT_EMAIL, ACCOUNT_ROLE_ID);
+    private static final String SELECT_ALL_QUERY = String.format("select %s,%s,%s,%s,%s,%s from " + TABLE_NAME,
+            ACCOUNT_ID, ACCOUNT_LOGIN, ACCOUNT_PASSWORD, ACCOUNT_EMAIL, ACCOUNT_ROLE_ID, ACCOUNT_ROLE_NAME);
 
     private final String INSERT_INTO_QUERY = "insert into `account`" +
             SPACE + "values (%s,'%s','%s','%s',%s)";
@@ -103,10 +98,10 @@ public class AccountDAOImpl extends AbstractDAO<Account> implements AccountDAO<A
 
 
     @Override
-    public boolean update(Account entity,Long id) {
-        String sql = String.format(UPDATE_TABLE_QUERY,ACCOUNT_ID, entity.getId(),
+    public boolean update(Account entity, Long id) {
+        String sql = String.format(UPDATE_TABLE_QUERY, ACCOUNT_ID, entity.getId(),
                 ACCOUNT_LOGIN, entity.getLogin(), ACCOUNT_PASSWORD, entity.getPassword(),
-                ACCOUNT_EMAIL, entity.getEmail(), ACCOUNT_ROLE_ID, entity.getRole(),ACCOUNT_ID,id);
+                ACCOUNT_EMAIL, entity.getEmail(), ACCOUNT_ROLE_ID, entity.getRole(), ACCOUNT_ID, id);
         int executeUpdateIndicator = 0;
         try {
             executeUpdateIndicator = StatementProvider.getInstance().executeUpdate(sql);
@@ -148,22 +143,22 @@ public class AccountDAOImpl extends AbstractDAO<Account> implements AccountDAO<A
 
     }
 
+//    @Override
+//    public boolean deleteAll(List entities) { //todo:think about ability of using this method in account table
+//        String sql = DELETE_ALL;
+//        int executeUpdateIndicator = 0;
+//        try {
+//            executeUpdateIndicator = StatementProvider.getInstance().executeUpdate(sql);
+//        } catch (InterruptedException e) {
+//            LoggerProvider.getLOG().error("takeConnection interrupted");
+//            Thread.currentThread().interrupt();
+//            return Boolean.FALSE;
+//        }
+//        return executeUpdateIndicator == 1;
+//    }
+
+
     @Override
-    public boolean deleteAll(List entities) { //todo:think about ability of using this method in account table
-        String sql = DELETE_ALL;
-        int executeUpdateIndicator = 0;
-        try {
-            executeUpdateIndicator = StatementProvider.getInstance().executeUpdate(sql);
-        } catch (InterruptedException e) {
-            LoggerProvider.getLOG().error("takeConnection interrupted");
-            Thread.currentThread().interrupt();
-            return Boolean.FALSE;
-        }
-        return executeUpdateIndicator == 1;
-    }
-
-
-    @Override                          //todo: think about return statement
     public Account findUserByEmail(String email) {
         String sql = String.format(SELECT_ALL_QUERY + SPACE + WHERE_QUERY_WITH_PARAM, ACCOUNT_EMAIL, email);
         try {
@@ -198,7 +193,7 @@ public class AccountDAOImpl extends AbstractDAO<Account> implements AccountDAO<A
     }
 
     @Override
-    public UserRole returnUserRole(Account entity) {
+    public UserRole returnUserRole(Account entity) { //todo:redo
         return entity.getRole();
     }
 
@@ -207,12 +202,6 @@ public class AccountDAOImpl extends AbstractDAO<Account> implements AccountDAO<A
         return TABLE_NAME;
     }
 
-    @Override
-    protected List<String> getFields() {
-        String[] arrFields = {ACCOUNT_ID, ACCOUNT_LOGIN, ACCOUNT_EMAIL, ACCOUNT_PASSWORD, ACCOUNT_ROLE_ID};
-        List<String> fields = Arrays.asList(arrFields);
-        return fields;
-    }
 
     @Override
     protected void fillEntity(PreparedStatement statement, Account entity) throws SQLException {
@@ -233,6 +222,7 @@ public class AccountDAOImpl extends AbstractDAO<Account> implements AccountDAO<A
                     resultSet.getString(ACCOUNT_PASSWORD),
                     resultSet.getString(ACCOUNT_EMAIL),
                     new UserRole(
+                            resultSet.getString(ACCOUNT_ROLE_NAME),
                             resultSet.getLong(ACCOUNT_ROLE_ID)));
 
         } catch (SQLException e) {
@@ -241,31 +231,4 @@ public class AccountDAOImpl extends AbstractDAO<Account> implements AccountDAO<A
         }
     }
 
-//  public static void main (String [] args){
-//      LoggerProvider.getLOG().trace("Starting program");
-//      StatementProvider.getInstance();
-//      AccountDAOImpl instance = new AccountDAOImpl(ConnectionPoolImpl.getInstance());
-//      final List<Account> users;
-//      boolean delete;
-//      boolean create;
-//      Optional read;
-//      Account userByEmail;
-//      Account userByLogin;
-//
-//      Account newAccount = new Account(16L,"Bob","qwerty",
-//              "btyu@gmail.com",new UserRole("simple user",2L));
-//      Account newAccount1 = new Account(17L,"Mery","qw1234",
-//              "bmb@gmail.com",new UserRole("simple user",2L));
-//      userByLogin = instance.findUserByLogin("LaizyCat");
-//
-//      delete = instance.deleteById(16L);
-//       LoggerProvider.getLOG().info(userByLogin);
-////     users = instance.readAll();
-////     for (Account a : users){
-////         LoggerProvider.getLOG().info(a);
-////     }
-//
-//      StatementProvider.getInstance().close();
-//      LoggerProvider.getLOG().trace("program end");
-//  }
 }

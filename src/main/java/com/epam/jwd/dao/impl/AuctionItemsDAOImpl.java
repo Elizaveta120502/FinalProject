@@ -3,17 +3,14 @@ package com.epam.jwd.dao.impl;
 import com.epam.jwd.dao.AbstractDAO;
 import com.epam.jwd.dao.AuctionItemsDAO;
 import com.epam.jwd.database.ConnectionPool;
-import com.epam.jwd.database.impl.ConnectionPoolImpl;
 import com.epam.jwd.database.impl.StatementProvider;
 import com.epam.jwd.exception.EntityExtractionFailedException;
 import com.epam.jwd.logger.LoggerProvider;
-import com.epam.jwd.model.Account;
 import com.epam.jwd.model.AuctionItem;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -33,21 +30,21 @@ public class AuctionItemsDAOImpl extends AbstractDAO<AuctionItem> implements Auc
     private final String WHERE_QUERY_FOR_STRING = "where %s = '%s'";
 
     private final String SELECT_ALL_QUERY = String.format("select %s,%s,%s,%s from " + getTableName(),
-            AUCTION_ITEM_ID,AUCTION_ITEM_TITLE,AUCTION_ITEM_PRICE,AUCTION_ITEMS_IN_STOCK);
+            AUCTION_ITEM_ID, AUCTION_ITEM_TITLE, AUCTION_ITEM_PRICE, AUCTION_ITEMS_IN_STOCK);
 
     private final String INSERT_INTO_QUERY = "insert into  " + getTableName() +
             SPACE + "values (%s,'%s',%s,%s)";
 
     private final String READ_BY_ID_QUERY = String.format("select %s,%s,%s,%s from %s where %s = ?",
-            AUCTION_ITEM_ID,AUCTION_ITEM_TITLE,AUCTION_ITEM_PRICE,AUCTION_ITEMS_IN_STOCK, getTableName(), AUCTION_ITEM_ID);
+            AUCTION_ITEM_ID, AUCTION_ITEM_TITLE, AUCTION_ITEM_PRICE, AUCTION_ITEMS_IN_STOCK, getTableName(), AUCTION_ITEM_ID);
 
     private final String UPDATE_TABLE_QUERY = "update " + getTableName() + " set %s = '%s', %s = '%s', %s = '%s',%s = '%s' " + WHERE_QUERY;
 
     private final String DELETE_ALL = "delete from " + getTableName();
     private final String DELETE_BY_QUERY = "delete from " + getTableName() + SPACE + WHERE_QUERY;
 
-    private final String FIND_ITEM_BY_QUERY = String.format("select %s,%s,%s,%s from",AUCTION_ITEM_ID,AUCTION_ITEM_TITLE,
-            AUCTION_ITEM_PRICE,AUCTION_ITEMS_IN_STOCK)+ SPACE+ getTableName() + SPACE + WHERE_QUERY_WITH_PARAM;
+    private final String FIND_ITEM_BY_QUERY = String.format("select %s,%s,%s,%s from", AUCTION_ITEM_ID, AUCTION_ITEM_TITLE,
+            AUCTION_ITEM_PRICE, AUCTION_ITEMS_IN_STOCK) + SPACE + getTableName() + SPACE + WHERE_QUERY_WITH_PARAM;
 
 
     private final String FIND_ITEMS_IN_STOKE_BY_TITLE = "select " + AUCTION_ITEMS_IN_STOCK + " from " + getTableName() +
@@ -62,15 +59,6 @@ public class AuctionItemsDAOImpl extends AbstractDAO<AuctionItem> implements Auc
     @Override
     protected String getTableName() {
         return TABLE_NAME;
-    }
-
-    @Override
-    protected List<String> getFields() {
-
-        String[] arrFields = {AUCTION_ITEM_ID, AUCTION_ITEM_TITLE, AUCTION_ITEM_PRICE, AUCTION_ITEMS_IN_STOCK};
-        List<String> fields = Arrays.asList(arrFields);
-        return fields;
-
     }
 
     @Override
@@ -116,10 +104,10 @@ public class AuctionItemsDAOImpl extends AbstractDAO<AuctionItem> implements Auc
     }
 
     @Override
-    public boolean update(AuctionItem entity,Long id) {
-        String sql = String.format(UPDATE_TABLE_QUERY,AUCTION_ITEM_ID, entity.getId(),AUCTION_ITEM_TITLE,
-                entity.getTitle(),AUCTION_ITEM_PRICE,
-                entity.getPrice(),AUCTION_ITEMS_IN_STOCK, entity.getInStoke(),AUCTION_ITEM_ID,id);
+    public boolean update(AuctionItem entity, Long id) {
+        String sql = String.format(UPDATE_TABLE_QUERY, AUCTION_ITEM_ID, entity.getId(), AUCTION_ITEM_TITLE,
+                entity.getTitle(), AUCTION_ITEM_PRICE,
+                entity.getPrice(), AUCTION_ITEMS_IN_STOCK, entity.getInStoke(), AUCTION_ITEM_ID, id);
         int executeUpdateIndicator;
         try {
             executeUpdateIndicator = StatementProvider.getInstance().executeUpdate(sql);
@@ -159,25 +147,25 @@ public class AuctionItemsDAOImpl extends AbstractDAO<AuctionItem> implements Auc
         return executeUpdateIndicator == 1;
     }
 
-    @Override
-    public boolean deleteAll(List<AuctionItem> entities) {
-        String sql = DELETE_ALL;
-        int executeUpdateIndicator;
-        try {
-            executeUpdateIndicator = StatementProvider.getInstance().executeUpdate(sql);
-        } catch (InterruptedException e) {
-            LoggerProvider.getLOG().error("takeConnection interrupted");
-            Thread.currentThread().interrupt();
-            return Boolean.FALSE;
-        }
-        return executeUpdateIndicator == 1;
-    }
+//    @Override
+//    public boolean deleteAll(List<AuctionItem> entities) {
+//        String sql = DELETE_ALL;
+//        int executeUpdateIndicator;
+//        try {
+//            executeUpdateIndicator = StatementProvider.getInstance().executeUpdate(sql);
+//        } catch (InterruptedException e) {
+//            LoggerProvider.getLOG().error("takeConnection interrupted");
+//            Thread.currentThread().interrupt();
+//            return Boolean.FALSE;
+//        }
+//        return executeUpdateIndicator == 1;
+//    }
 
     @Override
     public AuctionItem findAuctionItemByTitle(String auctionItemName) {
         String sql = String.format(FIND_ITEM_BY_QUERY, AUCTION_ITEM_TITLE, auctionItemName);
         try {
-            return  StatementProvider.executePreparedStatement(
+            return StatementProvider.executePreparedStatement(
                     sql,
                     AuctionItemsDAOImpl::extractAuctionItem, st -> st.setString(1, auctionItemName)).get(0);
         } catch (InterruptedException e) {
@@ -241,32 +229,9 @@ public class AuctionItemsDAOImpl extends AbstractDAO<AuctionItem> implements Auc
 
         } catch (SQLException e) {
             LoggerProvider.getLOG().error("could not extract value from result set", e);
-            throw new EntityExtractionFailedException("failed to extract user", e);
+            throw new EntityExtractionFailedException("failed to extract auction item", e);
         }
     }
 
-//    public static void main (String [] args){
-//      LoggerProvider.getLOG().trace("Starting program");
-//      StatementProvider.getInstance();
-//      AuctionItemsDAOImpl instance = new  AuctionItemsDAOImpl(ConnectionPoolImpl.getInstance());
-//      final List<AuctionItem> items;
-//      boolean delete;
-//      boolean create;
-//        boolean update;
-//      Optional read;
-//      AuctionItem newAuctionItem;
-//        AuctionItem newAuctionItem1 = new AuctionItem(12L,"rod",15,12);
-//
-//       int amountOfItemsInStockByName = instance.returnPriceByName("rose");
-//       LoggerProvider.getLOG().info(amountOfItemsInStockByName);
-////        items = instance.readAll();
-////        for (AuctionItem a : items){
-////            LoggerProvider.getLOG().info(a);
-////        }
-//
-//
-//
-//      StatementProvider.getInstance().close();
-//      LoggerProvider.getLOG().trace("program end");
-//  }
+
 }

@@ -16,13 +16,13 @@ public interface DBEntityDAO<T extends DBEntity> {
 
     Optional<T> readById(Long id) throws InterruptedException;
 
-    boolean update(T entity,Long id) throws InterruptedException;
+    boolean update(T entity, Long id) throws InterruptedException;
 
     boolean deleteById(Long id) throws InterruptedException;
 
     boolean delete(T entity) throws InterruptedException;
 
-    boolean deleteAll(List<T> entities) throws InterruptedException;
+    //boolean deleteAll(List<T> entities) throws InterruptedException;
 
 
 }

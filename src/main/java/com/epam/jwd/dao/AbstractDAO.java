@@ -1,14 +1,10 @@
 package com.epam.jwd.dao;
 
 import com.epam.jwd.database.ConnectionPool;
-import com.epam.jwd.exception.EntityExtractionFailedException;
 import com.epam.jwd.model.DBEntity;
 
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Optional;
 
 
 public abstract class AbstractDAO<T extends DBEntity> implements DBEntityDAO<T> {
@@ -27,19 +23,18 @@ public abstract class AbstractDAO<T extends DBEntity> implements DBEntityDAO<T> 
     protected final ConnectionPool pool;
     private final String selectAllExpression;
     private final String selectByIdExpression;
-    private final String insertSql;
+    //private final String insertSql;
 
     protected AbstractDAO(ConnectionPool pool) {
         this.pool = pool;
         this.selectAllExpression = SELECT_ALL_FROM + getTableName();
         this.selectByIdExpression = selectAllExpression + SPACE + String.format(WHERE_FIELD, ID_COLUMN_NAME);
-        this.insertSql = String.format(INSERT_ONE_QUERY, getTableName(), String.join(COMMA, getFields()));
+        //  this.insertSql = String.format(INSERT_ONE_QUERY, getTableName(), String.join(COMMA, getFields()));
     }
 
 
     protected abstract String getTableName();
 
-    protected abstract List<String> getFields();
 
     //  protected  abstract T extractResult(ResultSet rs) throws SQLException, EntityExtractionFailedException;
 
