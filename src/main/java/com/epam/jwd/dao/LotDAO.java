@@ -13,11 +13,8 @@ public interface LotDAO<T> extends DBEntityDAO<Lot> {
 
     int returnAmountOfItemsInLot(Long id);
 
-    LotStatus returnLotStatus(Lot lot);
+    LotStatus returnLotStatus(Long id);
 
-    Shipment returnShipmentByLotId(Long id);
-
-    Payment returnPaymentByLotId(Long id);
 
 
 }

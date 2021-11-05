@@ -43,6 +43,7 @@ public class AccountDAOImpl extends AbstractDAO<Account> implements AccountDAO<A
     private final String WHERE_QUERY = "where %s = %s";
     private final String WHERE_QUERY_WITH_PARAM = "where %s = ?";
     private final String WHERE_QUERY_FOR_STRING = "where %s = '%s'";
+
     private final String UPDATE_TABLE_QUERY = "update " + getTableName() + "set %s = '%s', %s = '%s', %s = '%s',%s = '%s', %s = '%s' " + WHERE_QUERY;
 
     private final String DELETE_ALL = "delete from " + getTableName();

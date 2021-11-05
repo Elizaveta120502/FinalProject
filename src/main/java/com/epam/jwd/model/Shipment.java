@@ -1,20 +1,23 @@
 package com.epam.jwd.model;
 
-import java.util.Date;
+import java.sql.Timestamp;
+
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Shipment implements DBEntity {
 
     private Long id;
-    private Date expectedDate;
-    private Date actualDate;
+    private Timestamp expectedDate;
+    private Timestamp actualDate;
     private int cost;
     private ShipmentMethod shipmentMethod;
+    private LocalDateTime actualTime = LocalDateTime.now();
 
-    public Shipment(Long id, Date expectedDate, Date actualDate, int cost, ShipmentMethod shipmentMethod) {
+    public Shipment(Long id, Timestamp expectedDate, Timestamp actualDate, int cost, ShipmentMethod shipmentMethod) {
         this.id = id;
         this.expectedDate = expectedDate;
-        this.actualDate = actualDate;
+        this.actualDate = Timestamp.valueOf(actualTime);
         this.cost = cost;
         this.shipmentMethod = shipmentMethod;
     }
@@ -23,11 +26,11 @@ public class Shipment implements DBEntity {
         return id;
     }
 
-    public Date getExpectedDate() {
+    public Timestamp getExpectedDate() {
         return expectedDate;
     }
 
-    public Date getActualDate() {
+    public Timestamp getActualDate() {
         return actualDate;
     }
 
