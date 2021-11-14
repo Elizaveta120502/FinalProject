@@ -9,19 +9,21 @@ import java.util.concurrent.Executor;
 
 public class ProxyConnection implements Connection {
 
-    private  final Connection connection;
-    private  final ConnectionPool pool;
+    private final Connection connection;
+    private final ConnectionPool pool;
 
-    public ProxyConnection(Connection connection, ConnectionPool pool) {
+    ProxyConnection(Connection connection, ConnectionPool pool) {
         this.connection = connection;
         this.pool = pool;
     }
-
 
     ConnectionPool getPool() {
         return pool;
     }
 
+    Connection getConnection() {
+        return connection;
+    }
 
     @Override
     public Statement createStatement() throws SQLException {
@@ -44,13 +46,13 @@ public class ProxyConnection implements Connection {
     }
 
     @Override
-    public void setAutoCommit(boolean autoCommit) throws SQLException {
-        connection.setAutoCommit(autoCommit);
+    public boolean getAutoCommit() throws SQLException {
+        return connection.getAutoCommit();
     }
 
     @Override
-    public boolean getAutoCommit() throws SQLException {
-        return connection.getAutoCommit();
+    public void setAutoCommit(boolean autoCommit) throws SQLException {
+        connection.setAutoCommit(autoCommit);
     }
 
     @Override
@@ -64,11 +66,11 @@ public class ProxyConnection implements Connection {
     }
 
     @Override
-    public void close() throws SQLException {
+    public void close() {
         this.pool.returnConnection(this);
     }
 
-    void realClose() throws SQLException{
+    void realClose() throws SQLException {
         this.connection.close();
     }
 
@@ -83,18 +85,13 @@ public class ProxyConnection implements Connection {
     }
 
     @Override
-    public void setReadOnly(boolean readOnly) throws SQLException {
-        connection.setReadOnly(readOnly);
-    }
-
-    @Override
     public boolean isReadOnly() throws SQLException {
         return connection.isReadOnly();
     }
 
     @Override
-    public void setCatalog(String catalog) throws SQLException {
-        connection.setCatalog(catalog);
+    public void setReadOnly(boolean readOnly) throws SQLException {
+        connection.setReadOnly(readOnly);
     }
 
     @Override
@@ -103,13 +100,18 @@ public class ProxyConnection implements Connection {
     }
 
     @Override
-    public void setTransactionIsolation(int level) throws SQLException {
-        connection.setTransactionIsolation(level);
+    public void setCatalog(String catalog) throws SQLException {
+        connection.setCatalog(catalog);
     }
 
     @Override
     public int getTransactionIsolation() throws SQLException {
         return connection.getTransactionIsolation();
+    }
+
+    @Override
+    public void setTransactionIsolation(int level) throws SQLException {
+        connection.setTransactionIsolation(level);
     }
 
     @Override
@@ -148,13 +150,13 @@ public class ProxyConnection implements Connection {
     }
 
     @Override
-    public void setHoldability(int holdability) throws SQLException {
-        connection.setHoldability(holdability);
+    public int getHoldability() throws SQLException {
+        return connection.getHoldability();
     }
 
     @Override
-    public int getHoldability() throws SQLException {
-        return connection.getHoldability();
+    public void setHoldability(int holdability) throws SQLException {
+        connection.setHoldability(holdability);
     }
 
     @Override
@@ -238,11 +240,6 @@ public class ProxyConnection implements Connection {
     }
 
     @Override
-    public void setClientInfo(Properties properties) throws SQLClientInfoException {
-        connection.setClientInfo(properties);
-    }
-
-    @Override
     public String getClientInfo(String name) throws SQLException {
         return connection.getClientInfo(name);
     }
@@ -250,6 +247,11 @@ public class ProxyConnection implements Connection {
     @Override
     public Properties getClientInfo() throws SQLException {
         return connection.getClientInfo();
+    }
+
+    @Override
+    public void setClientInfo(Properties properties) throws SQLClientInfoException {
+        connection.setClientInfo(properties);
     }
 
     @Override
@@ -263,13 +265,13 @@ public class ProxyConnection implements Connection {
     }
 
     @Override
-    public void setSchema(String schema) throws SQLException {
-        connection.setSchema(schema);
+    public String getSchema() throws SQLException {
+        return connection.getSchema();
     }
 
     @Override
-    public String getSchema() throws SQLException {
-        return connection.getSchema();
+    public void setSchema(String schema) throws SQLException {
+        connection.setSchema(schema);
     }
 
     @Override
@@ -288,42 +290,12 @@ public class ProxyConnection implements Connection {
     }
 
     @Override
-    public void beginRequest() throws SQLException {
-        connection.beginRequest();
-    }
-
-    @Override
-    public void endRequest() throws SQLException {
-        connection.endRequest();
-    }
-
-    @Override
-    public boolean setShardingKeyIfValid(ShardingKey shardingKey, ShardingKey superShardingKey, int timeout) throws SQLException {
-        return connection.setShardingKeyIfValid(shardingKey, superShardingKey, timeout);
-    }
-
-    @Override
-    public boolean setShardingKeyIfValid(ShardingKey shardingKey, int timeout) throws SQLException {
-        return connection.setShardingKeyIfValid(shardingKey, timeout);
-    }
-
-    @Override
-    public void setShardingKey(ShardingKey shardingKey, ShardingKey superShardingKey) throws SQLException {
-        connection.setShardingKey(shardingKey, superShardingKey);
-    }
-
-    @Override
-    public void setShardingKey(ShardingKey shardingKey) throws SQLException {
-        connection.setShardingKey(shardingKey);
-    }
-
-    @Override
     public <T> T unwrap(Class<T> iface) throws SQLException {
-        return null;
+        return connection.unwrap(iface);
     }
 
     @Override
     public boolean isWrapperFor(Class<?> iface) throws SQLException {
-        return false;
+        return connection.isWrapperFor(iface);
     }
 }
