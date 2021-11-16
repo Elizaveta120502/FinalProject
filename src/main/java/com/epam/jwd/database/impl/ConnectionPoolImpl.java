@@ -15,6 +15,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
+
 public class ConnectionPoolImpl implements ConnectionPool {
 
 
@@ -56,7 +57,10 @@ public class ConnectionPoolImpl implements ConnectionPool {
                 return true;
             }
             return false;
-        }finally {
+        } catch (ClassNotFoundException e) {
+            LoggerProvider.getLOG().error("class not found");
+            return false;
+        } finally {
             reentrantLock.unlock();
         }
     }
@@ -122,7 +126,8 @@ public class ConnectionPoolImpl implements ConnectionPool {
     }
 
 
-   private static void registerDrivers(){
+   private static void registerDrivers() throws ClassNotFoundException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
        LoggerProvider.getLOG().trace("database drivers are registered");
        try {
            DriverManager.registerDriver(DriverManager.getDriver(DATABASE_URL));

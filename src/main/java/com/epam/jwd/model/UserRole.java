@@ -2,8 +2,8 @@ package com.epam.jwd.model;
 
 
 public class UserRole implements DBEntity {
-//    ADMINISTRATOR("administrator", 1),
-//    SIMPLE_USER("simple user", 2);
+//    ADMINISTRATOR("rootUser", 1),
+//    SIMPLE_USER("user", 2);
 
     private String roleName;
     private Long roleId;

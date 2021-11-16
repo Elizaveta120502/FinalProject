@@ -3,7 +3,6 @@ package com.epam.jwd.dao.impl;
 import com.epam.jwd.dao.AbstractDAO;
 import com.epam.jwd.dao.AccountDAO;
 import com.epam.jwd.database.ConnectionPool;
-import com.epam.jwd.database.impl.ConnectionPoolImpl;
 import com.epam.jwd.database.impl.StatementProvider;
 import com.epam.jwd.exception.EntityExtractionFailedException;
 import com.epam.jwd.logger.LoggerProvider;
@@ -160,19 +159,26 @@ public class AccountDAOImpl extends AbstractDAO<Account> implements AccountDAO<A
 
 
     @Override
-    public Account findUserByEmail(String email) {
+    public Optional<Account> findUserByEmail(String email) {
         String sql = String.format(SELECT_ALL_QUERY + SPACE + WHERE_QUERY_WITH_PARAM, ACCOUNT_EMAIL, email);
         try {
-            return StatementProvider.executePreparedStatement(
+
+           List<Account> accounts =  StatementProvider.executePreparedStatement(
                     sql,
-                    AccountDAOImpl::extractAccount, st -> st.setString(1, email)).get(0);
+                    AccountDAOImpl::extractAccount, st -> st.setString(1, email));
+
+            return Optional.of(accounts.get(0));
+
+//            return StatementProvider.executePreparedStatement(
+//                    sql,
+//                    AccountDAOImpl::extractAccount, st -> st.setString(1, email)).get(0);
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
             Thread.currentThread().interrupt();
-            return null;
+            return Optional.empty();
         } catch (IndexOutOfBoundsException e) {
             LoggerProvider.getLOG().error("index out of bound");
-            return null;
+            return Optional.empty();
         }
     }
 
@@ -196,7 +202,7 @@ public class AccountDAOImpl extends AbstractDAO<Account> implements AccountDAO<A
     @Override
     public UserRole returnUserRole(Account entity) { //todo:redo
         return entity.getRole();
-    }
+    }  // todo: redo
 
     @Override
     protected String getTableName() {
