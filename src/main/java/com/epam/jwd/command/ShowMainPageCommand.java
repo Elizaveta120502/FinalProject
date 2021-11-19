@@ -16,7 +16,7 @@ public enum  ShowMainPageCommand implements  Command {
 
         @Override
         public String getPath() {
-            return "/WEB-INF/main.jsp";
+            return "/WEB-INF/jsp/main.jsp";
         }
     };
 

@@ -3,9 +3,9 @@ package com.epam.jwd.controller;
 public enum PagePaths {
 
     INDEX("/"),
-    MAIN("/WEB-INF/main.jsp"),
-    LOGIN("/WEB-INF/login.jsp"),
-    USERS("/WEB-INF/users.jsp");
+    MAIN("/WEB-INF/jsp/main.jsp"),
+    LOGIN("/WEB-INF/jsp/login.jsp"),
+    USERS("/WEB-INF/jsp/users.jsp");
 
     private final String path;
 

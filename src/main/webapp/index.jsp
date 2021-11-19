@@ -4,6 +4,6 @@
     <h1>My awesome app!</h1>
 </head>
 <body>
-
+<jsp:forward page="/controller" />
 </body>
 </html>

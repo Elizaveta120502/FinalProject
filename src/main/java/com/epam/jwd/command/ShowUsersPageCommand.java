@@ -33,7 +33,7 @@ public enum ShowUsersPageCommand implements Command {
 
         @Override
         public String getPath() {
-            return "/WEB-INF/users.jsp";
+            return "/WEB-INF/jsp/users.jsp";
         }
     };
 

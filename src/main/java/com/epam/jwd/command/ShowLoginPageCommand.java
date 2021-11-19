@@ -6,7 +6,7 @@ public enum ShowLoginPageCommand implements Command{
 
     INSTANCE(RequestFactory.getInstance());
 
-    private static final String LOGIN_JSP_PATH = "/WEB-INF/login.jsp";
+    private static final String LOGIN_JSP_PATH = "/WEB-INF/jsp/login.jsp";
 
     private final RequestFactory requestFactory;
 
