@@ -6,5 +6,5 @@ import java.util.Optional;
 
 public interface AccountService extends EntityService<Account>{
 
-    Optional<Account> authenticate(String email, String password) throws InterruptedException;
+    Optional<Account> authenticate(String login, String password) throws InterruptedException;
 }

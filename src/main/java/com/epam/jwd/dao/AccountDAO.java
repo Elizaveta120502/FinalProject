@@ -10,7 +10,7 @@ public interface AccountDAO<T extends Account> extends DBEntityDAO<Account> {
 
     Optional<T> findUserByEmail(String email) throws InterruptedException;
 
-    T findUserByLogin(String login) throws InterruptedException;
+    Optional<T> findUserByLogin(String login) throws InterruptedException;
 
     UserRole returnUserRole(T entity);
 }

@@ -183,19 +183,20 @@ public class AccountDAOImpl extends AbstractDAO<Account> implements AccountDAO<A
     }
 
     @Override
-    public Account findUserByLogin(String login) {
+    public Optional<Account> findUserByLogin(String login) {
         String sql = String.format(SELECT_ALL_QUERY + SPACE + WHERE_QUERY_WITH_PARAM, ACCOUNT_LOGIN, login);
         try {
-            return StatementProvider.executePreparedStatement(
+            List<Account> accounts = StatementProvider.executePreparedStatement(
                     sql,
-                    AccountDAOImpl::extractAccount, st -> st.setString(1, login)).get(0);
+                    AccountDAOImpl::extractAccount, st -> st.setString(1, login));
+            return Optional.of(accounts.get(0));
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
             Thread.currentThread().interrupt();
-            return null;
+            return Optional.empty();
         } catch (IndexOutOfBoundsException e) {
             LoggerProvider.getLOG().error("index out of bound");
-            return null;
+            return Optional.empty();
         }
     }
 

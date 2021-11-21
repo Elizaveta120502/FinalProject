@@ -20,7 +20,7 @@ public enum SimpleRequestFactory implements RequestFactory {
 
     @Override
     public CommandResponse createForwardResponse(String path) {
-        return forwardResponseCache.computeIfAbsent(path, p ->  new PlainCommandResponse(true, p));
+        return forwardResponseCache.computeIfAbsent(path, PlainCommandResponse::new);
     }
 
     @Override

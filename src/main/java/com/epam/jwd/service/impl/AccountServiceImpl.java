@@ -18,8 +18,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Optional<Account> authenticate(String email, String password) throws InterruptedException {
-        final Optional<Account> readUser = DAOFactory.getInstance().getAccountDAO().findUserByEmail(email);
+    public Optional<Account> authenticate(String login, String password) throws InterruptedException {
+        final Optional<Account> readUser = DAOFactory.getInstance().getAccountDAO().findUserByLogin(login);
         return readUser.filter(user -> user.getPassword().equals(password));
     }
 

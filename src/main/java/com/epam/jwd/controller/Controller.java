@@ -21,7 +21,9 @@ public class Controller extends HttpServlet {
 
 
 
-    private static final long serialVersionUID = -8755142839184413272L;
+
+    private static final long serialVersionUID = -5871861930812398862L;
+
     private static final Logger LOG = LogManager.getLogger(Controller.class);
     private static final String COMMAND_NAME_PARAM = "command";
     private final RequestFactory requestFactory = RequestFactory.getInstance();

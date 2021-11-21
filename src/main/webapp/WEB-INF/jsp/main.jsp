@@ -8,8 +8,9 @@
 <body>
 <h1>World Hello</h1>
 <p>sent from jsp</p>
+
 <c:if test="${not empty sessionScope.user}">
-    <p>Hello, ${sessionScope.user.name}</p>
+    <p>Hello, ${sessionScope.user.login}</p>
 </c:if>
 <a href="/controller?command=show_users">users page</a>
 <br>
@@ -18,7 +19,7 @@
         <a href="/controller?command=logout">logout</a>
     </c:when>
     <c:otherwise>
-        <a href="/controller?command=show_login">login</a>
+        <a href="/controller?command=login">login</a>
     </c:otherwise>
 </c:choose>
 </body>

@@ -56,4 +56,5 @@ public class WrappingCommandRequest implements CommandRequest {
     public void createSession() {
         request.getSession(true);
     }
+
 }

@@ -11,7 +11,7 @@ public enum LoginCommand implements Command{
     INSTANCE(ServiceFactory.getInstance().userService(), RequestFactory.getInstance());
 
     private static final String INDEX_PATH = "/";
-    private static final String LOGIN_JSP_PATH = "/WEB-INF/login.jsp";
+    private static final String LOGIN_JSP_PATH = "/WEB-INF/jsp/login.jsp";
 
     private static final String ERROR_LOGIN_PASS_ATTRIBUTE = "errorLoginPassMessage";
     private static final String USER_SESSION_ATTRIBUTE_NAME = "user";
