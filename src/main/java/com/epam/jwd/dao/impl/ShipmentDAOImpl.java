@@ -7,7 +7,8 @@ import com.epam.jwd.database.impl.ConnectionPoolImpl;
 import com.epam.jwd.database.impl.StatementProvider;
 import com.epam.jwd.exception.EntityExtractionFailedException;
 import com.epam.jwd.logger.LoggerProvider;
-import com.epam.jwd.model.*;
+import com.epam.jwd.model.Shipment;
+import com.epam.jwd.model.ShipmentMethod;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

@@ -3,7 +3,6 @@ package com.epam.jwd.command;
 import com.epam.jwd.controller.RequestFactory;
 import com.epam.jwd.dao.impl.DAOFactory;
 import com.epam.jwd.model.Account;
-import com.epam.jwd.model.DBEntity;
 import com.epam.jwd.service.EntityService;
 import com.epam.jwd.service.ServiceFactory;
 

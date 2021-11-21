@@ -9,7 +9,6 @@ import com.epam.jwd.exception.EntityExtractionFailedException;
 import com.epam.jwd.logger.LoggerProvider;
 import com.epam.jwd.model.*;
 
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

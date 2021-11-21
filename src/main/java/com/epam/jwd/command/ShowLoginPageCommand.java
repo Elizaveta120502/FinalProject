@@ -2,9 +2,6 @@ package com.epam.jwd.command;
 
 
 import com.epam.jwd.controller.RequestFactory;
-import com.epam.jwd.model.Account;
-import com.epam.jwd.service.EntityService;
-import com.epam.jwd.service.ServiceFactory;
 
 public enum ShowLoginPageCommand implements Command{
 

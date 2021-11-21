@@ -8,7 +8,7 @@ public class Client extends Account implements DBEntity {
     private Status status;
 
     public Client(Long accountId, String login,
-                  String password, String email, UserRole role,
+                  String password, String email, Role role,
                   Long id, String name,
                   Account account, Status status) {
         super(accountId, login, password, email, role);

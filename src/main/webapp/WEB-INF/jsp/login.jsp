@@ -13,7 +13,7 @@
   <label for="password-input">Password:</label>
   <input id="password-input" type="password" name="password" value=""/>
   <br/>
-  <c:if test="${not empty requestScope.errorLoginPassMessage}">
+  <c:if test="${empty requestScope.errorLoginPassMessage}">
     <b>${requestScope.errorLoginPassMessage}</b>
     <br>
   </c:if>

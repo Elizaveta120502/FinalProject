@@ -7,7 +7,7 @@ import com.epam.jwd.database.impl.StatementProvider;
 import com.epam.jwd.exception.EntityExtractionFailedException;
 import com.epam.jwd.logger.LoggerProvider;
 import com.epam.jwd.model.Account;
-import com.epam.jwd.model.UserRole;
+import com.epam.jwd.model.Role;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -45,10 +45,10 @@ public class AccountDAOImpl extends AbstractDAO<Account> implements AccountDAO<A
 
     private final String UPDATE_TABLE_QUERY = "update " + getTableName() + "set %s = '%s', %s = '%s', %s = '%s',%s = '%s', %s = '%s' " + WHERE_QUERY;
 
-    private final String DELETE_ALL = "delete from " + getTableName();
+    //private final String DELETE_ALL = "delete from " + getTableName();
     private final String DELETE_BY_QUERY = "delete from " + getTableName() + SPACE + WHERE_QUERY;
     private final String DELETE_FOR_STRINGS = "delete from " + getTableName() + SPACE + WHERE_QUERY_FOR_STRING;
-
+    private final String READ_BY_QUERY = SELECT_ALL_QUERY+ SPACE+ WHERE_QUERY_WITH_PARAM;
 
     protected AccountDAOImpl(ConnectionPool pool) {
         super(pool);
@@ -59,7 +59,7 @@ public class AccountDAOImpl extends AbstractDAO<Account> implements AccountDAO<A
     @Override
     public boolean create(Account entity) {
         String sql = String.format(INSERT_INTO_QUERY, entity.getId(), entity.getLogin(),
-                entity.getPassword(), entity.getEmail(), entity.getRole().getId());
+                entity.getPassword(), entity.getEmail(), entity.getRole().getRoleId());
 
         int executeUpdateIndicator = 0;
         try {
@@ -102,7 +102,7 @@ public class AccountDAOImpl extends AbstractDAO<Account> implements AccountDAO<A
         String sql = String.format(UPDATE_TABLE_QUERY, ACCOUNT_ID, entity.getId(),
                 ACCOUNT_LOGIN, entity.getLogin(), ACCOUNT_PASSWORD, entity.getPassword(),
                 ACCOUNT_EMAIL, entity.getEmail(), ACCOUNT_ROLE_ID, entity.getRole(), ACCOUNT_ID, id);
-        int executeUpdateIndicator = 0;
+        int executeUpdateIndicator;
         try {
             executeUpdateIndicator = StatementProvider.getInstance().executeUpdate(sql);
         } catch (InterruptedException e) {
@@ -116,7 +116,7 @@ public class AccountDAOImpl extends AbstractDAO<Account> implements AccountDAO<A
     @Override
     public boolean delete(Account entity) {
         String sql = String.format(DELETE_FOR_STRINGS, ACCOUNT_LOGIN, entity.getLogin());
-        int executeUpdateIndicator = 0;
+        int executeUpdateIndicator;
         try {
             executeUpdateIndicator = StatementProvider.getInstance().executeUpdate(sql);
         } catch (InterruptedException e) {
@@ -131,7 +131,7 @@ public class AccountDAOImpl extends AbstractDAO<Account> implements AccountDAO<A
     @Override
     public boolean deleteById(Long id) {
         String sql = String.format(DELETE_BY_QUERY, ACCOUNT_ID, id);
-        int executeUpdateIndicator = 0;
+        int executeUpdateIndicator;
         try {
             executeUpdateIndicator = StatementProvider.getInstance().executeUpdate(sql);
         } catch (InterruptedException e) {
@@ -142,21 +142,6 @@ public class AccountDAOImpl extends AbstractDAO<Account> implements AccountDAO<A
         return executeUpdateIndicator == 1;
 
     }
-
-//    @Override
-//    public boolean deleteAll(List entities) { //todo:think about ability of using this method in account table
-//        String sql = DELETE_ALL;
-//        int executeUpdateIndicator = 0;
-//        try {
-//            executeUpdateIndicator = StatementProvider.getInstance().executeUpdate(sql);
-//        } catch (InterruptedException e) {
-//            LoggerProvider.getLOG().error("takeConnection interrupted");
-//            Thread.currentThread().interrupt();
-//            return Boolean.FALSE;
-//        }
-//        return executeUpdateIndicator == 1;
-//    }
-
 
     @Override
     public Optional<Account> findUserByEmail(String email) {
@@ -201,9 +186,23 @@ public class AccountDAOImpl extends AbstractDAO<Account> implements AccountDAO<A
     }
 
     @Override
-    public UserRole returnUserRole(Account entity) { //todo:redo
-        return entity.getRole();
-    }  // todo: redo
+    public Optional<Role> returnUserRole(String role) {
+        String sql = String.format(READ_BY_QUERY, ACCOUNT_ROLE_NAME);
+
+        try {
+            List<Account> roles = StatementProvider.executePreparedStatement(sql, AccountDAOImpl::extractAccount,
+                    st -> st.setString(1, role));
+            Role roleName = roles.get(0).getRole();
+            return Optional.of(roleName);
+        } catch (InterruptedException e) {
+            LoggerProvider.getLOG().error("takeConnection interrupted");
+            Thread.currentThread().interrupt();
+            return Optional.empty();
+        } catch (IndexOutOfBoundsException e) {
+            LoggerProvider.getLOG().error("index out of bound");
+            return Optional.empty();
+        }
+    }
 
     @Override
     protected String getTableName() {
@@ -222,6 +221,8 @@ public class AccountDAOImpl extends AbstractDAO<Account> implements AccountDAO<A
     }
 
 
+
+
     private static Account extractAccount(ResultSet resultSet) throws EntityExtractionFailedException {
         try {
             return new Account(
@@ -229,14 +230,18 @@ public class AccountDAOImpl extends AbstractDAO<Account> implements AccountDAO<A
                     resultSet.getString(ACCOUNT_LOGIN),
                     resultSet.getString(ACCOUNT_PASSWORD),
                     resultSet.getString(ACCOUNT_EMAIL),
-                    new UserRole(
-                            resultSet.getString(ACCOUNT_ROLE_NAME),
-                            resultSet.getLong(ACCOUNT_ROLE_ID)));
+//                    new UserRole(
+//                            resultSet.getString(ACCOUNT_ROLE_NAME),
+//                            resultSet.getLong(ACCOUNT_ROLE_ID)));
+                     Role.of(resultSet.getString(ACCOUNT_ROLE_NAME)));
+
 
         } catch (SQLException e) {
             LoggerProvider.getLOG().error("could not extract value from result set", e);
             throw new EntityExtractionFailedException("failed to extract user", e);
         }
     }
+
+
 
 }

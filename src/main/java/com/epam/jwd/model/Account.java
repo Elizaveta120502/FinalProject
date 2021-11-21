@@ -10,9 +10,9 @@ public class Account implements DBEntity {
     private final String login;
     transient private String password;
     private String email;
-    private UserRole role;
+    private Role role;
 
-    public Account(Long accountId, String login, String password, String email, UserRole role) {
+    public Account(Long accountId, String login, String password, String email, Role role) {
         this.accountId = accountId;
         this.login = login;
         this.password = password;
@@ -34,7 +34,7 @@ public class Account implements DBEntity {
         return password;
     }
 
-    public UserRole getRole() {
+    public Role getRole() {
         return role;
     }
 
