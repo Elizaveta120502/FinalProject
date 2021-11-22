@@ -10,7 +10,7 @@ import java.util.List;
 public enum CommandRegistry {
 
     MAIN_PAGE(ShowMainPageCommand.INSTANCE, "main_page"),
-    SHOW_USERS(ShowUsersPageCommand.INSTANCE, "show_users"),
+    SHOW_USERS(ShowUsersPageCommand.INSTANCE, "show_users",Role.ADMINISTRATOR),
     SHOW_LOGIN(ShowLoginPageCommand.INSTANCE, "show_login",Role.UNAUTHORIZED_USER),
     LOGIN(LoginCommand.INSTANCE, "login",Role.UNAUTHORIZED_USER),
     LOGOUT(LogoutCommand.INSTANCE, "logout"),
