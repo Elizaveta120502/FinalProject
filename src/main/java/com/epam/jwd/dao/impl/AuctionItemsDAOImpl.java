@@ -7,6 +7,7 @@ import com.epam.jwd.database.impl.StatementProvider;
 import com.epam.jwd.exception.EntityExtractionFailedException;
 import com.epam.jwd.logger.LoggerProvider;
 import com.epam.jwd.model.AuctionItem;
+import com.epam.jwd.model.DBEntity;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -89,16 +90,16 @@ public class AuctionItemsDAOImpl extends AbstractDAO<AuctionItem> implements Auc
 
 
     @Override
-    public Optional<AuctionItem> readById(Long id) {
+    public DBEntity readById(Long id) {
         try {
             List<AuctionItem> items = StatementProvider.executePreparedStatement(
                     READ_BY_ID_QUERY,
                     AuctionItemsDAOImpl::extractAuctionItem, st -> st.setLong(1, id));
-            return Optional.of(items.get(0));
+            return items.get(0);
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
             Thread.currentThread().interrupt();
-            return Optional.empty();
+            return null;
 
         }
     }

@@ -6,6 +6,10 @@
     <title>Title</title>
 </head>
 <body>
+<style>
+    <%@include file="/WEB-INF/css/welcomebackground.css"%>
+    <%@include file="/WEB-INF/css/loginStyle.css"%>
+</style>
 <h1>World Hello</h1>
 <p>sent from jsp</p>
 
@@ -14,13 +18,19 @@
 </c:if>
 <br>
 <c:if test="${not empty sessionScope.user && sessionScope.user.role eq Role.ADMINISTRATOR}">
-    <a href="/controller?command=show_users">users page</a>
+    <a href="/controller?command=show_users" >users page</a>
     <br>
 </c:if>
 
 <c:choose>
     <c:when test="${not empty sessionScope.user}">
-        <a href="/controller?command=logout">logout</a>
+        <div>
+            <a  id="login" class="button blue" href="/controller?command=logout">
+                <i class="fa fa-unlock"></i>
+                <span>Log out</span>
+            </a>
+        </div>
+<%--        <a href="/controller?command=logout">logout</a>--%>
     </c:when>
     <c:otherwise>
         <a href="/controller?command=login">login</a>

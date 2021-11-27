@@ -1,7 +1,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<!DOCTYPE html>
 <html>
 <head>
+
   <title>Log in</title>
 </head>
 <body>
@@ -17,7 +20,20 @@
     <b>${requestScope.errorLoginPassMessage}</b>
     <br>
   </c:if>
-  <input type="submit" value="Log in"/>
+
+  <style>
+    <%@include file="/WEB-INF/css/loginStyle.css"%>
+  </style>
+
+  <div>
+    <button  id="login" class="button blue">
+      <i class="fa fa-unlock"></i>
+      <span>Log in</span>
+    </button>
+  </div>
+  <%-- <input type="submit" value="Log in">--%>
+
 </form>
+
 </body>
 </html>

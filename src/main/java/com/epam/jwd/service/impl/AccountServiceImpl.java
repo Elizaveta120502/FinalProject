@@ -2,6 +2,7 @@ package com.epam.jwd.service.impl;
 
 import com.epam.jwd.dao.AccountDAO;
 import com.epam.jwd.dao.impl.DAOFactory;
+import com.epam.jwd.logger.LoggerProvider;
 import com.epam.jwd.model.Account;
 import com.epam.jwd.service.AccountService;
 
@@ -24,12 +25,56 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<Account> findAll() throws InterruptedException {
-       return DAOFactory.getInstance().getAccountDAO().readAll();
+    public boolean blockUser(Account entity) {
+        return false;
     }
 
     @Override
-    public Optional<Account> create(Account entity) {
-        return Optional.empty();
+    public boolean deleteAccount(Account entity)  {
+        try {
+            DAOFactory.getInstance().getAccountDAO().delete(entity);
+            if (DAOFactory.getInstance().getAccountDAO().findUserByLogin(entity.getLogin()) == null){
+                return true;
+            }else{
+                return false;
+            }
+        } catch (InterruptedException e) {
+            LoggerProvider.getLOG().error("takeConnection interrupted");
+            Thread.currentThread().interrupt();
+            return false;
+        }
+    }
+
+    @Override
+    public Account fillAccountInformation(Account entity) {
+        return null;
+    }
+
+    @Override
+    public List<Account> findAll() {
+        List<Account> accounts = null;
+        try {
+             accounts = DAOFactory.getInstance().getAccountDAO().readAll();
+        }catch (InterruptedException e){
+            LoggerProvider.getLOG().error("takeConnection interrupted");
+            Thread.currentThread().interrupt();
+
+        }
+        return accounts;
+    }
+
+    @Override
+    public Optional<Account> create(Account entity)  {
+        boolean created = false;
+        try {
+            created =  DAOFactory.getInstance().getAccountDAO().create(entity);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        if (created == true){
+            return Optional.of(entity);
+        }else{
+            return Optional.empty();
+        }
     }
 }

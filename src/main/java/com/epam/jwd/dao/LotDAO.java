@@ -13,6 +13,8 @@ public interface LotDAO<T> extends DBEntityDAO<Lot> {
 
     LotStatus returnLotStatus(Long id);
 
+    boolean changeCurrentPrice(Long id, int newCurrentPrice);
+
 
 
 }

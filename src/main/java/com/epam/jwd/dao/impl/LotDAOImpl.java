@@ -3,7 +3,6 @@ package com.epam.jwd.dao.impl;
 import com.epam.jwd.dao.AbstractDAO;
 import com.epam.jwd.dao.LotDAO;
 import com.epam.jwd.database.ConnectionPool;
-import com.epam.jwd.database.impl.ConnectionPoolImpl;
 import com.epam.jwd.database.impl.StatementProvider;
 import com.epam.jwd.exception.EntityExtractionFailedException;
 import com.epam.jwd.logger.LoggerProvider;
@@ -123,19 +122,19 @@ public class LotDAOImpl extends AbstractDAO<Lot> implements LotDAO<Lot> {
     }
 
     @Override
-    public Optional<Lot> readById(Long id) {
+    public DBEntity readById(Long id) {
         try {
             List<Lot> accounts = StatementProvider.executePreparedStatement(
                     String.format(READ_BY_QUERY,LOT_ID),
                     LotDAOImpl::extractLot, st -> st.setLong(1, id));
-            return Optional.of(accounts.get(0));
+            return accounts.get(0);
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
             Thread.currentThread().interrupt();
-            return Optional.empty();
+            return null;
         } catch (IndexOutOfBoundsException e) {
             LoggerProvider.getLOG().error("no such element");
-            return Optional.empty();
+            return null;
         }
     }
 
@@ -207,12 +206,10 @@ public class LotDAOImpl extends AbstractDAO<Lot> implements LotDAO<Lot> {
     {
         int currentPrice;
         String sql = String.format(FIND_PRICE,LOT_ID);
-        LoggerProvider.getLOG().debug(sql);
 
         try {
             List<Lot>   lots = StatementProvider.executePreparedStatement(sql, LotDAOImpl::extractLot,
                     st -> st.setLong(1, id));
-            LoggerProvider.getLOG().debug(lots);
              currentPrice = lots.get(0).getCurrentPrice();
             return currentPrice;
         } catch (InterruptedException e) {
@@ -224,6 +221,8 @@ public class LotDAOImpl extends AbstractDAO<Lot> implements LotDAO<Lot> {
             return 0;
         }
     }
+
+
 
     @Override
     public int returnAmountOfItemsInLot(Long id) {
@@ -263,6 +262,25 @@ public class LotDAOImpl extends AbstractDAO<Lot> implements LotDAO<Lot> {
     }
     }
 
+    @Override
+    public boolean changeCurrentPrice(Long id, int newCurrentPrice) {
+        String sql = String.format(FIND_PRICE,LOT_ID);
+
+        try {
+            List<Lot>   lots = StatementProvider.executePreparedStatement(sql, LotDAOImpl::extractLot,
+                    st -> st.setLong(1, id));
+            lots.get(0).setCurrentPrice(newCurrentPrice);
+            return true;
+        } catch (InterruptedException e) {
+            LoggerProvider.getLOG().error("takeConnection interrupted");
+            Thread.currentThread().interrupt();
+            return false;
+        }catch (IndexOutOfBoundsException e){
+            LoggerProvider.getLOG().error("no such element");
+            return false;
+        }
+    }
+
     private static Lot extractLot(ResultSet resultSet) throws EntityExtractionFailedException {
         try {
             return new Lot(resultSet.getLong(LOT_ID),
@@ -292,36 +310,36 @@ public class LotDAOImpl extends AbstractDAO<Lot> implements LotDAO<Lot> {
         }
     }
 
-    public static void main(String[] args) {
-        LoggerProvider.getLOG().trace("Starting program");
-        StatementProvider.getInstance();
-        LotDAOImpl instance = new  LotDAOImpl(ConnectionPoolImpl.getInstance());
-        final List<Lot> lots;
-        AuctionItemsDAOImpl auctionItem = new AuctionItemsDAOImpl(ConnectionPoolImpl.getInstance());
-        PaymentDAOImpl paymentDAO = new PaymentDAOImpl(ConnectionPoolImpl.getInstance());
-
-      LoggerProvider.getLOG().info(instance.readById(963105L));
-//       LoggerProvider.getLOG().trace("-----------------");
-    //   LoggerProvider.getLOG().info(instance.readAll());
-
-        Lot newLot = new Lot(963111L,10,3,500,auctionItem.findAuctionItemByTitle("jasmin"),
-                new Shipment(0L,null,null,
-                        0,null),paymentDAO.readAll().get(0),new LotStatus("current",1L));
-     //   LoggerProvider.getLOG().info(instance.returnStartingPriceById(963105L));
-//        LoggerProvider.getLOG().trace("-----------------");
-     //   LoggerProvider.getLOG().info(instance.returnLotStatus(963105L));
-//        LoggerProvider.getLOG().info(instance.returnLotStatus(963104L));
-//        LoggerProvider.getLOG().trace("-----------------");
-        LoggerProvider.getLOG().info(instance.returnAmountOfItemsInLot(963105L));
+//    public static void main(String[] args) {
+//        LoggerProvider.getLOG().trace("Starting program");
+//        StatementProvider.getInstance();
+//        LotDAOImpl instance = new  LotDAOImpl(ConnectionPoolImpl.getInstance());
+//        final List<Lot> lots;
+//        AuctionItemsDAOImpl auctionItem = new AuctionItemsDAOImpl(ConnectionPoolImpl.getInstance());
+//        PaymentDAOImpl paymentDAO = new PaymentDAOImpl(ConnectionPoolImpl.getInstance());
 //
-//        LoggerProvider.getLOG().trace("-----------------");
-//        LoggerProvider.getLOG().info(instance.returnStartingPriceById(963102L));
-
-//       lots = instance.readAll();
-//        for (Lot a : lots) {
-//            LoggerProvider.getLOG().info(a);
-//        }
-
-        StatementProvider.getInstance().close();
-        LoggerProvider.getLOG().trace("program end");
-} }
+//      LoggerProvider.getLOG().info(instance.readById(963105L));
+////       LoggerProvider.getLOG().trace("-----------------");
+//    //   LoggerProvider.getLOG().info(instance.readAll());
+//
+//        Lot newLot = new Lot(963111L,10,3,500,auctionItem.findAuctionItemByTitle("jasmin"),
+//                new Shipment(0L,null,null,
+//                        0,null),paymentDAO.readAll().get(0),new LotStatus("current",1L));
+//     //   LoggerProvider.getLOG().info(instance.returnStartingPriceById(963105L));
+////        LoggerProvider.getLOG().trace("-----------------");
+//     //   LoggerProvider.getLOG().info(instance.returnLotStatus(963105L));
+////        LoggerProvider.getLOG().info(instance.returnLotStatus(963104L));
+////        LoggerProvider.getLOG().trace("-----------------");
+//        LoggerProvider.getLOG().info(instance.returnAmountOfItemsInLot(963105L));
+////
+////        LoggerProvider.getLOG().trace("-----------------");
+////        LoggerProvider.getLOG().info(instance.returnStartingPriceById(963102L));
+//
+////       lots = instance.readAll();
+////        for (Lot a : lots) {
+////            LoggerProvider.getLOG().info(a);
+////        }
+//
+//        StatementProvider.getInstance().close();
+//        LoggerProvider.getLOG().trace("program end");
+}

@@ -6,6 +6,7 @@ import com.epam.jwd.database.ConnectionPool;
 import com.epam.jwd.database.impl.StatementProvider;
 import com.epam.jwd.exception.EntityExtractionFailedException;
 import com.epam.jwd.logger.LoggerProvider;
+import com.epam.jwd.model.DBEntity;
 import com.epam.jwd.model.Payment;
 import com.epam.jwd.model.PaymentMethod;
 
@@ -88,19 +89,19 @@ public class PaymentDAOImpl extends AbstractDAO<Payment> implements PaymentDAO<P
     }
 
     @Override
-    public Optional<Payment> readById(Long id)  {
+    public DBEntity readById(Long id)  {
         try {
             List<Payment> payments = StatementProvider.executePreparedStatement(
                    READ_BY_ID_QUERY,
                     PaymentDAOImpl::extractPayment, st -> st.setLong(1, id));
-            return Optional.of(payments.get(0));
+            return payments.get(0);
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
             Thread.currentThread().interrupt();
-            return Optional.empty();
+            return null;
         }catch (IndexOutOfBoundsException e){
             LoggerProvider.getLOG().error("payment not found");
-            return Optional.empty();
+            return null;
         }
     }
 

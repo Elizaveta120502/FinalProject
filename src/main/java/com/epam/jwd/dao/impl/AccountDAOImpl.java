@@ -7,6 +7,7 @@ import com.epam.jwd.database.impl.StatementProvider;
 import com.epam.jwd.exception.EntityExtractionFailedException;
 import com.epam.jwd.logger.LoggerProvider;
 import com.epam.jwd.model.Account;
+import com.epam.jwd.model.DBEntity;
 import com.epam.jwd.model.Role;
 
 import java.sql.PreparedStatement;
@@ -83,16 +84,16 @@ public class AccountDAOImpl extends AbstractDAO<Account> implements AccountDAO<A
     }
 
     @Override
-    public Optional<Account> readById(Long id) {
+    public DBEntity readById(Long id) {
         try {
             List<Account> accounts = StatementProvider.executePreparedStatement(
                     READ_BY_ID_QUERY,
                     AccountDAOImpl::extractAccount, st -> st.setLong(1, id));
-            return Optional.of(accounts.get(0));
+            return accounts.get(0);
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
             Thread.currentThread().interrupt();
-            return Optional.empty();
+            return null;
         }
     }
 
@@ -154,9 +155,6 @@ public class AccountDAOImpl extends AbstractDAO<Account> implements AccountDAO<A
 
             return Optional.of(accounts.get(0));
 
-//            return StatementProvider.executePreparedStatement(
-//                    sql,
-//                    AccountDAOImpl::extractAccount, st -> st.setString(1, email)).get(0);
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
             Thread.currentThread().interrupt();

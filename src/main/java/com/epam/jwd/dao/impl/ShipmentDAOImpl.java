@@ -3,10 +3,10 @@ package com.epam.jwd.dao.impl;
 import com.epam.jwd.dao.AbstractDAO;
 import com.epam.jwd.dao.ShipmentDAO;
 import com.epam.jwd.database.ConnectionPool;
-import com.epam.jwd.database.impl.ConnectionPoolImpl;
 import com.epam.jwd.database.impl.StatementProvider;
 import com.epam.jwd.exception.EntityExtractionFailedException;
 import com.epam.jwd.logger.LoggerProvider;
+import com.epam.jwd.model.DBEntity;
 import com.epam.jwd.model.Shipment;
 import com.epam.jwd.model.ShipmentMethod;
 
@@ -14,7 +14,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -96,19 +95,19 @@ public class ShipmentDAOImpl extends AbstractDAO<Shipment> implements ShipmentDA
     }
 
     @Override
-    public Optional<Shipment> readById(Long id)  {
+    public DBEntity readById(Long id)  {
         try {
-            List<Shipment> accounts = StatementProvider.executePreparedStatement(
+            List<Shipment> shipments = StatementProvider.executePreparedStatement(
                     String.format(READ_BY_QUERY,SHIPMENT_ID),
                     ShipmentDAOImpl::extractShipment, st -> st.setLong(1, id));
-            return Optional.of(accounts.get(0));
+            return shipments.get(0);
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
             Thread.currentThread().interrupt();
-            return Optional.empty();
+            return null;
         } catch (IndexOutOfBoundsException e) {
             LoggerProvider.getLOG().error("no such element");
-            return Optional.empty();
+            return null;
         }
     }
 
@@ -233,23 +232,23 @@ public class ShipmentDAOImpl extends AbstractDAO<Shipment> implements ShipmentDA
     }
 
 
-    public static void main(String[] args) {
-        LoggerProvider.getLOG().trace("Starting program");
-        StatementProvider.getInstance();
-        ShipmentDAOImpl instance = new ShipmentDAOImpl(ConnectionPoolImpl.getInstance());
-        List<Shipment> shipments;
-        LocalDateTime actualTime = LocalDateTime.now();
-        Shipment shipment = new Shipment(25L,Timestamp.valueOf("2021-11-05 09:01:15"),
-                Timestamp.valueOf(actualTime),15,new ShipmentMethod("pickup",3L));
-        LoggerProvider.getLOG().info(instance.returnShipmentMethod(4L));
-
-
-       shipments = instance.readAll();
-        for (Shipment a : shipments) {
-            LoggerProvider.getLOG().info(a);
-        }
-
-        StatementProvider.getInstance().close();
-        LoggerProvider.getLOG().trace("program end");
-    }
+//    public static void main(String[] args) {
+//        LoggerProvider.getLOG().trace("Starting program");
+//        StatementProvider.getInstance();
+//        ShipmentDAOImpl instance = new ShipmentDAOImpl(ConnectionPoolImpl.getInstance());
+//        List<Shipment> shipments;
+//        LocalDateTime actualTime = LocalDateTime.now();
+//        Shipment shipment = new Shipment(25L,Timestamp.valueOf("2021-11-05 09:01:15"),
+//                Timestamp.valueOf(actualTime),15,new ShipmentMethod("pickup",3L));
+//        LoggerProvider.getLOG().info(instance.returnShipmentMethod(4L));
+//
+//
+//       shipments = instance.readAll();
+//        for (Shipment a : shipments) {
+//            LoggerProvider.getLOG().info(a);
+//        }
+//
+//        StatementProvider.getInstance().close();
+//        LoggerProvider.getLOG().trace("program end");
+//    }
 }
