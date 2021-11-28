@@ -1,46 +1,43 @@
 package com.epam.jwd.model;
 
+import java.util.Arrays;
+import java.util.List;
+
 public enum Status implements DBEntity {
-    MYSTERY("mystery", 1L),
-    FRESHMAN("freshman", 2L),
-    MIDDLE("middle", 3L),
-    MASTER("master", 4L),
-    SUPREME("supreme", 5L);
+    MYSTERY(1L,"mystery",Benefit.ZERO),
+    FRESHMAN(2L,"freshman",Benefit.FIVE ),
+    MIDDLE(3L,"middle",Benefit.TEN ),
+    MASTER(4L,"master",Benefit.TWENTY ),
+    SUPREME(5L,"supreme",Benefit.THIRTY_FIVE);
 
     private String description;
     private Long id;
     private Benefit benefit;
+    private static final List<Status> ALL_STATUSES_AS_LIST = Arrays.asList(values());
 
-    Status(String description, Long id) {
-        this.description = description;
+    Status(Long id,String description, Benefit benefit) {
         this.id = id;
-
-    }
-
-    Status(Benefit benefit) {
+        this.description = description;
         this.benefit = benefit;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     @Override
     public Long getId() {
-
         return id;
     }
 
-    public Benefit getBenefit() {
-        return benefit;
+    public static List<Status> valuesAsList() {
+        return ALL_STATUSES_AS_LIST;
     }
 
-    @Override
-    public String toString() {
-        return "Status{" +
-                "description='" + description + '\'' +
-                ", id=" + id +
-                ", benefit=" + benefit +
-                '}';
+    public static Status of(String name) {
+        for (Status status : values()) {
+            if (status.name().equalsIgnoreCase(name)) {
+                return status;
+            }
+        }
+        return MYSTERY;
     }
+
+
 }

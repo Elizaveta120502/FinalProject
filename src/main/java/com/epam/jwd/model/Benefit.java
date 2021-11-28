@@ -1,13 +1,21 @@
 package com.epam.jwd.model;
 
-import java.util.Objects;
+import java.util.Arrays;
+import java.util.List;
 
-public class Benefit implements DBEntity {
 
-    private final Long id;
-    private final int size;
+public enum Benefit implements DBEntity {
+    ZERO(1L,0),
+    FIVE(2L,5),
+    TEN (3L,10),
+    TWENTY(4L,20),
+    THIRTY_FIVE(5L,35);
 
-    public Benefit(Long id, int size) {
+    private Long id;
+    private int size;
+    private static final List<Benefit> ALL_BENEFITS_AS_LIST = Arrays.asList(values());
+
+    Benefit(Long id, int size) {
         this.id = id;
         this.size = size;
     }
@@ -17,29 +25,16 @@ public class Benefit implements DBEntity {
         return id;
     }
 
-    public int getSize() {
-        return size;
+    public static List<Benefit> valuesAsList() {
+        return ALL_BENEFITS_AS_LIST;
     }
 
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Benefit)) return false;
-        Benefit benefits = (Benefit) o;
-        return id == benefits.id && size == benefits.size;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, size);
-    }
-
-    @Override
-    public String toString() {
-        return "Benefits{" +
-                "id=" + id +
-                ", size=" + size +
-                '}';
+    public static Benefit of(int benefitSize) {
+        for (Benefit benefit : values()) {
+            if (benefit.size == benefitSize) {
+                return benefit;
+            }
+        }
+        return ZERO;
     }
 }

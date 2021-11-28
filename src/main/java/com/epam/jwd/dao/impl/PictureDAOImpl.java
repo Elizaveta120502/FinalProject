@@ -83,11 +83,11 @@ public class PictureDAOImpl extends AbstractDAO<Picture> implements PictureDAO {
             List<Picture> pictures = StatementProvider.executePreparedStatement(
                     READ_BY_ID_QUERY,
                     PictureDAOImpl::extractPicture, st -> st.setLong(1, id));
-            return Optional.of(pictures.get(0));
+            return null;
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
             Thread.currentThread().interrupt();
-            return Optional.empty();
+            return null;
         }
     }
 

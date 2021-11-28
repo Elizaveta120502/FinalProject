@@ -11,13 +11,16 @@ public class Account implements DBEntity {
     transient private String password;
     private String email;
     private Role role;
+    private Status status;
 
-    public Account(Long accountId, String login, String password, String email, Role role) {
+    public Account(Long accountId, String login, String password, String email, Role role,Status status) {
         this.accountId = accountId;
         this.login = login;
         this.password = password;
         this.email = email;
         this.role = role;
+        this.status = status;
+
     }
 
 
@@ -42,27 +45,33 @@ public class Account implements DBEntity {
         return email;
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Account)) return false;
         Account account = (Account) o;
-        return Objects.equals(getId(), account.getId()) && Objects.equals(getLogin(), account.getLogin()) && Objects.equals(getPassword(), account.getPassword()) && Objects.equals(getEmail(), account.getEmail()) && getRole() == account.getRole();
+        return Objects.equals(accountId, account.accountId) && Objects.equals(getLogin(), account.getLogin()) && Objects.equals(getPassword(), account.getPassword()) && Objects.equals(getEmail(), account.getEmail()) && getRole() == account.getRole() && getStatus() == account.getStatus();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getLogin(), getPassword(), getEmail(), getRole());
+        return Objects.hash(accountId, getLogin(), getPassword(), getEmail(), getRole(), getStatus());
     }
 
     @Override
     public String toString() {
         return "Account{" +
-                "id=" + accountId +
+                "accountId=" + accountId +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", role=" + role +
+                ", status=" + status +
                 '}';
     }
 }

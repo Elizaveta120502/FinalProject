@@ -30,14 +30,17 @@ public class LotServiceImpl implements LotService {
     @Override
     public int makeBet(String login, Long lotId, int newCurrentPrice) {
         Optional<Account> user;
+        DBEntity lot;
         try {
             user = DAOFactory.getInstance().getAccountDAO().findUserByLogin(login);
+            lot = DAOFactory.getInstance().getLotDAO().readById(lotId);
+
 
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
             Thread.currentThread().interrupt();
         }
-        return 0; //todo: do account_id int lots table, delete many_to_many relation
+        return 0;
     }
 
     @Override
