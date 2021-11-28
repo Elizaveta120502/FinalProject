@@ -1,16 +1,16 @@
 package com.epam.jwd.model;
 
-public class  LotStatus implements DBEntity {
+public enum LotStatus implements DBEntity {
 
-//    CURRENT("current", 1L),
-//    INACTIVE("inactive", 2L);
+    CURRENT(1L,"current"),
+    INACTIVE(2L,"inactive");
 
     private Long id;
     private String description;
 
-    public LotStatus(String description, Long id) {
-        this.description = description;
+    LotStatus(Long id, String description) {
         this.id = id;
+        this.description = description;
     }
 
     @Override
@@ -18,16 +18,17 @@ public class  LotStatus implements DBEntity {
         return id;
     }
 
-
-    public String getDescription() {
-        return description;
+    public static LotStatus of(String name) {
+        for (LotStatus lotStatus : values()) {
+            if (lotStatus.name().equalsIgnoreCase(name)) {
+                return lotStatus;
+            }
+        }
+        return INACTIVE;
     }
 
-    @Override
-    public String toString() {
-        return "LotStatus{" +
-                "id=" + id +
-                ", description='" + description + '\'' +
-                '}';
-    }
+
+
+
+
 }

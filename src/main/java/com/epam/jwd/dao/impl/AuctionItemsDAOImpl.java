@@ -148,19 +148,6 @@ public class AuctionItemsDAOImpl extends AbstractDAO<AuctionItem> implements Auc
         return executeUpdateIndicator == 1;
     }
 
-//    @Override
-//    public boolean deleteAll(List<AuctionItem> entities) {
-//        String sql = DELETE_ALL;
-//        int executeUpdateIndicator;
-//        try {
-//            executeUpdateIndicator = StatementProvider.getInstance().executeUpdate(sql);
-//        } catch (InterruptedException e) {
-//            LoggerProvider.getLOG().error("takeConnection interrupted");
-//            Thread.currentThread().interrupt();
-//            return Boolean.FALSE;
-//        }
-//        return executeUpdateIndicator == 1;
-//    }
 
     @Override
     public AuctionItem findAuctionItemByTitle(String auctionItemName) {

@@ -8,22 +8,27 @@ public class Lot implements DBEntity {
     private int itemsAmount;
     private int currentPrice;
 
+    private LotStatus lotStatus;
     private AuctionItem auctionItem;
     private Shipment shipment;
     private Payment payment;
-    private LotStatus lotStatus;
+    private Account account;
 
     public Lot(Long id, int startingPrice, int itemsAmount,
-               int currentPrice, AuctionItem auctionItem, Shipment shipment,
-               Payment payment, LotStatus lotStatus) {
+               int currentPrice, LotStatus lotStatus, AuctionItem auctionItem, Shipment shipment,
+               Payment payment,Account account) {
         this.id = id;
         this.startingPrice = startingPrice;
         this.itemsAmount = itemsAmount;
         this.currentPrice = currentPrice;
+        this.lotStatus = lotStatus;
         this.auctionItem = auctionItem;
         this.shipment = shipment;
         this.payment = payment;
-        this.lotStatus = lotStatus;
+        this.account = account;
+    }
+
+    public Lot() {
     }
 
     @Override
@@ -31,64 +36,72 @@ public class Lot implements DBEntity {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public int getStartingPrice() {
         return startingPrice;
-    }
-
-    public void setStartingPrice(int startingPrice) {
-        this.startingPrice = startingPrice;
     }
 
     public int getItemsAmount() {
         return itemsAmount;
     }
 
-    public void setItemsAmount(int itemsAmount) {
-        this.itemsAmount = itemsAmount;
-    }
-
     public int getCurrentPrice() {
         return currentPrice;
-    }
-
-    public void setCurrentPrice(int currentPrice) {
-        this.currentPrice = currentPrice;
-    }
-
-    public AuctionItem getAuctionItem() {
-        return auctionItem;
-    }
-
-    public void setAuctionItem(AuctionItem auctionItem) {
-        this.auctionItem = auctionItem;
-    }
-
-    public Shipment getShipment() {
-        return shipment;
-    }
-
-    public void setShipment(Shipment shipment) {
-        this.shipment = shipment;
-    }
-
-    public Payment getPayment() {
-        return payment;
-    }
-
-    public void setPayment(Payment payment) {
-        this.payment = payment;
     }
 
     public LotStatus getLotStatus() {
         return lotStatus;
     }
 
+    public AuctionItem getAuctionItem() {
+        return auctionItem;
+    }
+
+    public Shipment getShipment() {
+        return shipment;
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setStartingPrice(int startingPrice) {
+        this.startingPrice = startingPrice;
+    }
+
+    public void setItemsAmount(int itemsAmount) {
+        this.itemsAmount = itemsAmount;
+    }
+
+    public void setCurrentPrice(int currentPrice) {
+        this.currentPrice = currentPrice;
+    }
+
     public void setLotStatus(LotStatus lotStatus) {
         this.lotStatus = lotStatus;
+    }
+
+    public void setAuctionItem(AuctionItem auctionItem) {
+        this.auctionItem = auctionItem;
+    }
+
+    public void setShipment(Shipment shipment) {
+        this.shipment = shipment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     @Override
@@ -96,12 +109,12 @@ public class Lot implements DBEntity {
         if (this == o) return true;
         if (!(o instanceof Lot)) return false;
         Lot lot = (Lot) o;
-        return getId() == lot.getId() && getStartingPrice() == lot.getStartingPrice() && getItemsAmount() == lot.getItemsAmount() && getCurrentPrice() == lot.getCurrentPrice() && Objects.equals(getAuctionItem(), lot.getAuctionItem()) && Objects.equals(getShipment(), lot.getShipment()) && Objects.equals(getPayment(), lot.getPayment()) && getLotStatus() == lot.getLotStatus();
+        return getStartingPrice() == lot.getStartingPrice() && getItemsAmount() == lot.getItemsAmount() && getCurrentPrice() == lot.getCurrentPrice() && Objects.equals(getId(), lot.getId()) && getLotStatus() == lot.getLotStatus() && Objects.equals(getAuctionItem(), lot.getAuctionItem()) && Objects.equals(getShipment(), lot.getShipment()) && Objects.equals(getPayment(), lot.getPayment()) && Objects.equals(getAccount(), lot.getAccount());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getStartingPrice(), getItemsAmount(), getCurrentPrice(), getAuctionItem(), getShipment(), getPayment(), getLotStatus());
+        return Objects.hash(getId(), getStartingPrice(), getItemsAmount(), getCurrentPrice(), getLotStatus(), getAuctionItem(), getShipment(), getPayment(), getAccount());
     }
 
     @Override
@@ -111,10 +124,11 @@ public class Lot implements DBEntity {
                 ", startingPrice=" + startingPrice +
                 ", itemsAmount=" + itemsAmount +
                 ", currentPrice=" + currentPrice +
+                ", lotStatus=" + lotStatus +
                 ", auctionItem=" + auctionItem +
                 ", shipment=" + shipment +
                 ", payment=" + payment +
-                ", lotStatus=" + lotStatus +
+                ", account=" + account +
                 '}';
     }
 }

@@ -29,7 +29,7 @@ public class LotServiceImpl implements LotService {
 
     @Override
     public int makeBet(String login, Long lotId, int newCurrentPrice) {
-        Optional<Account> user;
+        Account user;
         DBEntity lot;
         try {
             user = DAOFactory.getInstance().getAccountDAO().findUserByLogin(login);

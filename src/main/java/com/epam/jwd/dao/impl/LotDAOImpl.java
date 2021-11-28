@@ -3,6 +3,7 @@ package com.epam.jwd.dao.impl;
 import com.epam.jwd.dao.AbstractDAO;
 import com.epam.jwd.dao.LotDAO;
 import com.epam.jwd.database.ConnectionPool;
+import com.epam.jwd.database.impl.ConnectionPoolImpl;
 import com.epam.jwd.database.impl.StatementProvider;
 import com.epam.jwd.exception.EntityExtractionFailedException;
 import com.epam.jwd.logger.LoggerProvider;
@@ -19,12 +20,15 @@ public class LotDAOImpl extends AbstractDAO<Lot> implements LotDAO<Lot> {
 
 
     private static final String TABLE_NAME = "lots";
-    private static final String TABLE_NAME_EXTENDED = "lots join lot_status on lots.lot_status_id = lot_status.id \n" +
-            "join auction_items on auction_items.id = lots.auction_items_id \n" +
-            "join shipment on shipment.id = lots.shipment_id \n" +
-            "join payment on payment.id =lots.payment_id \n" +
-            "join shipment_methods on shipment_methods.id = shipment.shipment_methods_id \n" +
-            "join payment_methods on payment_methods.id = payment.payment_methods_id";
+    private static final String TABLE_NAME_EXTENDED = "lots inner join lot_status on lots.lot_status_id = lot_status.id  \n" +
+            "            left join auction_items on auction_items.id = lots.auction_items_id \n" +
+            "            left join account on account.id = lots.account_id\n" +
+            "            left join role on role.id = account.role_id\n" +
+            "            left join status on account.status_id = status.id\n" +
+            "            left join shipment on shipment.id = lots.shipment_id\n" +
+            "            left join shipment_methods on shipment_methods.id = shipment.shipment_methods_id \n" +
+            "            left join payment on payment.id =lots.payment_id \n" +
+            "            left join payment_methods on payment_methods.id = payment.payment_methods_id";
 
     private static final String LOT_ID = "lots.id";
     private static final String LOT_STARTING_PRICE = "lots.starting_price";
@@ -51,6 +55,22 @@ public class LotDAOImpl extends AbstractDAO<Lot> implements LotDAO<Lot> {
     private static final String PAYMENT_METHOD_ID = "payment.payment_methods_id";
     private static final String PAYMENT_METHOD = "payment_methods.description";
 
+    private static final String ACCOUNT_ID = "lots.account_id";
+    private static final String ACCOUNT_LOGIN = "account.login";
+    private static final String ACCOUNT_PASSWORD = "account.password";
+    private static final String ACCOUNT_EMAIL = "account.email";
+
+    private static final String ACCOUNT_ROLE_ID = "account.role_id";
+    private static final String ACCOUNT_ROLE_NAME = "role.role_name";
+
+    private static final String ACCOUNT_STATUS_ID = "account.status_id";
+    private static final String ACCOUNT_STATUS_DESCRIPTION = "status.description";
+
+    private static final String BENEFIT_ID = "status.benefits_id";
+    private static final String BENEFIT_SIZE = "benefits.size";
+
+
+
     private final String WHERE_QUERY = "where %s = %s";
     private final String WHERE_QUERY_WITH_PARAM = "where %s = ?";
     private final String COMMA = ",";
@@ -59,17 +79,19 @@ public class LotDAOImpl extends AbstractDAO<Lot> implements LotDAO<Lot> {
             COMMA + LOT_STATUS_DESCR + COMMA + AUCTION_ITEMS_ID + COMMA + AUCTION_ITEM_TITLE + COMMA +
             AUCTION_ITEM_PRICE + COMMA + AUCTION_ITEM_IN_STOCK +COMMA +  SHIPMENT_ID+ COMMA +SHIPMENT_EXPECTED_DATE +
             COMMA +SHIPMENT_ACTUAL_DATE + COMMA +SHIPMENT_COST + COMMA +SHIPMENT_METHOD_ID + COMMA +SHIPMENT_METHOD +
-            COMMA +PAYMENT_ID + COMMA +PAYMENT_TIME+ COMMA +PAYMENT_METHOD_ID + COMMA +PAYMENT_METHOD;
+            COMMA +PAYMENT_ID + COMMA +PAYMENT_TIME+ COMMA +PAYMENT_METHOD_ID + COMMA +PAYMENT_METHOD + COMMA +
+            ACCOUNT_ID + COMMA + ACCOUNT_LOGIN + COMMA+ ACCOUNT_PASSWORD+ COMMA + ACCOUNT_EMAIL +COMMA + ACCOUNT_ROLE_ID+ COMMA
+            + ACCOUNT_ROLE_NAME + COMMA + ACCOUNT_STATUS_ID +COMMA + ACCOUNT_STATUS_DESCRIPTION ;
 
     private static final String SPACE = " ";
-    private final String LOT_INSERT_QUERY = "insert into " + getTableName() + SPACE +
-            "values(%s,%s,%s,%s,%s,%s,%s,%s)";
+    private final String LOT_INSERT_QUERY = "insert into lots" + SPACE +
+            "values(%s,%s,%s,%s,%s,%s,%s,%s,%s)";
     private final String SELECT_ALL = "select " + ALL_COLUMNS + " from " + TABLE_NAME_EXTENDED;
 
     private final String READ_BY_QUERY = SELECT_ALL+ SPACE+ WHERE_QUERY_WITH_PARAM;
     private final String UPDATE_TABLE_QUERY = "update " + getTableName() + " set %s = '%s', %s = '%s', " +
             "%s = '%s',%s = '%s', %s = '%s',%s = '%s',%s = '%s',%s = '%s' " + WHERE_QUERY;
-    private final String DELETE_BY_QUERY = "delete from " + getTableName() + SPACE + WHERE_QUERY;
+    private final String DELETE_BY_QUERY = "delete from lots" + SPACE + WHERE_QUERY;
     private final String FIND_PRICE = SELECT_ALL +SPACE + WHERE_QUERY_WITH_PARAM;
 
 
@@ -93,13 +115,15 @@ public class LotDAOImpl extends AbstractDAO<Lot> implements LotDAO<Lot> {
         statement.setObject(6, entity.getAuctionItem());
         statement.setObject(7, entity.getShipment());
         statement.setObject(8, entity.getPayment());
+        statement.setObject(9,entity.getAccount());
+
     }
 
     @Override
     public boolean create(Lot entity) {
         String sql = String.format(LOT_INSERT_QUERY, entity.getId(), entity.getStartingPrice(),
-                entity.getItemsAmount(), entity.getCurrentPrice(), entity.getLotStatus().getId(), entity.getAuctionItem().getId(),
-                entity.getShipment().getId(), entity.getPayment().getId());
+                entity.getItemsAmount(), entity.getCurrentPrice(),entity.getLotStatus().getId(), entity.getAuctionItem().getId(),
+                entity.getShipment().getId(), entity.getPayment().getId(),entity.getAccount().getId());
         int executeUpdateIndicator = 0;
         try {
             executeUpdateIndicator = StatementProvider.getInstance().executeUpdate(sql);
@@ -113,6 +137,7 @@ public class LotDAOImpl extends AbstractDAO<Lot> implements LotDAO<Lot> {
     @Override
     public List<Lot> readAll() {
         try {
+
             return StatementProvider.getInstance().executeStatement(SELECT_ALL, LotDAOImpl::extractLot);
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
@@ -269,7 +294,7 @@ public class LotDAOImpl extends AbstractDAO<Lot> implements LotDAO<Lot> {
         try {
             List<Lot>   lots = StatementProvider.executePreparedStatement(sql, LotDAOImpl::extractLot,
                     st -> st.setLong(1, id));
-            lots.get(0).setCurrentPrice(newCurrentPrice);
+            lots.get(0).setStartingPrice(newCurrentPrice);
             return true;
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
@@ -287,6 +312,7 @@ public class LotDAOImpl extends AbstractDAO<Lot> implements LotDAO<Lot> {
                     resultSet.getInt(LOT_STARTING_PRICE),
                     resultSet.getInt(LOT_ITEMS_AMOUNT),
                     resultSet.getInt(LOT_CURRENT_PRICE),
+                    LotStatus.of(resultSet.getString(LOT_STATUS_DESCR)),
                     new AuctionItem(resultSet.getLong(AUCTION_ITEMS_ID),
                             resultSet.getString(AUCTION_ITEM_TITLE),
                             resultSet.getInt(AUCTION_ITEM_PRICE),
@@ -301,45 +327,40 @@ public class LotDAOImpl extends AbstractDAO<Lot> implements LotDAO<Lot> {
                             resultSet.getTimestamp(PAYMENT_TIME),
                             new PaymentMethod(resultSet.getString(PAYMENT_METHOD),
                                     resultSet.getLong(PAYMENT_METHOD_ID))),
-                    new LotStatus(resultSet.getString(LOT_STATUS_DESCR),
-                            resultSet.getLong(LOT_STATUS_ID)));
+                    new Account (resultSet.getLong(ACCOUNT_ID),
+                            resultSet.getString(ACCOUNT_LOGIN),
+                            resultSet.getString(ACCOUNT_PASSWORD),
+                            resultSet.getString(ACCOUNT_EMAIL),
+                            Role.of(resultSet.getString(ACCOUNT_ROLE_NAME)),
+                                    Status.of(resultSet.getString(ACCOUNT_STATUS_DESCRIPTION))));
 
         } catch (SQLException e) {
             LoggerProvider.getLOG().error("could not extract value from result set", e);
-            throw new EntityExtractionFailedException("failed to extract user", e);
+            throw new EntityExtractionFailedException("failed to extract lot", e);
         }
     }
 
-//    public static void main(String[] args) {
-//        LoggerProvider.getLOG().trace("Starting program");
-//        StatementProvider.getInstance();
-//        LotDAOImpl instance = new  LotDAOImpl(ConnectionPoolImpl.getInstance());
-//        final List<Lot> lots;
-//        AuctionItemsDAOImpl auctionItem = new AuctionItemsDAOImpl(ConnectionPoolImpl.getInstance());
-//        PaymentDAOImpl paymentDAO = new PaymentDAOImpl(ConnectionPoolImpl.getInstance());
-//
-//      LoggerProvider.getLOG().info(instance.readById(963105L));
-////       LoggerProvider.getLOG().trace("-----------------");
-//    //   LoggerProvider.getLOG().info(instance.readAll());
-//
-//        Lot newLot = new Lot(963111L,10,3,500,auctionItem.findAuctionItemByTitle("jasmin"),
-//                new Shipment(0L,null,null,
-//                        0,null),paymentDAO.readAll().get(0),new LotStatus("current",1L));
-//     //   LoggerProvider.getLOG().info(instance.returnStartingPriceById(963105L));
-////        LoggerProvider.getLOG().trace("-----------------");
-//     //   LoggerProvider.getLOG().info(instance.returnLotStatus(963105L));
-////        LoggerProvider.getLOG().info(instance.returnLotStatus(963104L));
-////        LoggerProvider.getLOG().trace("-----------------");
-//        LoggerProvider.getLOG().info(instance.returnAmountOfItemsInLot(963105L));
-////
-////        LoggerProvider.getLOG().trace("-----------------");
-////        LoggerProvider.getLOG().info(instance.returnStartingPriceById(963102L));
-//
-////       lots = instance.readAll();
-////        for (Lot a : lots) {
-////            LoggerProvider.getLOG().info(a);
-////        }
-//
-//        StatementProvider.getInstance().close();
-//        LoggerProvider.getLOG().trace("program end");
-}
+    public static void main(String[] args) throws InterruptedException {
+        LoggerProvider.getLOG().trace("Starting program");
+        StatementProvider.getInstance();
+        LotDAOImpl instance = new  LotDAOImpl(ConnectionPoolImpl.getInstance());
+        List<Lot> lots = instance.readAll();
+        AuctionItemsDAOImpl auctionItem = new AuctionItemsDAOImpl(ConnectionPoolImpl.getInstance());
+        PaymentDAOImpl paymentDAO = new PaymentDAOImpl(ConnectionPoolImpl.getInstance());
+
+     // LoggerProvider.getLOG().info(instance.readById(963102L));
+
+
+        Lot newLot = new Lot(963113L,5,3,500,LotStatus.CURRENT,
+                auctionItem.findAuctionItemByTitle("jasmin"),
+                new Shipment(0L,null,null, 0,null),
+                paymentDAO.readAll().get(0), DAOFactory.getInstance().getAccountDAO().findUserByLogin("LaizyCat"));
+        LoggerProvider.getLOG().info(instance.returnCurrentPriceById(963102L));
+
+//        for (Lot lot : lots){
+//            LoggerProvider.getLOG().info(lot + "\n");
+//        }
+
+        StatementProvider.getInstance().close();
+        LoggerProvider.getLOG().trace("program end");
+}}

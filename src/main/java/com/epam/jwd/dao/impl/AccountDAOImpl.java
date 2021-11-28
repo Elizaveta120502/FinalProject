@@ -28,12 +28,12 @@ public class AccountDAOImpl extends AbstractDAO<Account> implements AccountDAO<A
     private static final String ACCOUNT_EMAIL = "account.email";
 
     private static final String ACCOUNT_ROLE_ID = "account.role_id";
-    private static final String ACCOUNT_ROLE_NAME = "role_name";
+    private static final String ACCOUNT_ROLE_NAME = "role.role_name";
 
     private static final String ACCOUNT_STATUS_ID = "account.status_id";
     private static final String ACCOUNT_STATUS_DESCRIPTION = "status.description";
 
-    private static final String BENEFIT_ID = "benefits.id";
+    private static final String BENEFIT_ID = "status.benefits_id";
     private static final String BENEFIT_SIZE = "benefits.size";
 
 
@@ -45,14 +45,13 @@ public class AccountDAOImpl extends AbstractDAO<Account> implements AccountDAO<A
     private final String INSERT_INTO_QUERY = "insert into `account`" +
             SPACE + "values (%s,'%s','%s','%s',%s,%s)";
 
-    private final String READ_BY_ID_QUERY = String.format("select %s,%s,%s,%s,%s from %s where %s = ?",
-            ACCOUNT_ID, ACCOUNT_LOGIN, ACCOUNT_PASSWORD, ACCOUNT_EMAIL, ACCOUNT_ROLE_ID, getTableName(), ACCOUNT_ID);
 
     private final String WHERE_QUERY = "where %s = %s";
     private final String WHERE_QUERY_WITH_PARAM = "where %s = ?";
     private final String WHERE_QUERY_FOR_STRING = "where %s = '%s'";
 
-    private final String UPDATE_TABLE_QUERY = "update " + getTableName() + "set %s = '%s', %s = '%s', %s = '%s',%s = '%s', %s = '%s',%s = '%s' " + WHERE_QUERY;
+    private final String READ_BY_ID_QUERY = SELECT_ALL_QUERY + SPACE +String.format(WHERE_QUERY_WITH_PARAM,ACCOUNT_ID);
+    private final String UPDATE_TABLE_QUERY = "update " + getTableName() + " set %s = '%s', %s = '%s', %s = '%s',%s = '%s', %s = '%s',%s = '%s' " + WHERE_QUERY;
 
     private final String DELETE_BY_QUERY = "delete from account"  + SPACE + WHERE_QUERY;
     private final String DELETE_FOR_STRINGS = "delete from account "  + SPACE + WHERE_QUERY_FOR_STRING;
@@ -96,6 +95,7 @@ public class AccountDAOImpl extends AbstractDAO<Account> implements AccountDAO<A
             List<Account> accounts = StatementProvider.executePreparedStatement(
                     READ_BY_ID_QUERY,
                     AccountDAOImpl::extractAccount, st -> st.setLong(1, id));
+            LoggerProvider.getLOG().debug(READ_BY_ID_QUERY);
             return accounts.get(0);
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
@@ -109,7 +109,8 @@ public class AccountDAOImpl extends AbstractDAO<Account> implements AccountDAO<A
     public boolean update(Account entity, Long id) {
         String sql = String.format(UPDATE_TABLE_QUERY, ACCOUNT_ID, entity.getId(),
                 ACCOUNT_LOGIN, entity.getLogin(), ACCOUNT_PASSWORD, entity.getPassword(),
-                ACCOUNT_EMAIL, entity.getEmail(), ACCOUNT_ROLE_ID, entity.getRole(), ACCOUNT_ID, id);
+                ACCOUNT_EMAIL, entity.getEmail(), ACCOUNT_ROLE_ID, entity.getRole().getRoleId(),
+                ACCOUNT_STATUS_ID,entity.getStatus().getId(),ACCOUNT_ID, id);
         int executeUpdateIndicator;
         try {
             executeUpdateIndicator = StatementProvider.getInstance().executeUpdate(sql);
@@ -173,20 +174,20 @@ public class AccountDAOImpl extends AbstractDAO<Account> implements AccountDAO<A
     }
 
     @Override
-    public Optional<Account> findUserByLogin(String login) {
+    public Account findUserByLogin(String login) {
         String sql = String.format(SELECT_ALL_QUERY + SPACE + WHERE_QUERY_WITH_PARAM, ACCOUNT_LOGIN, login);
         try {
             List<Account> accounts = StatementProvider.executePreparedStatement(
                     sql,
                     AccountDAOImpl::extractAccount, st -> st.setString(1, login));
-            return Optional.of(accounts.get(0));
+            return accounts.get(0);
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
             Thread.currentThread().interrupt();
-            return Optional.empty();
+            return null;
         } catch (IndexOutOfBoundsException e) {
             LoggerProvider.getLOG().error("index out of bound");
-            return Optional.empty();
+            return null;
         }
     }
 
@@ -250,16 +251,14 @@ public class AccountDAOImpl extends AbstractDAO<Account> implements AccountDAO<A
         StatementProvider.getInstance();
         AccountDAOImpl instance = new AccountDAOImpl(ConnectionPoolImpl.getInstance());
         final List<Account> users;
-        boolean delete;
-       boolean create;
-        Optional read;
-        Account userByEmail;
-        Account userByLogin;
 
-        Account newAccount = new Account(17L, "James", "qwerty",
+        Account newAccount = new Account(19L, "James1", "qwerty",
                "btyu@gmail.com",Role.CLIENT,Status.MYSTERY);
+        Account newAccount1 = new Account(18L, "Lily", "qwevbb",
+                "bty3u@gmail.com",Role.CLIENT,Status.MYSTERY);
 
-        LoggerProvider.getLOG().info(instance.returnUserRole("Emily2013"));
+       // LoggerProvider.getLOG().info(instance.create(newAccount));
+       LoggerProvider.getLOG().info(instance.returnUserRole("Emily"));
 
 //        users = instance.readAll();
 //        for (Account a : users) {
