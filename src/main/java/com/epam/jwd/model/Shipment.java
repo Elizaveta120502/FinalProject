@@ -21,6 +21,11 @@ public class Shipment implements DBEntity {
         this.shipmentMethod = shipmentMethod;
     }
 
+    public Shipment() {
+
+    }
+
+
     public Long getId() {
         return id;
     }

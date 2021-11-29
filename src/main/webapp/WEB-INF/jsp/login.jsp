@@ -8,7 +8,6 @@
   <title>Log in</title>
 </head>
 <body>
-<h3>Please log in:</h3>
 <form name="login-form" action="/controller?command=login" method="post">
   <label for="login-input">Login:</label>
   <input id="login-input" type="text" name="login" value=""/>
@@ -16,7 +15,7 @@
   <label for="password-input">Password:</label>
   <input id="password-input" type="password" name="password" value=""/>
   <br/>
-  <c:if test="${ empty requestScope.errorLoginPassMessage}">
+  <c:if test="${empty requestScope.errorLoginPassMessage}">
     <b>${requestScope.errorLoginPassMessage}</b>
     <br>
   </c:if>
@@ -34,6 +33,7 @@
   <%-- <input type="submit" value="Log in">--%>
 
 </form>
+<h3>Please log in:</h3>
 
 </body>
 </html>

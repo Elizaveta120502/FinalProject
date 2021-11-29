@@ -95,19 +95,19 @@ public class ShipmentDAOImpl extends AbstractDAO<Shipment> implements ShipmentDA
     }
 
     @Override
-    public DBEntity readById(Long id)  {
+    public Optional<Shipment> readById(Long id)  {
         try {
             List<Shipment> shipments = StatementProvider.executePreparedStatement(
                     String.format(READ_BY_QUERY,SHIPMENT_ID),
                     ShipmentDAOImpl::extractShipment, st -> st.setLong(1, id));
-            return shipments.get(0);
+            return Optional.of(shipments.get(0));
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
             Thread.currentThread().interrupt();
-            return null;
+            return Optional.empty();
         } catch (IndexOutOfBoundsException e) {
             LoggerProvider.getLOG().error("no such element");
-            return null;
+            return Optional.empty();
         }
     }
 

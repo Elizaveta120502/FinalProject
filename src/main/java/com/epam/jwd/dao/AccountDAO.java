@@ -11,7 +11,7 @@ public interface AccountDAO<T> extends DBEntityDAO<Account> {
 
     Optional<Account> findUserByEmail(String email) throws InterruptedException;
 
-    Account findUserByLogin(String login) throws InterruptedException;
+    Optional<Account> findUserByLogin(String login) throws InterruptedException;
 
     Optional<Role> returnUserRole(String role);
 

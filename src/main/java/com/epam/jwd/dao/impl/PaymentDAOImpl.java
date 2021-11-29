@@ -89,19 +89,19 @@ public class PaymentDAOImpl extends AbstractDAO<Payment> implements PaymentDAO<P
     }
 
     @Override
-    public DBEntity readById(Long id)  {
+    public Optional<Payment> readById(Long id)  {
         try {
             List<Payment> payments = StatementProvider.executePreparedStatement(
                    READ_BY_ID_QUERY,
                     PaymentDAOImpl::extractPayment, st -> st.setLong(1, id));
-            return payments.get(0);
+            return Optional.of(payments.get(0));
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
             Thread.currentThread().interrupt();
-            return null;
+            return Optional.empty();
         }catch (IndexOutOfBoundsException e){
             LoggerProvider.getLOG().error("payment not found");
-            return null;
+            return Optional.empty();
         }
     }
 

@@ -9,7 +9,7 @@ public interface ServiceFactory {
     <T extends DBEntity> EntityService<T> serviceFor(Class<T> modelClass);
 
     default AccountService userService() {
-        return (AccountService ) serviceFor(Account.class);
+        return (AccountService) serviceFor(Account.class);
     }
 
     static ServiceFactoryImpl getInstance() {

@@ -33,6 +33,6 @@ public enum ServiceFactoryImpl implements ServiceFactory {
                     throw new IllegalArgumentException(String.format(SERVICE_NOT_FOUND, className));
             }
         };
-        }
     }
+}
 

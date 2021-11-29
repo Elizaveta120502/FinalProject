@@ -9,7 +9,7 @@
 <h3>All Users</h3>
 <ul>
     <c:forEach var="user" items="${requestScope.users}">
-        <li>${user.login} ${user.role.roleName}  </li>
+        <li>${user.login} ${user.role.roleName} ${user.status}</li>
     </c:forEach>
 
 

@@ -90,16 +90,16 @@ public class AuctionItemsDAOImpl extends AbstractDAO<AuctionItem> implements Auc
 
 
     @Override
-    public DBEntity readById(Long id) {
+    public Optional<AuctionItem> readById(Long id) {
         try {
             List<AuctionItem> items = StatementProvider.executePreparedStatement(
                     READ_BY_ID_QUERY,
                     AuctionItemsDAOImpl::extractAuctionItem, st -> st.setLong(1, id));
-            return items.get(0);
+            return Optional.of(items.get(0));
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
             Thread.currentThread().interrupt();
-            return null;
+            return Optional.empty();
 
         }
     }

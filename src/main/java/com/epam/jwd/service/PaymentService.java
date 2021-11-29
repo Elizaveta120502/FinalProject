@@ -5,11 +5,11 @@ import com.epam.jwd.model.PaymentMethod;
 
 public interface PaymentService {
 
-     boolean makePayment(Payment payment);
+    boolean makePayment(Payment payment);
 
-     boolean makeBackPayment(Payment payment);
+    boolean makeBackPayment(Payment payment);
 
-     PaymentMethod choosePaymentType(PaymentMethod ... methods);
+    PaymentMethod choosePaymentType(PaymentMethod... methods);
 
 
 }

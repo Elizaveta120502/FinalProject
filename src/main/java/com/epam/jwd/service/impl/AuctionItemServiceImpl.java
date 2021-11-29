@@ -7,14 +7,14 @@ import com.epam.jwd.service.AuctionItemsService;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 public class AuctionItemServiceImpl implements AuctionItemsService {
+
     @Override
     public List<AuctionItem> viewProducts() {
         try {
-            List<AuctionItem> items =   DAOFactory.getInstance().getAuctionItemsDAO().readAll();
+            List<AuctionItem> items = DAOFactory.getInstance().getAuctionItemsDAO().readAll();
             return items;
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
@@ -24,10 +24,15 @@ public class AuctionItemServiceImpl implements AuctionItemsService {
     }
 
     @Override
-    public boolean addProduct(Long id,String title, int price,int inStock) {
-        AuctionItem newAuctionItem = new AuctionItem(id,title,price,inStock);
+    public boolean addProduct(String title, int price, int inStock) {
         try {
-           return DAOFactory.getInstance().getAuctionItemsDAO().create(newAuctionItem);
+            if (title == null || price <= 0 || inStock <= 0) {
+                return Boolean.FALSE;
+            } else {
+                long id = DAOFactory.getInstance().getAuctionItemsDAO().readAll().size() + 1;
+                AuctionItem newAuctionItem = new AuctionItem(id, title, price, inStock);
+                return DAOFactory.getInstance().getAuctionItemsDAO().create(newAuctionItem);
+            }
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
             Thread.currentThread().interrupt();
@@ -38,7 +43,12 @@ public class AuctionItemServiceImpl implements AuctionItemsService {
     @Override
     public boolean deleteProduct(Long id) {
         try {
-           return  DAOFactory.getInstance().getAuctionItemsDAO().deleteById(id);
+            if (id < 0 && id >= DAOFactory.getInstance().getLotDAO().readAll().size()) {
+                return DAOFactory.getInstance().getAuctionItemsDAO().deleteById(id);
+            }else
+            {
+                return false;
+            }
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
             Thread.currentThread().interrupt();
@@ -48,18 +58,22 @@ public class AuctionItemServiceImpl implements AuctionItemsService {
 
     @Override
     public List<AuctionItem> sortProductsByAvailability() {
-        List<AuctionItem> items ;
+        List<AuctionItem> items;
         ArrayList<AuctionItem> zeroItems = new ArrayList<>();
         try {
             items = DAOFactory.getInstance().getAuctionItemsDAO().readAll();
-            for (AuctionItem item : items){
-                if (item.getInStoke() ==0){
-                    zeroItems.add(item);
-                    items.remove(item);
+            if (!items.isEmpty()) {
+                for (AuctionItem item : items) {
+                    if (item.getInStoke() == 0) {
+                        zeroItems.add(item);
+                        items.remove(item);
+                    }
                 }
+                items.addAll(zeroItems);
+                return items;
+            }else{
+                return Collections.emptyList();
             }
-            items.addAll(zeroItems);
-            return items;
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
             Thread.currentThread().interrupt();

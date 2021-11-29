@@ -8,7 +8,7 @@ public interface AuctionItemsService {
 
     List<AuctionItem> viewProducts();
 
-    boolean addProduct(Long id,String title, int price,int inStock);
+    boolean addProduct(String title, int price, int inStock);
 
     boolean deleteProduct(Long id);
 

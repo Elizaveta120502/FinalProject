@@ -78,16 +78,16 @@ public class PictureDAOImpl extends AbstractDAO<Picture> implements PictureDAO {
     }
 
     @Override
-    public DBEntity readById(Long id) throws InterruptedException {
+    public Optional<Picture> readById(Long id) throws InterruptedException {
         try {
             List<Picture> pictures = StatementProvider.executePreparedStatement(
                     READ_BY_ID_QUERY,
                     PictureDAOImpl::extractPicture, st -> st.setLong(1, id));
-            return null;
+            return Optional.of(pictures.get(0));
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
             Thread.currentThread().interrupt();
-            return null;
+            return Optional.empty();
         }
     }
 
