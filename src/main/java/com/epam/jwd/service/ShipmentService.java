@@ -3,16 +3,26 @@ package com.epam.jwd.service;
 import com.epam.jwd.model.Shipment;
 import com.epam.jwd.model.ShipmentMethod;
 
-public interface ShipmentService {
+import java.util.Optional;
 
-    boolean makeShipment(ShipmentMethod shipmentMethod);
+public interface ShipmentService  {
 
-    boolean approveShipment(Shipment shipment);
+    Optional<Shipment> makeShipment(ShipmentMethod shipmentMethod);
 
-    Shipment viewShipmentInformation(Shipment shipment);
 
-    ShipmentMethod chooseShipmentMethod(ShipmentMethod... methods);
-
-    boolean cancelShipment(Shipment shipment);
+    static ShipmentMethod chooseShipmentMethod(String shipmentMethod){
+            switch(shipmentMethod){
+                case "by mail":
+                    return ShipmentMethod.BY_MAIL;
+                case "delivery":
+                    return ShipmentMethod.DELIVERY;
+                case "pickup":
+                    return ShipmentMethod.PICKUP;
+                case "euromail":
+                    return ShipmentMethod.EUROMAIL;
+                default:
+                    return ShipmentMethod.UNSPECIFIED;
+            }
+    }
 
 }

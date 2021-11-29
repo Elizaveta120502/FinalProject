@@ -318,12 +318,10 @@ public class LotDAOImpl extends AbstractDAO<Lot> implements LotDAO<Lot> {
                             resultSet.getTimestamp(SHIPMENT_EXPECTED_DATE),
                             resultSet.getTimestamp(SHIPMENT_ACTUAL_DATE),
                             resultSet.getInt(SHIPMENT_COST),
-                            new ShipmentMethod(resultSet.getString(SHIPMENT_METHOD),
-                                    resultSet.getLong(SHIPMENT_METHOD_ID))),
+                            ShipmentMethod.of(SHIPMENT_METHOD)),
                     new Payment(resultSet.getLong(PAYMENT_ID),
                             resultSet.getTimestamp(PAYMENT_TIME),
-                            new PaymentMethod(resultSet.getString(PAYMENT_METHOD),
-                                    resultSet.getLong(PAYMENT_METHOD_ID))),
+                            PaymentMethod.of(PAYMENT_METHOD)),
                     new Account(resultSet.getLong(ACCOUNT_ID),
                             resultSet.getString(ACCOUNT_LOGIN),
                             resultSet.getString(ACCOUNT_PASSWORD),
@@ -336,30 +334,31 @@ public class LotDAOImpl extends AbstractDAO<Lot> implements LotDAO<Lot> {
             throw new EntityExtractionFailedException("failed to extract lot", e);
         }
     }
-}
 
-//    public static void main(String[] args) throws InterruptedException {
-//        LoggerProvider.getLOG().trace("Starting program");
-//        StatementProvider.getInstance();
-//        LotDAOImpl instance = new  LotDAOImpl(ConnectionPoolImpl.getInstance());
-//        List<Lot> lots = instance.readAll();
-//        AuctionItemsDAOImpl auctionItem = new AuctionItemsDAOImpl(ConnectionPoolImpl.getInstance());
-//        PaymentDAOImpl paymentDAO = new PaymentDAOImpl(ConnectionPoolImpl.getInstance());
-//
-//     // LoggerProvider.getLOG().info(instance.readById(963102L));
-//
-//
+
+    public static void main(String[] args) throws InterruptedException {
+        LoggerProvider.getLOG().trace("Starting program");
+        StatementProvider.getInstance();
+        LotDAOImpl instance = new LotDAOImpl(ConnectionPoolImpl.getInstance());
+        List<Lot> lots = instance.readAll();
+        AuctionItemsDAOImpl auctionItem = new AuctionItemsDAOImpl(ConnectionPoolImpl.getInstance());
+        PaymentDAOImpl paymentDAO = new PaymentDAOImpl(ConnectionPoolImpl.getInstance());
+
+        // LoggerProvider.getLOG().info(instance.readById(963102L));
+
+
 //        Lot newLot = new Lot(963113L,5,3,500,LotStatus.CURRENT,
 //                auctionItem.findAuctionItemByTitle("jasmin"),
 //                new Shipment(0L,null,null, 0,null),
-//                paymentDAO.readAll().get(0), DAOFactory.getInstance().getAccountDAO().findUserByLogin("LaizyCat"));
+//                paymentDAO.readAll().get(0),(Account) DAOFactory.getInstance().getAccountDAO().findUserByLogin("LaizyCat").get());
 //        LoggerProvider.getLOG().info(instance.returnCurrentPriceById(963102L));
-//
-////        for (Lot lot : lots){
-////            LoggerProvider.getLOG().info(lot + "\n");
-////        }
-//
-//        StatementProvider.getInstance().close();
-//        LoggerProvider.getLOG().trace("program end");
-//}
+
+        for (Lot lot : lots) {
+            LoggerProvider.getLOG().info(lot + "\n");
+        }
+
+        StatementProvider.getInstance().close();
+        LoggerProvider.getLOG().trace("program end");
+    }
+}
 

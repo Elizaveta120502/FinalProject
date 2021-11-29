@@ -1,31 +1,37 @@
 package com.epam.jwd.model;
 
-public class PaymentMethod implements DBEntity {
+public enum PaymentMethod implements DBEntity {
+
+    ERIP(1L,"Erip"),
+    MASTERCARD (2L,"Mastercard"),
+    ON_CREDIT(3L,"on Credit"),
+    MAESTRO(4L,"Maestro"),
+    NOT_PAID;
 
     private Long id;
     private String description;
 
-    public PaymentMethod(String description, Long id) {
-        this.description = description;
-        this.id = id;
+    PaymentMethod() {
     }
 
+    PaymentMethod(Long id, String description) {
+        this.id = id;
+        this.description = description;
+    }
 
     @Override
     public Long getId() {
         return id;
     }
 
-    public String getDescription() {
-        return description;
+    public static PaymentMethod of(String name) {
+        for (PaymentMethod method : values()) {
+            if (method.description == name) {
+                return method;
+            }
+        }
+        return NOT_PAID;
     }
 
 
-    @Override
-    public String toString() {
-        return "PaymentMethod{" +
-                "id=" + id +
-                ", description='" + description + '\'' +
-                '}';
-    }
 }

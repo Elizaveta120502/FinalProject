@@ -1,6 +1,7 @@
 package com.epam.jwd.model;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Payment implements DBEntity {
@@ -9,15 +10,13 @@ public class Payment implements DBEntity {
     private Timestamp dateTime;
 
     private PaymentMethod paymentMethod;
+    private LocalDateTime actualTime = LocalDateTime.now();
 
-    public Payment(Long id, Timestamp dateTime, PaymentMethod paymentMethod) {
+    public Payment(Long id, Timestamp datetime, PaymentMethod paymentMethod) {
         this.id = id;
-        this.dateTime = dateTime;
+        this.dateTime = Timestamp.valueOf(actualTime);
         this.paymentMethod = paymentMethod;
     }
-
-
-
 
     @Override
     public Long getId() {

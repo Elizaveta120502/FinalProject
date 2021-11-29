@@ -63,7 +63,7 @@ public class PaymentDAOImpl extends AbstractDAO<Payment> implements PaymentDAO<P
     @Override
     public boolean create(Payment entity)  {
         String sql = String.format(PAYMENT_INSERT_QUERY, entity.getId(),
-                CURRENT_TIME, entity.getPaymentMethod().getId(), entity.getPaymentMethod().getDescription());
+                CURRENT_TIME, entity.getPaymentMethod().getId());
 
         int executeUpdateIndicator = 0;
         try {
@@ -179,10 +179,7 @@ public class PaymentDAOImpl extends AbstractDAO<Payment> implements PaymentDAO<P
             return new Payment(
                     resultSet.getLong(PAYMENT_ID),
                     resultSet.getTimestamp(PAYMENT_TIME),
-                    new PaymentMethod(
-                            resultSet.getString(PAYMENT_METHOD_DESCRIPTION),
-                            resultSet.getLong(PAYMENT_METHOD_ID)
-                    ));
+                    PaymentMethod.of(PAYMENT_METHOD_DESCRIPTION));
 
 
         } catch (SQLException e) {

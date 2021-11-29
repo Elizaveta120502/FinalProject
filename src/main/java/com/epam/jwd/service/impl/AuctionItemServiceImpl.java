@@ -1,5 +1,6 @@
 package com.epam.jwd.service.impl;
 
+import com.epam.jwd.dao.AuctionItemsDAO;
 import com.epam.jwd.dao.impl.DAOFactory;
 import com.epam.jwd.logger.LoggerProvider;
 import com.epam.jwd.model.AuctionItem;
@@ -10,6 +11,12 @@ import java.util.Collections;
 import java.util.List;
 
 public class AuctionItemServiceImpl implements AuctionItemsService {
+
+    private final AuctionItemsDAO auctionItemsDAO;
+
+    public AuctionItemServiceImpl(AuctionItemsDAO auctionItemsDAO) {
+        this.auctionItemsDAO = auctionItemsDAO;
+    }
 
     @Override
     public List<AuctionItem> viewProducts() {

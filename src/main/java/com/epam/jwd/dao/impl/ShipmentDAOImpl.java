@@ -45,6 +45,10 @@ public class ShipmentDAOImpl extends AbstractDAO<Shipment> implements ShipmentDA
             "%s = '%s',%s = '%s', %s = '%s' " + WHERE_QUERY;
     private final String DELETE_BY_QUERY = "delete from " + TABLE_NAME + SPACE + WHERE_QUERY;
 
+    private static final int BY_MAIL_COST = 15;
+    private static final int PICKUP_COST = 0;
+    private static final int DELIVERY_COST = 45;
+    private static final int EUROMAIL_COST = 30;
 
     protected ShipmentDAOImpl(ConnectionPool pool) {
         super(pool);
@@ -214,6 +218,21 @@ public class ShipmentDAOImpl extends AbstractDAO<Shipment> implements ShipmentDA
         }
     }
 
+    @Override
+    public int determineShipmentPrice(ShipmentMethod shipmentMethod) {
+        switch(shipmentMethod){
+            case BY_MAIL:
+                return BY_MAIL_COST;
+            case DELIVERY:
+                return DELIVERY_COST;
+            case EUROMAIL:
+                return EUROMAIL_COST;
+            case PICKUP :
+            default:
+                return PICKUP_COST;
+        }
+    }
+
     private static Shipment extractShipment(ResultSet resultSet) throws EntityExtractionFailedException {
         try {
             return new Shipment(
@@ -221,9 +240,7 @@ public class ShipmentDAOImpl extends AbstractDAO<Shipment> implements ShipmentDA
                     resultSet.getTimestamp(SHIPMENT_EXPECTED_DATE),
                     resultSet.getTimestamp(SHIPMENT_ACTUAL_DATE),
                     resultSet.getInt(SHIPMENT_COST),
-                    new ShipmentMethod(
-                            resultSet.getString(SHIPMENT_METHOD),
-                            resultSet.getLong(SHIPMENT_METHOD_ID)));
+                   ShipmentMethod.of(SHIPMENT_METHOD));
 
         } catch (SQLException e) {
             LoggerProvider.getLOG().error("could not extract value from result set", e);

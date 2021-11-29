@@ -8,7 +8,11 @@ import java.sql.Timestamp;
 public interface ShipmentDAO<T> extends DBEntityDAO<Shipment> {
 
     Timestamp returnExpectedDate(Long id);
+
     int returnShipmentCost(Long id);
+
     ShipmentMethod returnShipmentMethod(Long id);
+
+    int determineShipmentPrice(ShipmentMethod shipmentMethod);
 
 }

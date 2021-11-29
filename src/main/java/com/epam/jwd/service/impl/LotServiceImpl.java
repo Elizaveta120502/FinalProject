@@ -1,9 +1,13 @@
 package com.epam.jwd.service.impl;
 
+import com.epam.jwd.dao.LotDAO;
 import com.epam.jwd.dao.impl.DAOFactory;
 import com.epam.jwd.logger.LoggerProvider;
 import com.epam.jwd.model.*;
 import com.epam.jwd.service.LotService;
+import com.epam.jwd.service.PaymentService;
+import com.epam.jwd.service.ServiceFactory;
+import com.epam.jwd.service.ShipmentService;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,6 +18,14 @@ import static com.epam.jwd.dao.impl.DAOFactory.getInstance;
 
 
 public class LotServiceImpl implements LotService {
+
+    private final LotDAO lotDAO;
+    private Object Shipment;
+
+
+    public LotServiceImpl(LotDAO lotDAO) {
+        this.lotDAO = lotDAO;
+    }
 
     @Override
     public boolean approveLot(int startingPrice, int itemsAmount,
@@ -132,5 +144,33 @@ public class LotServiceImpl implements LotService {
             Thread.currentThread().interrupt();
             return notApprovedLots;
         }
+    }
+
+    @Override
+    public boolean buyLot(Long lotId,String shipmentMethod,String paymentMethod,String login) {
+
+        try {
+            if (lotId >0 || lotId < DAOFactory.getInstance().getLotDAO().readAll().size()){
+               Optional<Lot> lot =  DAOFactory.getInstance().getLotDAO().readById(lotId);
+               Optional<Account> customer = DAOFactory.getInstance().getAccountDAO().findUserByLogin(login);
+                Lot lotToby = new Lot(lotId,lot.get().getStartingPrice(),
+                        lot.get().getItemsAmount(),lot.get().getCurrentPrice(),
+                        LotStatus.INACTIVE,lot.get().getAuctionItem(),
+                        ServiceFactory.getInstance().shipmentService()
+                                .makeShipment(ShipmentService.chooseShipmentMethod(shipmentMethod)).get(),
+                        ServiceFactory.getInstance().paymentService()
+                                .makePayment(PaymentService.choosePaymentType(paymentMethod)).get(),
+                        customer.get());
+                DAOFactory.getInstance().getLotDAO().update(lotToby,lot.get().getId());
+                return true;
+            }else{
+                return false;
+            }
+        } catch (InterruptedException e) {
+            LoggerProvider.getLOG().error("takeConnection interrupted");
+            Thread.currentThread().interrupt();
+            return false;
+        }
+
     }
 }
