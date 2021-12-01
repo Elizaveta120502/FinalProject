@@ -6,7 +6,6 @@ import com.epam.jwd.database.ConnectionPool;
 import com.epam.jwd.database.impl.StatementProvider;
 import com.epam.jwd.exception.EntityExtractionFailedException;
 import com.epam.jwd.logger.LoggerProvider;
-import com.epam.jwd.model.DBEntity;
 import com.epam.jwd.model.Picture;
 
 import java.sql.PreparedStatement;
@@ -24,11 +23,11 @@ public class PictureDAOImpl extends AbstractDAO<Picture> implements PictureDAO {
     private static final String PICTURE_NAME = "name";
 
     private static final String SPACE = " ";
-    private final String INSERT_INTO_QUERY = "insert into " +getTableName() +
+    private final String INSERT_INTO_QUERY = "insert into " + getTableName() +
             SPACE + "values (%s,'%s','%s')";
 
     private final String READ_BY_ID_QUERY = String.format("select %s,%s,%s from %s where %s = ?",
-            PICTURE_ID, PICTURE_BLOB, PICTURE_NAME, getTableName(),PICTURE_ID);
+            PICTURE_ID, PICTURE_BLOB, PICTURE_NAME, getTableName(), PICTURE_ID);
 
 
     private final String WHERE_QUERY = "where %s = %s";
@@ -52,14 +51,14 @@ public class PictureDAOImpl extends AbstractDAO<Picture> implements PictureDAO {
 
     @Override
     protected void fillEntity(PreparedStatement statement, Picture entity) throws SQLException {
-           statement.setLong(1,entity.getId());
-           statement.setString(2,entity.getPictureURL());
-           statement.setString(3,entity.getPictureName());
+        statement.setLong(1, entity.getId());
+        statement.setString(2, entity.getPictureURL());
+        statement.setString(3, entity.getPictureName());
     }
 
     @Override
     public boolean create(Picture entity) throws InterruptedException {
-        String sql = String.format(INSERT_INTO_QUERY, entity.getId(),entity.getPictureURL(),
+        String sql = String.format(INSERT_INTO_QUERY, entity.getId(), entity.getPictureURL(),
                 entity.getPictureName());
 
         int executeUpdateIndicator = 0;
@@ -129,7 +128,7 @@ public class PictureDAOImpl extends AbstractDAO<Picture> implements PictureDAO {
         String sql = String.format(SELECT_ALL_QUERY + SPACE + WHERE_QUERY_WITH_PARAM, PICTURE_NAME, name);
         try {
 
-            List<Picture> pictures =  StatementProvider.executePreparedStatement(
+            List<Picture> pictures = StatementProvider.executePreparedStatement(
                     sql,
                     PictureDAOImpl::extractPicture, st -> st.setString(1, name));
 

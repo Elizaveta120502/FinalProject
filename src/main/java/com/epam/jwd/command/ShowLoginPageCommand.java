@@ -3,7 +3,7 @@ package com.epam.jwd.command;
 
 import com.epam.jwd.controller.RequestFactory;
 
-public enum ShowLoginPageCommand implements Command{
+public enum ShowLoginPageCommand implements Command {
 
     INSTANCE(RequestFactory.getInstance());
 

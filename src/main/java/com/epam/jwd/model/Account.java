@@ -13,7 +13,7 @@ public class Account implements DBEntity {
     private Role role;
     private Status status;
 
-    public Account(Long accountId, String login, String password, String email, Role role,Status status) {
+    public Account(Long accountId, String login, String password, String email, Role role, Status status) {
         this.accountId = accountId;
         this.login = login;
         this.password = password;

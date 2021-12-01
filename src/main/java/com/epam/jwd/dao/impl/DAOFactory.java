@@ -17,35 +17,29 @@ public class DAOFactory {
     public DAOFactory() {
     }
 
-    public static DAOFactory getInstance(){
+    public static DAOFactory getInstance() {
         return instance;
     }
 
-    public AccountDAO getAccountDAO(){
+    public AccountDAO getAccountDAO() {
         return accountDAO;
     }
 
-    public AuctionItemsDAO getAuctionItemsDAO(){
+    public AuctionItemsDAO getAuctionItemsDAO() {
         return auctionItemsDAO;
     }
 
-    public LotDAO getLotDAO(){
-        return lotDAO ;
+    public LotDAO getLotDAO() {
+        return lotDAO;
     }
 
-    public PaymentDAO getPaymentDAO(){
+    public PaymentDAO getPaymentDAO() {
         return paymentDAO;
     }
 
-    public ShipmentDAO getShipmentDAO(){
+    public ShipmentDAO getShipmentDAO() {
         return shipmentDAO;
     }
-
-
-
-
-
-
 
 
 }

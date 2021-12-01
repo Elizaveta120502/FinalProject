@@ -1,8 +1,5 @@
 package com.epam.jwd.model;
 
-import java.sql.Blob;
-import java.util.Objects;
-
 public class Picture implements DBEntity {
     private Long id;
     private String pictureURL;

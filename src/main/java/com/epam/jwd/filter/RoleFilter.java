@@ -20,8 +20,8 @@ import java.util.*;
 public class RoleFilter implements Filter {
 
 
- private static String COMMAND_PARAMETER_NAME = "command";
- private static final String USER_SESSION_ATTRIBUTE_NAME = "user";
+    private static String COMMAND_PARAMETER_NAME = "command";
+    private static final String USER_SESSION_ATTRIBUTE_NAME = "user";
     private static final String ERROR_PAGE_URL = "/controller?command=show_error";
 
     private final Map<Role, Set<Command>> commandsByRoles;
@@ -47,9 +47,9 @@ public class RoleFilter implements Filter {
         LoggerProvider.getLOG().trace("Checking permissions for command. commandName: {}", commandName);
         if (currentUserHasPermissionForCommand(commandName, req)) {
 
-            filterChain.doFilter(servletRequest,servletResponse);
+            filterChain.doFilter(servletRequest, servletResponse);
         } else {
-            ((HttpServletResponse)servletResponse).sendRedirect(ERROR_PAGE_URL);
+            ((HttpServletResponse) servletResponse).sendRedirect(ERROR_PAGE_URL);
         }
     }
 
@@ -61,14 +61,12 @@ public class RoleFilter implements Filter {
         return allowedCommands.contains(command);
     }
 
-   private Role retrieveCurrentUserRole(HttpServletRequest request) {
-      return Optional.ofNullable(request.getSession(false))
-              .map(s -> (Account) s.getAttribute(USER_SESSION_ATTRIBUTE_NAME))
-              .map(Account::getRole)
-              .orElse(Role.UNAUTHORIZED_USER);
-   }
-
-
+    private Role retrieveCurrentUserRole(HttpServletRequest request) {
+        return Optional.ofNullable(request.getSession(false))
+                .map(s -> (Account) s.getAttribute(USER_SESSION_ATTRIBUTE_NAME))
+                .map(Account::getRole)
+                .orElse(Role.UNAUTHORIZED_USER);
+    }
 
 
 }

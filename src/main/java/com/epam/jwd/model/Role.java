@@ -3,9 +3,9 @@ package com.epam.jwd.model;
 import java.util.Arrays;
 import java.util.List;
 
-public enum Role  {
-    ADMINISTRATOR(1L,"administrator"),
-    CLIENT(2L,"client"),
+public enum Role {
+    ADMINISTRATOR(1L, "administrator"),
+    CLIENT(2L, "client"),
     UNAUTHORIZED_USER;
 
 

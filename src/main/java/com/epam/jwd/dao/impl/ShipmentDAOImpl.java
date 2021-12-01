@@ -6,7 +6,6 @@ import com.epam.jwd.database.ConnectionPool;
 import com.epam.jwd.database.impl.StatementProvider;
 import com.epam.jwd.exception.EntityExtractionFailedException;
 import com.epam.jwd.logger.LoggerProvider;
-import com.epam.jwd.model.DBEntity;
 import com.epam.jwd.model.Shipment;
 import com.epam.jwd.model.ShipmentMethod;
 
@@ -33,14 +32,14 @@ public class ShipmentDAOImpl extends AbstractDAO<Shipment> implements ShipmentDA
     private final String WHERE_QUERY = "where %s = %s";
     private final String WHERE_QUERY_WITH_PARAM = "where %s = ?";
     private final String COMMA = ",";
-    private final String ALL_COLUMNS = SPACE+ SHIPMENT_ID+ COMMA +SHIPMENT_EXPECTED_DATE +
-            COMMA +SHIPMENT_ACTUAL_DATE + COMMA +SHIPMENT_COST + COMMA +SHIPMENT_METHOD_ID + COMMA +SHIPMENT_METHOD;
+    private final String ALL_COLUMNS = SPACE + SHIPMENT_ID + COMMA + SHIPMENT_EXPECTED_DATE +
+            COMMA + SHIPMENT_ACTUAL_DATE + COMMA + SHIPMENT_COST + COMMA + SHIPMENT_METHOD_ID + COMMA + SHIPMENT_METHOD;
 
     private static final String SPACE = " ";
     private final String INSERT_QUERY = "insert into " + TABLE_NAME + SPACE +
             "values(%s,'%s','%s',%s,%s)";
-    private final String SELECT_ALL = "select" + ALL_COLUMNS +" from " + TABLE_NAME_EXTENDED;
-    private final String READ_BY_QUERY = SELECT_ALL+ SPACE+ WHERE_QUERY_WITH_PARAM;
+    private final String SELECT_ALL = "select" + ALL_COLUMNS + " from " + TABLE_NAME_EXTENDED;
+    private final String READ_BY_QUERY = SELECT_ALL + SPACE + WHERE_QUERY_WITH_PARAM;
     private final String UPDATE_TABLE_QUERY = "update " + getTableName() + " set %s = '%s', %s = '%s', " +
             "%s = '%s',%s = '%s', %s = '%s' " + WHERE_QUERY;
     private final String DELETE_BY_QUERY = "delete from " + TABLE_NAME + SPACE + WHERE_QUERY;
@@ -61,21 +60,21 @@ public class ShipmentDAOImpl extends AbstractDAO<Shipment> implements ShipmentDA
 
     @Override
     protected void fillEntity(PreparedStatement statement, Shipment entity) throws SQLException {
-        statement.setLong(1,entity.getId());
-        statement.setTimestamp(2,entity.getExpectedDate());
-        statement.setTimestamp(3,entity.getActualDate());
-        statement.setInt(4,entity.getCost());
-        statement.setObject(5,entity.getShipmentMethod());
+        statement.setLong(1, entity.getId());
+        statement.setTimestamp(2, entity.getExpectedDate());
+        statement.setTimestamp(3, entity.getActualDate());
+        statement.setInt(4, entity.getCost());
+        statement.setObject(5, entity.getShipmentMethod());
 
 
     }
 
     @Override
-    public boolean create(Shipment entity)  {
-        String sql = String.format(INSERT_QUERY,entity.getId(),
-               entity.getExpectedDate(),
+    public boolean create(Shipment entity) {
+        String sql = String.format(INSERT_QUERY, entity.getId(),
+                entity.getExpectedDate(),
                 entity.getActualDate(),
-                entity.getCost(),entity.getShipmentMethod().getId());
+                entity.getCost(), entity.getShipmentMethod().getId());
 
         try {
             int executeUpdateIndicator = StatementProvider.getInstance().executeUpdate(sql);
@@ -88,7 +87,7 @@ public class ShipmentDAOImpl extends AbstractDAO<Shipment> implements ShipmentDA
     }
 
     @Override
-    public List<Shipment> readAll()  {
+    public List<Shipment> readAll() {
         try {
             return StatementProvider.getInstance().executeStatement(SELECT_ALL, ShipmentDAOImpl::extractShipment);
         } catch (InterruptedException e) {
@@ -99,10 +98,10 @@ public class ShipmentDAOImpl extends AbstractDAO<Shipment> implements ShipmentDA
     }
 
     @Override
-    public Optional<Shipment> readById(Long id)  {
+    public Optional<Shipment> readById(Long id) {
         try {
             List<Shipment> shipments = StatementProvider.executePreparedStatement(
-                    String.format(READ_BY_QUERY,SHIPMENT_ID),
+                    String.format(READ_BY_QUERY, SHIPMENT_ID),
                     ShipmentDAOImpl::extractShipment, st -> st.setLong(1, id));
             return Optional.of(shipments.get(0));
         } catch (InterruptedException e) {
@@ -116,12 +115,12 @@ public class ShipmentDAOImpl extends AbstractDAO<Shipment> implements ShipmentDA
     }
 
     @Override
-    public boolean update(Shipment entity, Long id)  {
-        String sql = String.format(UPDATE_TABLE_QUERY,SHIPMENT_ID,entity.getId(),
-                SHIPMENT_ACTUAL_DATE,entity.getActualDate(),
-                SHIPMENT_EXPECTED_DATE,entity.getExpectedDate(),
-                SHIPMENT_COST,entity.getCost(),
-                SHIPMENT_METHOD_ID,entity.getShipmentMethod().getId(),SHIPMENT_ID,id);
+    public boolean update(Shipment entity, Long id) {
+        String sql = String.format(UPDATE_TABLE_QUERY, SHIPMENT_ID, entity.getId(),
+                SHIPMENT_ACTUAL_DATE, entity.getActualDate(),
+                SHIPMENT_EXPECTED_DATE, entity.getExpectedDate(),
+                SHIPMENT_COST, entity.getCost(),
+                SHIPMENT_METHOD_ID, entity.getShipmentMethod().getId(), SHIPMENT_ID, id);
         LoggerProvider.getLOG().info(sql);
         try {
             int executeUpdateIndicator = StatementProvider.getInstance().executeUpdate(sql);
@@ -138,7 +137,7 @@ public class ShipmentDAOImpl extends AbstractDAO<Shipment> implements ShipmentDA
         String sql = String.format(DELETE_BY_QUERY, SHIPMENT_ID, id);
 
         try {
-           int  executeUpdateIndicator = StatementProvider.getInstance().executeUpdate(sql);
+            int executeUpdateIndicator = StatementProvider.getInstance().executeUpdate(sql);
             return executeUpdateIndicator == 1;
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
@@ -148,11 +147,11 @@ public class ShipmentDAOImpl extends AbstractDAO<Shipment> implements ShipmentDA
     }
 
     @Override
-    public boolean delete(Shipment entity)  {
+    public boolean delete(Shipment entity) {
         String sql = String.format(DELETE_BY_QUERY, SHIPMENT_ID, entity.getId());
 
         try {
-            int  executeUpdateIndicator = StatementProvider.getInstance().executeUpdate(sql);
+            int executeUpdateIndicator = StatementProvider.getInstance().executeUpdate(sql);
             return executeUpdateIndicator == 1;
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
@@ -220,14 +219,14 @@ public class ShipmentDAOImpl extends AbstractDAO<Shipment> implements ShipmentDA
 
     @Override
     public int determineShipmentPrice(ShipmentMethod shipmentMethod) {
-        switch(shipmentMethod){
+        switch (shipmentMethod) {
             case BY_MAIL:
                 return BY_MAIL_COST;
             case DELIVERY:
                 return DELIVERY_COST;
             case EUROMAIL:
                 return EUROMAIL_COST;
-            case PICKUP :
+            case PICKUP:
             default:
                 return PICKUP_COST;
         }
@@ -240,7 +239,7 @@ public class ShipmentDAOImpl extends AbstractDAO<Shipment> implements ShipmentDA
                     resultSet.getTimestamp(SHIPMENT_EXPECTED_DATE),
                     resultSet.getTimestamp(SHIPMENT_ACTUAL_DATE),
                     resultSet.getInt(SHIPMENT_COST),
-                   ShipmentMethod.of(SHIPMENT_METHOD));
+                    ShipmentMethod.of(SHIPMENT_METHOD));
 
         } catch (SQLException e) {
             LoggerProvider.getLOG().error("could not extract value from result set", e);

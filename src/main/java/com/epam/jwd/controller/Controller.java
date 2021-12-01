@@ -20,9 +20,6 @@ import java.io.IOException;
 public class Controller extends HttpServlet {
 
 
-
-
-
     private static final long serialVersionUID = -5871861930812398862L;
 
     private static final Logger LOG = LogManager.getLogger(Controller.class);
@@ -69,6 +66,7 @@ public class Controller extends HttpServlet {
             LOG.error("IO exception occurred", e);
         }
     }
+
     private void forwardOrRedirectToResponseLocation(HttpServletRequest req, HttpServletResponse resp,
                                                      CommandResponse commandResponse) throws IOException, ServletException {
         if (commandResponse.isRedirect()) {

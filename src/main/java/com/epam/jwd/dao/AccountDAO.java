@@ -2,7 +2,6 @@ package com.epam.jwd.dao;
 
 import com.epam.jwd.model.Account;
 import com.epam.jwd.model.Role;
-import com.epam.jwd.model.Status;
 
 import java.util.Optional;
 

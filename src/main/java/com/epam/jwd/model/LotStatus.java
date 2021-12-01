@@ -2,8 +2,8 @@ package com.epam.jwd.model;
 
 public enum LotStatus implements DBEntity {
 
-    CURRENT(1L,"current"),
-    INACTIVE(2L,"inactive");
+    CURRENT(1L, "current"),
+    INACTIVE(2L, "inactive");
 
     private Long id;
     private String description;
@@ -26,9 +26,6 @@ public enum LotStatus implements DBEntity {
         }
         return INACTIVE;
     }
-
-
-
 
 
 }

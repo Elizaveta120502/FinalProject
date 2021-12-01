@@ -10,9 +10,9 @@ import java.util.List;
 public enum CommandRegistry {
 
     MAIN_PAGE(ShowMainPageCommand.INSTANCE, "main_page"),
-    SHOW_USERS(ShowUsersPageCommand.INSTANCE, "show_users",Role.ADMINISTRATOR),
-    SHOW_LOGIN(ShowLoginPageCommand.INSTANCE, "show_login",Role.UNAUTHORIZED_USER),
-    LOGIN(LoginCommand.INSTANCE, "login",Role.UNAUTHORIZED_USER),
+    SHOW_USERS(ShowUsersPageCommand.INSTANCE, "show_users", Role.ADMINISTRATOR),
+    SHOW_LOGIN(ShowLoginPageCommand.INSTANCE, "show_login", Role.UNAUTHORIZED_USER),
+    LOGIN(LoginCommand.INSTANCE, "login", Role.UNAUTHORIZED_USER),
     LOGOUT(LogoutCommand.INSTANCE, "logout"),
     DEFAULT(ShowMainPageCommand.INSTANCE, ""),
     ERROR(ShowErrorPageCommand.INSTANCE, "show_error");
@@ -22,7 +22,7 @@ public enum CommandRegistry {
 
     private final List<Role> allowedRoles;
 
-    CommandRegistry(Command command, String path, Role ... roles) {
+    CommandRegistry(Command command, String path, Role... roles) {
         this.command = command;
         this.path = path;
         this.allowedRoles = roles != null && roles.length > 0 ? Arrays.asList(roles) : Role.valuesAsList();
@@ -36,7 +36,7 @@ public enum CommandRegistry {
         return allowedRoles;
     }
 
-     static Command of(String name) {
+    static Command of(String name) {
         for (CommandRegistry constant : values()) {
             if (constant.path.equalsIgnoreCase(name)) {
                 return constant.command;

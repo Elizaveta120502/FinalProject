@@ -29,8 +29,8 @@ public enum ServiceFactoryImpl implements ServiceFactory {
             switch (className) {
                 case "Account":
                     return new AccountServiceImpl(DAOFactory.getInstance().getAccountDAO());
-                case"AuctionItem":
-                    return (EntityService<?>) new AuctionItemServiceImpl(DAOFactory.getInstance().getAuctionItemsDAO());
+                case "AuctionItem":
+                    return new AuctionItemServiceImpl(DAOFactory.getInstance().getAuctionItemsDAO());
                 case "Lot":
                     return (EntityService<?>) new LotServiceImpl(DAOFactory.getInstance().getLotDAO());
                 case "Payment":

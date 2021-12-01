@@ -16,5 +16,4 @@ public interface LotDAO<T> extends DBEntityDAO<Lot> {
     boolean changeCurrentPrice(Long id, int newCurrentPrice);
 
 
-
 }

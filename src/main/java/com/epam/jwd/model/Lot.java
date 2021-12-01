@@ -16,7 +16,7 @@ public class Lot implements DBEntity {
 
     public Lot(Long id, int startingPrice, int itemsAmount,
                int currentPrice, LotStatus lotStatus, AuctionItem auctionItem, Shipment shipment,
-               Payment payment,Account account) {
+               Payment payment, Account account) {
         this.id = id;
         this.startingPrice = startingPrice;
         this.itemsAmount = itemsAmount;

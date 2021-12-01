@@ -3,11 +3,12 @@ package com.epam.jwd.dao.impl;
 import com.epam.jwd.dao.AbstractDAO;
 import com.epam.jwd.dao.AccountDAO;
 import com.epam.jwd.database.ConnectionPool;
-import com.epam.jwd.database.impl.ConnectionPoolImpl;
 import com.epam.jwd.database.impl.StatementProvider;
 import com.epam.jwd.exception.EntityExtractionFailedException;
 import com.epam.jwd.logger.LoggerProvider;
-import com.epam.jwd.model.*;
+import com.epam.jwd.model.Account;
+import com.epam.jwd.model.Role;
+import com.epam.jwd.model.Status;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

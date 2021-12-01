@@ -5,14 +5,14 @@ import com.epam.jwd.model.PaymentMethod;
 
 import java.util.Optional;
 
-public interface PaymentService {
+public interface PaymentService extends EntityService<Payment> {
 
     Optional<Payment> makePayment(PaymentMethod paymentMethod);
 
 
-    static PaymentMethod choosePaymentType(String paymentMethod){
+    static PaymentMethod choosePaymentType(String paymentMethod) {
 
-        switch (paymentMethod){
+        switch (paymentMethod) {
             case "Erip":
                 return PaymentMethod.ERIP;
             case "Mastercard":

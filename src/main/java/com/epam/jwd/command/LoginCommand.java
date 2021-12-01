@@ -7,7 +7,7 @@ import com.epam.jwd.service.ServiceFactory;
 
 import java.util.Optional;
 
-public enum LoginCommand implements Command{
+public enum LoginCommand implements Command {
     INSTANCE(ServiceFactory.getInstance().userService(), RequestFactory.getInstance());
 
     private static final String INDEX_PATH = "/";

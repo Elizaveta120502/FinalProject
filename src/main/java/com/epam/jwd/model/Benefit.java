@@ -5,11 +5,11 @@ import java.util.List;
 
 
 public enum Benefit implements DBEntity {
-    ZERO(1L,0),
-    FIVE(2L,5),
-    TEN (3L,10),
-    TWENTY(4L,20),
-    THIRTY_FIVE(5L,35);
+    ZERO(1L, 0),
+    FIVE(2L, 5),
+    TEN(3L, 10),
+    TWENTY(4L, 20),
+    THIRTY_FIVE(5L, 35);
 
     private Long id;
     private int size;

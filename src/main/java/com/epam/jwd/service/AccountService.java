@@ -2,8 +2,8 @@ package com.epam.jwd.service;
 
 import com.epam.jwd.model.Account;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface AccountService extends EntityService<Account> {
 
@@ -13,10 +13,9 @@ public interface AccountService extends EntityService<Account> {
 
     boolean registrationForAdmins(String login, String password, String email);
 
-    List<Account> blockUser(String login, String email);
+    Set<Account> blockUser(String login, String email);
 
     boolean deleteAccount(String login, String password) throws InterruptedException;
-
 
 
 }

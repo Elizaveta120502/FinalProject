@@ -6,7 +6,6 @@ import com.epam.jwd.database.ConnectionPool;
 import com.epam.jwd.database.impl.StatementProvider;
 import com.epam.jwd.exception.EntityExtractionFailedException;
 import com.epam.jwd.logger.LoggerProvider;
-import com.epam.jwd.model.DBEntity;
 import com.epam.jwd.model.Payment;
 import com.epam.jwd.model.PaymentMethod;
 
@@ -37,9 +36,9 @@ public class PaymentDAOImpl extends AbstractDAO<Payment> implements PaymentDAO<P
             "values(%s,%s,%s)";
     private final String SELECT_ALL_QUERY = "select %s,%s,%s,%s from " + getTableName();
     private final String FETCH_BY_QUERY = "select %s,%s,%s,%s from " + getTableName() + SPACE + WHERE_QUERY_WITH_PARAM;
-    private final String READ_BY_ID_QUERY = String.format("select %s,%s,%s,%s from %s",PAYMENT_ID,
-            PAYMENT_TIME,PAYMENT_METHOD_ID,PAYMENT_METHOD_DESCRIPTION,getTableName())+ SPACE+ String.format(WHERE_QUERY_WITH_PARAM,PAYMENT_ID);
-    private final String FETCH_TYPE_BY_DATE = String.format("select %s,%s,%s,%s from %s",PAYMENT_ID,PAYMENT_TIME,PAYMENT_METHOD_ID,PAYMENT_METHOD_DESCRIPTION,getTableName())
+    private final String READ_BY_ID_QUERY = String.format("select %s,%s,%s,%s from %s", PAYMENT_ID,
+            PAYMENT_TIME, PAYMENT_METHOD_ID, PAYMENT_METHOD_DESCRIPTION, getTableName()) + SPACE + String.format(WHERE_QUERY_WITH_PARAM, PAYMENT_ID);
+    private final String FETCH_TYPE_BY_DATE = String.format("select %s,%s,%s,%s from %s", PAYMENT_ID, PAYMENT_TIME, PAYMENT_METHOD_ID, PAYMENT_METHOD_DESCRIPTION, getTableName())
             + SPACE + WHERE_QUERY_WITH_PARAM;
     private final String CURRENT_TIME = "now()";
 
@@ -61,7 +60,7 @@ public class PaymentDAOImpl extends AbstractDAO<Payment> implements PaymentDAO<P
     }
 
     @Override
-    public boolean create(Payment entity)  {
+    public boolean create(Payment entity) {
         String sql = String.format(PAYMENT_INSERT_QUERY, entity.getId(),
                 CURRENT_TIME, entity.getPaymentMethod().getId());
 
@@ -78,8 +77,8 @@ public class PaymentDAOImpl extends AbstractDAO<Payment> implements PaymentDAO<P
     @Override
     public List<Payment> readAll() {
         try {
-            return StatementProvider.getInstance().executeStatement(String.format(SELECT_ALL_QUERY,PAYMENT_ID,
-                    PAYMENT_TIME,PAYMENT_METHOD_ID,PAYMENT_METHOD_DESCRIPTION),
+            return StatementProvider.getInstance().executeStatement(String.format(SELECT_ALL_QUERY, PAYMENT_ID,
+                            PAYMENT_TIME, PAYMENT_METHOD_ID, PAYMENT_METHOD_DESCRIPTION),
                     PaymentDAOImpl::extractPayment);
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
@@ -89,17 +88,17 @@ public class PaymentDAOImpl extends AbstractDAO<Payment> implements PaymentDAO<P
     }
 
     @Override
-    public Optional<Payment> readById(Long id)  {
+    public Optional<Payment> readById(Long id) {
         try {
             List<Payment> payments = StatementProvider.executePreparedStatement(
-                   READ_BY_ID_QUERY,
+                    READ_BY_ID_QUERY,
                     PaymentDAOImpl::extractPayment, st -> st.setLong(1, id));
             return Optional.of(payments.get(0));
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
             Thread.currentThread().interrupt();
             return Optional.empty();
-        }catch (IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             LoggerProvider.getLOG().error("payment not found");
             return Optional.empty();
         }
@@ -111,7 +110,7 @@ public class PaymentDAOImpl extends AbstractDAO<Payment> implements PaymentDAO<P
     }
 
     @Override
-    public boolean deleteById(Long id)  {
+    public boolean deleteById(Long id) {
         throw new UnsupportedOperationException("can not change payment operations history");
     }
 
@@ -140,7 +139,7 @@ public class PaymentDAOImpl extends AbstractDAO<Payment> implements PaymentDAO<P
     @Override
     public Payment fetchPaymentByDate(Timestamp date) {
         String sql = String.format(FETCH_BY_QUERY, PAYMENT_ID, PAYMENT_TIME,
-                PAYMENT_METHOD_ID,PAYMENT_METHOD_DESCRIPTION, PAYMENT_TIME, date);
+                PAYMENT_METHOD_ID, PAYMENT_METHOD_DESCRIPTION, PAYMENT_TIME, date);
         try {
             return StatementProvider.executePreparedStatement(
                     sql,
@@ -149,7 +148,7 @@ public class PaymentDAOImpl extends AbstractDAO<Payment> implements PaymentDAO<P
             LoggerProvider.getLOG().error("takeConnection interrupted");
             Thread.currentThread().interrupt();
             return null;
-        }catch (IndexOutOfBoundsException e) {
+        } catch (IndexOutOfBoundsException e) {
             LoggerProvider.getLOG().error("index out of bound");
             return null;
         }

@@ -6,11 +6,17 @@ import com.epam.jwd.logger.LoggerProvider;
 import com.epam.jwd.model.AuctionItem;
 import com.epam.jwd.service.AuctionItemsService;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class AuctionItemServiceImpl implements AuctionItemsService {
+
+    private static final ReentrantLock reentrantLock = new ReentrantLock();
+    Condition condition = reentrantLock.newCondition();
 
     private final AuctionItemsDAO auctionItemsDAO;
 
@@ -50,10 +56,9 @@ public class AuctionItemServiceImpl implements AuctionItemsService {
     @Override
     public boolean deleteProduct(Long id) {
         try {
-            if (id < 0 && id >= DAOFactory.getInstance().getLotDAO().readAll().size()) {
+            if (id > 0 && id < DAOFactory.getInstance().getLotDAO().readAll().size()) {
                 return DAOFactory.getInstance().getAuctionItemsDAO().deleteById(id);
-            }else
-            {
+            } else {
                 return false;
             }
         } catch (InterruptedException e) {
@@ -66,19 +71,27 @@ public class AuctionItemServiceImpl implements AuctionItemsService {
     @Override
     public List<AuctionItem> sortProductsByAvailability() {
         List<AuctionItem> items;
-        ArrayList<AuctionItem> zeroItems = new ArrayList<>();
+        CopyOnWriteArrayList<AuctionItem> zeroItems = new CopyOnWriteArrayList<>();
+        CopyOnWriteArrayList<AuctionItem> notZeroItems = new CopyOnWriteArrayList<>();
         try {
             items = DAOFactory.getInstance().getAuctionItemsDAO().readAll();
+            ListIterator<AuctionItem> itemsIterator = items.listIterator();
             if (!items.isEmpty()) {
-                for (AuctionItem item : items) {
-                    if (item.getInStoke() == 0) {
-                        zeroItems.add(item);
-                        items.remove(item);
+                while (itemsIterator.hasNext()) {
+                    if (itemsIterator.next().getInStoke() == 0) {
+                        itemsIterator.previous();
+                        zeroItems.add(itemsIterator.next());
+
+                    } else {
+                        itemsIterator.previous();
+                        notZeroItems.add(itemsIterator.next());
                     }
                 }
-                items.addAll(zeroItems);
-                return items;
-            }else{
+                List<AuctionItem> sortedItems = new CopyOnWriteArrayList<>();
+                sortedItems.addAll(notZeroItems);
+                sortedItems.addAll(notZeroItems.size(), zeroItems);
+                return sortedItems;
+            } else {
                 return Collections.emptyList();
             }
         } catch (InterruptedException e) {
@@ -87,4 +100,6 @@ public class AuctionItemServiceImpl implements AuctionItemsService {
             return Collections.emptyList();
         }
     }
+
+
 }

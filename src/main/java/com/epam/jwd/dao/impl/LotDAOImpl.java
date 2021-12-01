@@ -88,10 +88,12 @@ public class LotDAOImpl extends AbstractDAO<Lot> implements LotDAO<Lot> {
     private final String SELECT_ALL = "select " + ALL_COLUMNS + " from " + TABLE_NAME_EXTENDED;
 
     private final String READ_BY_QUERY = SELECT_ALL + SPACE + WHERE_QUERY_WITH_PARAM;
-    private final String UPDATE_TABLE_QUERY = "update " + getTableName() + " set %s = '%s', %s = '%s', " +
-            "%s = '%s',%s = '%s', %s = '%s',%s = '%s',%s = '%s',%s = '%s' " + WHERE_QUERY;
+    private final String UPDATE_TABLE_QUERY = "update " + getTableName() + " set  %s = '%s', " +
+            "%s = '%s',%s = '%s', %s = '%s',%s = '%s',%s = '%s',%s = '%s',%s = '%s' " + WHERE_QUERY;
     private final String DELETE_BY_QUERY = "delete from lots" + SPACE + WHERE_QUERY;
     private final String FIND_PRICE = SELECT_ALL + SPACE + WHERE_QUERY_WITH_PARAM;
+
+
 
 
     protected LotDAOImpl(ConnectionPool pool) {
@@ -164,16 +166,17 @@ public class LotDAOImpl extends AbstractDAO<Lot> implements LotDAO<Lot> {
 
     @Override
     public boolean update(Lot entity, Long id) {
-        String sql = String.format(UPDATE_TABLE_QUERY, LOT_ID, entity.getId(),
+        String sql = String.format(UPDATE_TABLE_QUERY,
                 LOT_STARTING_PRICE, entity.getStartingPrice(),
                 LOT_ITEMS_AMOUNT, entity.getItemsAmount(),
                 LOT_CURRENT_PRICE, entity.getCurrentPrice(),
                 LOT_STATUS_ID, entity.getLotStatus().getId(),
                 AUCTION_ITEMS_ID, entity.getAuctionItem().getId(),
                 SHIPMENT_ID, entity.getShipment().getId(),
-                PAYMENT_ID, entity.getShipment().getId(),
+                PAYMENT_ID, entity.getPayment().getId(),
+                ACCOUNT_ID, entity.getAccount().getId(),
                 LOT_ID, id);
-        int executeUpdateIndicator = 0;
+        int executeUpdateIndicator;
         try {
             executeUpdateIndicator = StatementProvider.getInstance().executeUpdate(sql);
         } catch (InterruptedException e) {
@@ -302,6 +305,9 @@ public class LotDAOImpl extends AbstractDAO<Lot> implements LotDAO<Lot> {
             return false;
         }
     }
+
+
+
 
     private static Lot extractLot(ResultSet resultSet) throws EntityExtractionFailedException {
         try {

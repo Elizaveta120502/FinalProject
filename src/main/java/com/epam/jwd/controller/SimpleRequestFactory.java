@@ -25,6 +25,6 @@ public enum SimpleRequestFactory implements RequestFactory {
 
     @Override
     public CommandResponse createRedirectResponse(String path) {
-        return redirectResponseCache.computeIfAbsent(path, p ->  new PlainCommandResponse(true, p));
+        return redirectResponseCache.computeIfAbsent(path, p -> new PlainCommandResponse(true, p));
     }
 }

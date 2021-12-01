@@ -1,6 +1,6 @@
 package com.epam.jwd.command;
 
-public interface  CommandResponse {
+public interface CommandResponse {
     boolean isRedirect();
 
     String getPath();

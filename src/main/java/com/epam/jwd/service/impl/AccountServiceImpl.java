@@ -8,14 +8,15 @@ import com.epam.jwd.model.Role;
 import com.epam.jwd.model.Status;
 import com.epam.jwd.service.AccountService;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.Optional;
+import java.util.Set;
 
 public class AccountServiceImpl implements AccountService {
 
     private final AccountDAO accountDAO;
+    private static Set<Account> blockedUsers = new LinkedHashSet<>();
 
     public AccountServiceImpl(AccountDAO accountDAO) {
 
@@ -25,7 +26,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Optional<Account> authenticate(String login, String password) throws InterruptedException {
         if (login == null || password == null ||
-                password.length()!=6) {
+                password.length() <= 6 || password.length() > 0) {
             return Optional.empty();
         } else {
             final Optional<Account> readUser = DAOFactory.getInstance().getAccountDAO().findUserByLogin(login);
@@ -38,14 +39,14 @@ public class AccountServiceImpl implements AccountService {
         long newId;
         try {
             if (login == null || password == null || email == null
-                    || password.length()!=6) {
-                return false;
-            } else {
+                    || password.length() <= 6 || password.length() > 0) {
                 newId = DAOFactory.getInstance().getAccountDAO().readAll().size() + 1;
                 Account newAccount = new Account(newId, login, password, email, Role.CLIENT,
                         Status.MYSTERY);
                 DAOFactory.getInstance().getAccountDAO().create(newAccount);
                 return true;
+            } else {
+                return false;
             }
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
@@ -59,14 +60,14 @@ public class AccountServiceImpl implements AccountService {
         long newId;
         try {
             if (login == null || password == null || email == null
-                    || password.length()!=6) {
-                return false;
-            } else {
+                    || password.length() <= 6 || password.length() > 0) {
                 newId = DAOFactory.getInstance().getAccountDAO().readAll().size() + 1;
                 Account newAccount = new Account(newId, login, password, email, Role.ADMINISTRATOR,
                         Status.SUPREME);
                 DAOFactory.getInstance().getAccountDAO().create(newAccount);
                 return true;
+            } else {
+                return false;
             }
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
@@ -76,23 +77,23 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<Account> blockUser(String login, String email) {
-        List<Account> blockedUsers = new ArrayList<>();
+    public Set<Account> blockUser(String login, String email) {
+        // Set<Account> blockedUsers = new LinkedHashSet<>();
 
         try {
             if (login == null || email == null) {
-                return Collections.emptyList();
+                return Collections.emptySet();
             } else {
                 Optional<Account> accountToBlock =
                         DAOFactory.getInstance().getAccountDAO().findUserByLogin(login);
-                blockedUsers.add(accountToBlock.get());
+                AccountServiceImpl.blockedUsers.add(accountToBlock.get());
                 DAOFactory.getInstance().getAccountDAO().delete(accountToBlock.get());
-                return blockedUsers;
+                return AccountServiceImpl.blockedUsers;
             }
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
             Thread.currentThread().interrupt();
-            return blockedUsers;
+            return AccountServiceImpl.blockedUsers;
         }
 
     }
@@ -100,13 +101,13 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public boolean deleteAccount(String login, String password) {
         try {
-            if (login == null || password == null || password.length()!=6) {
+            if (login == null || password == null || password.length() != 6) {
                 return false;
             } else {
                 Optional<Account> deleteAccount = DAOFactory.getInstance().getAccountDAO().findUserByLogin(login);
-                if (deleteAccount.get().getPassword() == password) {
+                if (deleteAccount.get().getPassword().equals(password)) {
                     DAOFactory.getInstance().getAccountDAO().delete(deleteAccount.get());
-                    if (DAOFactory.getInstance().getAccountDAO().findUserByLogin(deleteAccount.get().getLogin()) == null) {
+                    if (!DAOFactory.getInstance().getAccountDAO().findUserByLogin(deleteAccount.get().getLogin()).isPresent()) {
                         return true;
                     } else {
                         return false;
@@ -125,32 +126,4 @@ public class AccountServiceImpl implements AccountService {
     }
 
 
-    @Override
-    public List<Account> findAll() {
-        List<Account> accounts = null;
-        try {
-            accounts = DAOFactory.getInstance().getAccountDAO().readAll();
-        } catch (InterruptedException e) {
-            LoggerProvider.getLOG().error("takeConnection interrupted");
-            Thread.currentThread().interrupt();
-
-        }
-        return accounts;
-    }
-
-    @Override
-    public Optional<Account> create(Account entity) {
-        boolean created = false;
-        try {
-            created = DAOFactory.getInstance().getAccountDAO().create(entity);
-        } catch (InterruptedException e) {
-            LoggerProvider.getLOG().error("takeConnection interrupted");
-            Thread.currentThread().interrupt();
-        }
-        if (created == true) {
-            return Optional.of(entity);
-        } else {
-            return Optional.empty();
-        }
-    }
 }

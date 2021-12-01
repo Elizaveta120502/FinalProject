@@ -1,12 +1,12 @@
 package com.epam.jwd.controller;
 
-public class SimplePropertyContext implements PropertyContext{
+public class SimplePropertyContext implements PropertyContext {
     private SimplePropertyContext() {
     }
 
     @Override
     public String get(String name) {
-            return PagePaths.of(name.substring(0)).getPath();
+        return PagePaths.of(name.substring(0)).getPath();
 
     }
 

@@ -11,19 +11,19 @@ public interface ServiceFactory {
         return (AccountService) serviceFor(Account.class);
     }
 
-    default LotService lotService(){
+    default LotService lotService() {
         return (LotService) serviceFor(Lot.class);
     }
 
-    default AuctionItemsService auctionItemsService(){
+    default AuctionItemsService auctionItemsService() {
         return (AuctionItemsService) serviceFor(AuctionItem.class);
     }
 
-    default PaymentService paymentService(){
+    default PaymentService paymentService() {
         return (PaymentService) serviceFor(Payment.class);
     }
 
-   default ShipmentService shipmentService(){
+    default ShipmentService shipmentService() {
         return (ShipmentService) serviceFor(Shipment.class);
     }
 

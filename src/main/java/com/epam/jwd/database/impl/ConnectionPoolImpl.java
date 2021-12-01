@@ -19,7 +19,6 @@ import java.util.concurrent.locks.ReentrantLock;
 public class ConnectionPoolImpl implements ConnectionPool {
 
 
-
     public static final String DATABASE_URL = "jdbc:mysql://localhost:3306/flowersauction";
     public static final String DATABASE_USER = "root";
     public static final String DATABASE_PASSWORD = "root";
@@ -29,7 +28,7 @@ public class ConnectionPoolImpl implements ConnectionPool {
     private final Queue<ProxyConnection> availableConnections = new ConcurrentLinkedQueue();
     private final Queue<ProxyConnection> givenAwayConnections = new ConcurrentLinkedQueue<>();
 
-    private final ReentrantLock reentrantLock = new ReentrantLock();
+    private static final ReentrantLock reentrantLock = new ReentrantLock();
     Condition condition = reentrantLock.newCondition();
 
     private boolean initialized = false;
@@ -38,7 +37,7 @@ public class ConnectionPoolImpl implements ConnectionPool {
     public ConnectionPoolImpl() {
     }
 
-    public static ConnectionPoolImpl getInstance(){
+    public static ConnectionPoolImpl getInstance() {
         final ConnectionPoolImpl INSTANCE;
         INSTANCE = new ConnectionPoolImpl();
         return INSTANCE;
@@ -46,8 +45,7 @@ public class ConnectionPoolImpl implements ConnectionPool {
 
 
     @Override
-    public boolean init()
-    {
+    public boolean init() {
         try {
             reentrantLock.lock();
             if (!initialized) {
@@ -76,7 +74,7 @@ public class ConnectionPoolImpl implements ConnectionPool {
                 return true;
             }
             return false;
-        }finally {
+        } finally {
             reentrantLock.unlock();
         }
     }
@@ -92,7 +90,7 @@ public class ConnectionPoolImpl implements ConnectionPool {
             final ProxyConnection connection = availableConnections.poll();
             givenAwayConnections.add(connection);
             return connection;
-        }finally {
+        } finally {
             reentrantLock.unlock();
         }
     }
@@ -109,7 +107,7 @@ public class ConnectionPoolImpl implements ConnectionPool {
                 LoggerProvider.getLOG().warn("Attempt to add unknown connection " +
                         "to Connection Pool. Connection: {}", connection);
             }
-        }finally{
+        } finally {
             reentrantLock.unlock();
         }
     }
@@ -120,82 +118,73 @@ public class ConnectionPoolImpl implements ConnectionPool {
         try {
             reentrantLock.lock();
             return initialized;
-        }finally {
+        } finally {
             reentrantLock.unlock();
         }
     }
 
 
-   private static void registerDrivers() throws ClassNotFoundException {
+    private static void registerDrivers() throws ClassNotFoundException {
         Class.forName("com.mysql.cj.jdbc.Driver");
-       LoggerProvider.getLOG().trace("database drivers are registered");
-       try {
-           DriverManager.registerDriver(DriverManager.getDriver(DATABASE_URL));
-       }catch (SQLException e){
-           LoggerProvider.getLOG().error("could not register database drivers");
-           throw new CouldNotInitializeConnectionPoolError("Unsuccessful db driver registration attempt", e);
-       }
-   }
-
-   private static void deregisterDrivers(){
-       LoggerProvider.getLOG().trace("starting deregister drivers");
-       final Enumeration<Driver>  drivers = DriverManager.getDrivers();
-       while (drivers.hasMoreElements()) {
-           try {
-               DriverManager.deregisterDriver(drivers.nextElement());
-           } catch (SQLException e) {
-               LoggerProvider.getLOG().error("could not deregister driver", e);
-           }
-       }
-
-   }
-
-   private void closeConnection(ProxyConnection proxyConnection){
-        try{
-            proxyConnection.realClose();
-            LoggerProvider.getLOG().trace("close connection {}",proxyConnection);
+        LoggerProvider.getLOG().trace("database drivers are registered");
+        try {
+            DriverManager.registerDriver(DriverManager.getDriver(DATABASE_URL));
         } catch (SQLException e) {
-            LoggerProvider.getLOG().error("could not close connection ",e);
+            LoggerProvider.getLOG().error("could not register database drivers");
+            throw new CouldNotInitializeConnectionPoolError("Unsuccessful db driver registration attempt", e);
+        }
+    }
+
+    private static void deregisterDrivers() {
+        LoggerProvider.getLOG().trace("starting deregister drivers");
+        final Enumeration<Driver> drivers = DriverManager.getDrivers();
+        while (drivers.hasMoreElements()) {
+            try {
+                DriverManager.deregisterDriver(drivers.nextElement());
+            } catch (SQLException e) {
+                LoggerProvider.getLOG().error("could not deregister driver", e);
+            }
         }
 
-   }
+    }
 
-   private void closeConnections(Collection<ProxyConnection> collectionOfConnections){
-      for(ProxyConnection pr : collectionOfConnections){
-          closeConnection(pr);
-      }
-   }
+    private void closeConnection(ProxyConnection proxyConnection) {
+        try {
+            proxyConnection.realClose();
+            LoggerProvider.getLOG().trace("close connection {}", proxyConnection);
+        } catch (SQLException e) {
+            LoggerProvider.getLOG().error("could not close connection ", e);
+        }
 
-   private void closeConnections(){
+    }
+
+    private void closeConnections(Collection<ProxyConnection> collectionOfConnections) {
+        for (ProxyConnection pr : collectionOfConnections) {
+            closeConnection(pr);
+        }
+    }
+
+    private void closeConnections() {
         closeConnections(this.availableConnections);
-       closeConnections(this.givenAwayConnections);
-   }
+        closeConnections(this.givenAwayConnections);
+    }
 
-   private void initializeConnections(int amount, boolean failOnConnectionException){
-       try {
-           for (int i = 0; i < amount; i++) {
-               final Connection connection = DriverManager
-                       .getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD);
-               LoggerProvider.getLOG().trace("Initialized connection {}", connection);
-               final ProxyConnection proxyConnection = new ProxyConnection(connection, this);
-               availableConnections.add(proxyConnection);
-           }
-       } catch (SQLException e) {
-           LoggerProvider.getLOG().error("Error occurred creating connection");
-           if (failOnConnectionException) {
-               throw new CouldNotInitializeConnectionPoolError("Failed to create connection", e);
-           }
-       }
-   }
+    private void initializeConnections(int amount, boolean failOnConnectionException) {
+        try {
+            for (int i = 0; i < amount; i++) {
+                final Connection connection = DriverManager
+                        .getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD);
+                LoggerProvider.getLOG().trace("Initialized connection {}", connection);
+                final ProxyConnection proxyConnection = new ProxyConnection(connection, this);
+                availableConnections.add(proxyConnection);
+            }
+        } catch (SQLException e) {
+            LoggerProvider.getLOG().error("Error occurred creating connection");
+            if (failOnConnectionException) {
+                throw new CouldNotInitializeConnectionPoolError("Failed to create connection", e);
+            }
+        }
+    }
 
 
-
-//   public static void main(String [] args) throws InterruptedException, SQLException {
-//        final ConnectionPoolImpl cp = new ConnectionPoolImpl();
-//        cp.init(3);
-//        final Connection conn = cp.takeConnection();
-//        cp.returnConnection(DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD));
-//        cp.shutdown();
-//
-//   }
 }

@@ -4,7 +4,7 @@ import com.epam.jwd.model.AuctionItem;
 
 import java.util.List;
 
-public interface AuctionItemsService {
+public interface AuctionItemsService extends EntityService<AuctionItem> {
 
     List<AuctionItem> viewProducts();
 

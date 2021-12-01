@@ -13,13 +13,12 @@ import java.util.List;
 public class StatementProvider implements AutoCloseable {
     private static final ConnectionPool CONNECTION_POOL = ConnectionPool.locking();
 
-    public StatementProvider()
-    {
+    public StatementProvider() {
         CONNECTION_POOL.init();
     }
 
     @Override
-    public void close()  {
+    public void close() {
         CONNECTION_POOL.shutdown();
     }
 
@@ -30,7 +29,7 @@ public class StatementProvider implements AutoCloseable {
     }
 
     public static <T> List<T> executePreparedStatement(String sql, ResultSetExtractor<T> extractor,
-                                                      StatementPreparator preparedStatement) throws InterruptedException {
+                                                       StatementPreparator preparedStatement) throws InterruptedException {
         try {
 
             final Connection connection = CONNECTION_POOL.takeConnection();
