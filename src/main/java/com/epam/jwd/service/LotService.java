@@ -3,12 +3,12 @@ package com.epam.jwd.service;
 import com.epam.jwd.model.Lot;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public interface LotService extends EntityService<Lot> {
 
-    boolean approveLot(int startingPrice, int itemsAmount,
-                       int currentPrice, String auctionItem);
+    boolean approveLot(Lot newLot);
 
     boolean deleteLot(Long id);
 
@@ -16,8 +16,9 @@ public interface LotService extends EntityService<Lot> {
 
     Set<Lot> blockLot(Long lotId);
 
-    List<Lot> notApproveLot(int startingPrice, int itemsAmount,
-                            int currentPrice, String auctionItem);
+    boolean notApproveLot(Lot newLot);
 
     boolean buyLot(Long lotId, String shipmentMethod, String paymentMethod, String login);
+
+    Optional<Lot> sendRequestToApproveLot(int startingPrice, int itemsAmount, String auctionItem, String login);
 }

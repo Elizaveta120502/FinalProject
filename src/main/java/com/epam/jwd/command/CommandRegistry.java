@@ -14,6 +14,8 @@ public enum CommandRegistry {
     SHOW_LOGIN(ShowLoginPageCommand.INSTANCE, "show_login", Role.UNAUTHORIZED_USER),
     LOGIN(LoginCommand.INSTANCE, "login", Role.UNAUTHORIZED_USER),
     LOGOUT(LogoutCommand.INSTANCE, "logout"),
+    REGISTRATION(RegistrationCommand.INSTANCE,"registration",Role.UNAUTHORIZED_USER),
+    SHOW_REGISTRATION(ShowRegistrationPageCommand.INSTANCE,"show_registration",Role.UNAUTHORIZED_USER),
     DEFAULT(ShowMainPageCommand.INSTANCE, ""),
     ERROR(ShowErrorPageCommand.INSTANCE, "show_error");
 

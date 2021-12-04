@@ -9,7 +9,7 @@ public interface AccountService extends EntityService<Account> {
 
     Optional<Account> authenticate(String login, String password) throws InterruptedException;
 
-    boolean registrationForClients(String login, String password, String email);
+    Optional<Account> registrationForClients(String login, String password, String email);
 
     boolean registrationForAdmins(String login, String password, String email);
 

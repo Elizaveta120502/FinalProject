@@ -224,6 +224,8 @@ public class AccountDAOImpl extends AbstractDAO<Account> implements AccountDAO<A
         statement.setString(3, entity.getEmail());
         statement.setString(4, entity.getPassword());
         statement.setObject(5, entity.getRole());
+        statement.setObject(6, entity.getStatus());
+
 
     }
 

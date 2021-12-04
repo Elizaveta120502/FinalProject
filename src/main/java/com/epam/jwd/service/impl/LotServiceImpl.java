@@ -29,29 +29,20 @@ public class LotServiceImpl implements LotService {
     }
 
     @Override
-    public boolean approveLot(int startingPrice, int itemsAmount,
-                              int currentPrice, String auctionItem) {
+    public boolean approveLot(Lot newLot) {
         try {
-            if (startingPrice <= 0 || itemsAmount <= 0 || currentPrice <= 0
-                    || auctionItem == null) {
-                return false;
-            } else {
-                long newId = getInstance().getLotDAO().readAll().size() + 1;
-                AuctionItem item = getInstance().getAuctionItemsDAO().findAuctionItemByTitle(auctionItem);
-                Shipment sh = new Shipment();
-                Lot newLot = new Lot(newId, startingPrice, itemsAmount, currentPrice,
-                        LotStatus.CURRENT, item, new Shipment(null, null, sh.getActualDate(), 0, null),
-                        new Payment(null, null, null), new Account(null, null,
-                        null, null, null, null));
-
+            if (!newLot.equals(null) ) {
                 getInstance().getLotDAO().create(newLot);
                 return true;
+            }else{
+                return false;
             }
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
             Thread.currentThread().interrupt();
-            return false;
+           return false;
         }
+
     }
 
     @Override
@@ -125,24 +116,18 @@ public class LotServiceImpl implements LotService {
     }
 
     @Override
-    public List<Lot> notApproveLot(int startingPrice, int itemsAmount,
-                                   int currentPrice, String auctionItem) {
-        long newId;
-        List<Lot> notApprovedLots = new ArrayList<>();
+    public boolean notApproveLot(Lot newLot) {
         try {
-            newId = (long) (Math.random() + getInstance().getLotDAO().readAll().size()) * 1000;
-            AuctionItem item = getInstance().getAuctionItemsDAO().findAuctionItemByTitle(auctionItem);
-            Shipment sh = new Shipment();
-            Lot newLot = new Lot(newId, startingPrice, itemsAmount, currentPrice,
-                    LotStatus.INACTIVE, item, new Shipment(null, null, sh.getActualDate(), 0, null),
-                    new Payment(null, null, null), new Account(null, null,
-                    null, null, null, null));
-            notApprovedLots.add(newLot);
-            return notApprovedLots;
+            if (!newLot.equals(null)) {
+                getInstance().getLotDAO().deleteById(newLot.getId());
+                return true;
+            }else{
+                return false;
+            }
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
             Thread.currentThread().interrupt();
-            return notApprovedLots;
+            return false;
         }
     }
 
@@ -178,19 +163,35 @@ public class LotServiceImpl implements LotService {
 
     }
 
-    public static void main(String[] args) {
-        LoggerProvider.getLOG().trace("Starting program");
-        StatementProvider.getInstance();
+    @Override
+    public Optional<Lot> sendRequestToApproveLot(int startingPrice, int itemsAmount, String auctionItem, String login) {
+        try {
+            Lot newLot = new Lot();
+            if (startingPrice <= 0 || itemsAmount <= 0
+                    || auctionItem == null) {
+                return Optional.empty();
+            } else {
+                long newId = getInstance().getLotDAO().readAll().size() + 1;
+                Optional<Account> account = getInstance().getAccountDAO().findUserByLogin(login);
+                AuctionItem item = getInstance().getAuctionItemsDAO().findAuctionItemByTitle(auctionItem);
+                if (getInstance().getAuctionItemsDAO().readAll().contains(item)) {
+                    Shipment sh = new Shipment();
+                    newLot = new Lot(newId, startingPrice, itemsAmount, startingPrice,
+                            LotStatus.CURRENT, item, new Shipment(null, null, sh.getActualDate(), 0, null),
+                            new Payment(null, null, null), account.get());
 
-        LoggerProvider.getLOG().info(ServiceFactory.getInstance().lotService().buyLot(9L,
-                "pickup", "Maestro", "Emily2013"));
+                    getInstance().getLotDAO().create(newLot);
 
-//        for (Lot l : blockedLots){
-//            LoggerProvider.getLOG().info(l);
-//        }
-
-
-        StatementProvider.getInstance().close();
-        LoggerProvider.getLOG().trace("program end");
+                }else{
+                    Optional.empty();
+                }
+            }
+            return Optional.of(newLot);
+        } catch (InterruptedException e) {
+            LoggerProvider.getLOG().error("takeConnection interrupted");
+            Thread.currentThread().interrupt();
+            return Optional.empty();
+        }
     }
+
 }

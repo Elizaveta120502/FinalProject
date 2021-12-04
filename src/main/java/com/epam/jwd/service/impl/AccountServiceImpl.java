@@ -25,33 +25,29 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Optional<Account> authenticate(String login, String password) throws InterruptedException {
-        if (login == null || password == null ||
-                password.length() <= 6 || password.length() > 0) {
-            return Optional.empty();
-        } else {
             final Optional<Account> readUser = DAOFactory.getInstance().getAccountDAO().findUserByLogin(login);
             return readUser.filter(user -> user.getPassword().equals(password));
-        }
+
     }
 
     @Override
-    public boolean registrationForClients(String login, String password, String email) {
+    public Optional<Account> registrationForClients(String login, String password, String email) {
         long newId;
         try {
             if (login == null || password == null || email == null
-                    || password.length() <= 6 || password.length() > 0) {
-                newId = DAOFactory.getInstance().getAccountDAO().readAll().size() + 1;
-                Account newAccount = new Account(newId, login, password, email, Role.CLIENT,
-                        Status.MYSTERY);
-                DAOFactory.getInstance().getAccountDAO().create(newAccount);
-                return true;
+                    || password.length() < 6 || password.length() > 6 ) {
+                return Optional.empty();
             } else {
-                return false;
+                newId = DAOFactory.getInstance().getAccountDAO().readAll().size() + 1;
+                Optional<Account> newAccount = Optional.of(new Account(newId, login, password, email, Role.CLIENT,
+                        Status.MYSTERY));
+                DAOFactory.getInstance().getAccountDAO().create(newAccount.get());
+                return newAccount;
             }
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
             Thread.currentThread().interrupt();
-            return false;
+            return Optional.empty();
         }
     }
 
