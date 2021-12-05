@@ -8,12 +8,14 @@ public class AuctionItem implements DBEntity {
     private final String title;
     private int price;
     private int inStoke;
+    private Picture picture;
 
-    public AuctionItem(Long id, String title, int price, int inStoke) {
+    public AuctionItem(Long id, String title, int price, int inStoke,Picture picture) {
         this.id = id;
         this.title = title;
         this.price = price;
         this.inStoke = inStoke;
+        this.picture = picture;
     }
 
     @Override
@@ -33,17 +35,21 @@ public class AuctionItem implements DBEntity {
         return inStoke;
     }
 
+    public Picture getPicture() {
+        return picture;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof AuctionItem)) return false;
         AuctionItem that = (AuctionItem) o;
-        return getId() == that.getId() && getPrice() == that.getPrice() && getInStoke() == that.getInStoke() && Objects.equals(getTitle(), that.getTitle());
+        return getPrice() == that.getPrice() && getInStoke() == that.getInStoke() && Objects.equals(getId(), that.getId()) && Objects.equals(getTitle(), that.getTitle()) && Objects.equals(getPicture(), that.getPicture());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getTitle(), getPrice(), getInStoke());
+        return Objects.hash(getId(), getTitle(), getPrice(), getInStoke(), getPicture());
     }
 
     @Override
@@ -53,7 +59,7 @@ public class AuctionItem implements DBEntity {
                 ", title='" + title + '\'' +
                 ", price=" + price +
                 ", inStoke=" + inStoke +
+                ", picture=" + picture +
                 '}';
     }
-
 }

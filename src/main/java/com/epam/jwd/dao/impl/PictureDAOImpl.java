@@ -11,6 +11,7 @@ import com.epam.jwd.model.Picture;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +20,7 @@ public class PictureDAOImpl extends AbstractDAO<Picture> implements PictureDAO {
     private static final String TABLE_NAME = "pictures";
 
     private static final String PICTURE_ID = "id";
-    private static final String PICTURE_BLOB = "picture";
+    private static final String PICTURE_URL = "url";
     private static final String PICTURE_NAME = "name";
 
     private static final String SPACE = " ";
@@ -27,7 +28,7 @@ public class PictureDAOImpl extends AbstractDAO<Picture> implements PictureDAO {
             SPACE + "values (%s,'%s','%s')";
 
     private final String READ_BY_ID_QUERY = String.format("select %s,%s,%s from %s where %s = ?",
-            PICTURE_ID, PICTURE_BLOB, PICTURE_NAME, getTableName(), PICTURE_ID);
+            PICTURE_ID, PICTURE_URL, PICTURE_NAME, getTableName(), PICTURE_ID);
 
 
     private final String WHERE_QUERY = "where %s = %s";
@@ -37,7 +38,7 @@ public class PictureDAOImpl extends AbstractDAO<Picture> implements PictureDAO {
     private final String DELETE_FOR_STRINGS = "delete from " + getTableName() + SPACE + WHERE_QUERY_FOR_STRING;
     private final String WHERE_QUERY_WITH_PARAM = "where %s = ?";
     private static final String SELECT_ALL_QUERY = String.format("select %s,%s from " + TABLE_NAME,
-            PICTURE_ID, PICTURE_BLOB, PICTURE_NAME);
+            PICTURE_ID, PICTURE_URL, PICTURE_NAME);
 
 
     protected PictureDAOImpl(ConnectionPool pool) {
@@ -73,7 +74,13 @@ public class PictureDAOImpl extends AbstractDAO<Picture> implements PictureDAO {
 
     @Override
     public List<Picture> readAll() throws InterruptedException {
-        throw new UnsupportedOperationException("unsupported operation");
+        try {
+            return StatementProvider.getInstance().executeStatement(SELECT_ALL_QUERY, PictureDAOImpl::extractPicture);
+        } catch (InterruptedException e) {
+            LoggerProvider.getLOG().error("takeConnection interrupted");
+            Thread.currentThread().interrupt();
+            return Collections.emptyList();
+        }
     }
 
     @Override
@@ -148,7 +155,7 @@ public class PictureDAOImpl extends AbstractDAO<Picture> implements PictureDAO {
         try {
             return new Picture(
                     resultSet.getLong(PICTURE_ID),
-                    resultSet.getString(PICTURE_BLOB),
+                    resultSet.getString(PICTURE_URL),
                     resultSet.getString(PICTURE_NAME));
 
 

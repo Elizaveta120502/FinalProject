@@ -7,6 +7,7 @@ import com.epam.jwd.database.impl.StatementProvider;
 import com.epam.jwd.exception.EntityExtractionFailedException;
 import com.epam.jwd.logger.LoggerProvider;
 import com.epam.jwd.model.AuctionItem;
+import com.epam.jwd.model.Picture;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,12 +18,16 @@ import java.util.Optional;
 
 public class AuctionItemsDAOImpl extends AbstractDAO<AuctionItem> implements AuctionItemsDAO<AuctionItem> {
 
-    private static final String TABLE_NAME = "auction_items";
+    private static final String TABLE_NAME = "auction_items join pictures on pictures.id = auction_items.pictures_id ";
 
     private static final String AUCTION_ITEM_ID = "id";
     private static final String AUCTION_ITEM_TITLE = "title";
     private static final String AUCTION_ITEM_PRICE = "price";
     private static final String AUCTION_ITEMS_IN_STOCK = "in_stock";
+
+    private static final String PICTURE_ID = "pictures.id";
+    private static final String PICTURE_URL = "pictures.url";
+    private static final String PICTURES_NAME = "pictures.name";
 
     private static final String SPACE = " ";
     private final String WHERE_QUERY = "where %s = %s";
@@ -212,7 +217,10 @@ public class AuctionItemsDAOImpl extends AbstractDAO<AuctionItem> implements Auc
                     resultSet.getLong(AUCTION_ITEM_ID),
                     resultSet.getString(AUCTION_ITEM_TITLE),
                     resultSet.getInt(AUCTION_ITEM_PRICE),
-                    resultSet.getInt(AUCTION_ITEMS_IN_STOCK));
+                    resultSet.getInt(AUCTION_ITEMS_IN_STOCK),
+                    new Picture(resultSet.getLong(PICTURE_ID),
+                            resultSet.getString(PICTURE_URL),
+                            resultSet.getString(PICTURES_NAME)));
 
         } catch (SQLException e) {
             LoggerProvider.getLOG().error("could not extract value from result set", e);

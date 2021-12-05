@@ -13,6 +13,7 @@ public class DAOFactory {
     private final LotDAO lotDAO = new LotDAOImpl(ConnectionPoolImpl.getInstance());
     private final PaymentDAO paymentDAO = new PaymentDAOImpl(ConnectionPoolImpl.getInstance());
     private final ShipmentDAO shipmentDAO = new ShipmentDAOImpl(ConnectionPoolImpl.getInstance());
+    private final PictureDAO pictureDAO = new PictureDAOImpl(ConnectionPoolImpl.getInstance());
 
     public DAOFactory() {
     }
@@ -39,6 +40,10 @@ public class DAOFactory {
 
     public ShipmentDAO getShipmentDAO() {
         return shipmentDAO;
+    }
+
+    public PictureDAO getPictureDAO(){
+        return pictureDAO;
     }
 
 

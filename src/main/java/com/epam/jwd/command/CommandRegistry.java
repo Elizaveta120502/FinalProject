@@ -21,6 +21,7 @@ public enum CommandRegistry {
     REGISTRATION(RegistrationCommand.INSTANCE,"registration",Role.UNAUTHORIZED_USER),
     SHOW_REGISTRATION(ShowRegistrationPageCommand.INSTANCE,"show_registration",Role.UNAUTHORIZED_USER),
     SWOT_LOTS(ShowLotsPageCommand.INSTANCE,"show_lots"),
+    SHOW_LOTS_PICTURES(ShowLotsPicturesCommand.INSTANCE,"show_lots_pictures"),
     DEFAULT(ShowMainPageCommand.INSTANCE, ""),
     ERROR(ShowErrorPageCommand.INSTANCE, "show_error");
 

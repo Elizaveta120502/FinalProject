@@ -43,7 +43,7 @@ public class AuctionItemServiceImpl implements AuctionItemsService {
                 return Boolean.FALSE;
             } else {
                 long id = DAOFactory.getInstance().getAuctionItemsDAO().readAll().size() + 1;
-                AuctionItem newAuctionItem = new AuctionItem(id, title, price, inStock);
+                AuctionItem newAuctionItem = new AuctionItem(id, title, price, inStock,null);
                 return DAOFactory.getInstance().getAuctionItemsDAO().create(newAuctionItem);
             }
         } catch (InterruptedException e) {

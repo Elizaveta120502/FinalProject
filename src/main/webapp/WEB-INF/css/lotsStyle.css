@@ -1,5 +1,4 @@
 .lot-wrapper {
-    display: block;
     width: 50%;
     float: left;
     transition: width .2s;
@@ -28,12 +27,17 @@
     border: 5px solid  rgba(143, 188, 143, 1);
     border-radius: 3px;
     position: relative;
-    background: rgba(255, 228, 181, 0.8);
+    background: rgba(255, 228, 181, 0.9);
     margin: 0 20px 20px 0;
     text-decoration: none;
     color: #474747;
     z-index: 0;
     height: 300px;
+    padding-left: 319px;
+    padding-right: 6px;
+    font-family: Monotxt_IV25;
+    font-weight: 800;
+    color: darkred;
 }
 
 .lots {

@@ -68,6 +68,9 @@ public class LotDAOImpl extends AbstractDAO<Lot> implements LotDAO<Lot> {
 
     private static final String BENEFIT_ID = "status.benefits_id";
     private static final String BENEFIT_SIZE = "benefits.size";
+    private static final String PICTURE_ID = "pictures.id";
+    private static final String PICTURE_URL = "pictures.url";
+    private static final String PICTURE_NAME = "pictures.name";
 
 
     private final String WHERE_QUERY = "where %s = %s";
@@ -319,7 +322,10 @@ public class LotDAOImpl extends AbstractDAO<Lot> implements LotDAO<Lot> {
                     new AuctionItem(resultSet.getLong(AUCTION_ITEMS_ID),
                             resultSet.getString(AUCTION_ITEM_TITLE),
                             resultSet.getInt(AUCTION_ITEM_PRICE),
-                            resultSet.getInt(AUCTION_ITEM_IN_STOCK)),
+                            resultSet.getInt(AUCTION_ITEM_IN_STOCK),
+                            new Picture(resultSet.getLong(PICTURE_ID),
+                                    resultSet.getString(PICTURE_URL),
+                                    resultSet.getString(PICTURE_NAME))),
                     new Shipment(resultSet.getLong(SHIPMENT_ID),
                             resultSet.getTimestamp(SHIPMENT_EXPECTED_DATE),
                             resultSet.getTimestamp(SHIPMENT_ACTUAL_DATE),
