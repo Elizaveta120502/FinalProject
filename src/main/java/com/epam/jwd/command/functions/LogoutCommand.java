@@ -1,5 +1,8 @@
-package com.epam.jwd.command;
+package com.epam.jwd.command.functions;
 
+import com.epam.jwd.command.Command;
+import com.epam.jwd.command.CommandRequest;
+import com.epam.jwd.command.CommandResponse;
 import com.epam.jwd.controller.RequestFactory;
 
 public enum LogoutCommand implements Command {

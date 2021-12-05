@@ -22,7 +22,6 @@ public interface DBEntityDAO<T extends DBEntity> {
 
     boolean delete(T entity) throws InterruptedException;
 
-    //boolean deleteAll(List<T> entities) throws InterruptedException;
 
 
 }

@@ -1,5 +1,8 @@
-package com.epam.jwd.command;
+package com.epam.jwd.command.presentation;
 
+import com.epam.jwd.command.Command;
+import com.epam.jwd.command.CommandRequest;
+import com.epam.jwd.command.CommandResponse;
 import com.epam.jwd.controller.RequestFactory;
 import com.epam.jwd.dao.impl.DAOFactory;
 import com.epam.jwd.model.Account;

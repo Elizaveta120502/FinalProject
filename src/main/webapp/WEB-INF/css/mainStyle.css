@@ -35,7 +35,6 @@
 }
 
 div {
-    margin: 24px;
     text-align: left;
 }
 
@@ -43,15 +42,11 @@ div {
     background-color: #FFE4B5;
     color: #B22222;
     border: 2px solid #FFA07A;
-    margin-left: 50px;
     margin-right: 2px;
     margin-top: 0;
-    position:fixed;
-    right:150px;
-    top:3px;
-
-
-
+    position: fixed;
+    top: 3px;
+    z-index: 1;
 }
 
 .button2 {
@@ -61,19 +56,24 @@ div {
     margin-left: 50px;
     margin-right: 2px;
     margin-top: 0;
-    position:fixed;
-    right:300px;
-    top:3px;
+    position: fixed;
+    top: 3px;
+    left: 95px;
 }
 
 .menu {
-
     background-color: #FFE4B5;
     color: #B22222;
     padding: 7px 7px 7px 7px;
     text-align: center;
     border-radius: 100px;
     border: 2px solid #FFA07A;
+    position: fixed;
+    right: 2px;
+    font-size: 18px;
+    color: #B22222;
+    cursor: pointer;
+    z-index: 1;
 }
 
 .menu:active {
@@ -81,23 +81,22 @@ div {
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
-
-
 .welcome {
-     display: block;
-     position:absolute;
-     background-color:#FFE4B5;
-     width: 800px;
-     height: 300px;
-     right: 2px;
-     top:40px;
-     opacity: .9;
-     font-weight: 800;
-     font-family: Courier New, monospace;
-     text-align: center;
-     margin-top:40px;
-     padding-top:150px;
- }
+    position: absolute;
+    background-color: #FFE4B5;
+    width: 800px;
+    height: 300px;
+    right: 12px;
+    top: 40px;
+    opacity: .9;
+    font-weight: 800;
+    font-family: Courier New, monospace;
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 150px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
 
 .welcome_remark {
     font-weight: 800;
@@ -107,30 +106,41 @@ div {
 
 }
 
-.welcome_picture{
-    position: static;
-    margin-top:50px;
-    left: 2px;
-
+.welcome_picture {
+    margin-top: 50px;
+    width: 450px;
+    display: inline-block;
 }
 
 .start {
-    display: block;
-    position:absolute;
+    position: absolute;
     text-decoration: none;
-    width: 1298px;
+    width: auto;
     height: 100px;
     right: 2px;
     left: 2px;
-    top:525px;
+    top: 535px;
     opacity: .9;
     background: rgba(143, 188, 143, 0.8);
+    margin: 10px;
 }
 
-.start_button{
-    position:relative;
-    top:40px;
-    left:600px;
+.start_text{
+
+    color:black;
+    width: auto;
+    height: 50%;
+    text-align: center;
+    margin: 40px;
+    font-size: larger;
+    font-family: Courier New, monospace;
+    font-weight: 800;
+}
+
+.start_button {
+    position: relative;
+    top: 40px;
+    left: 600px;
     background-color: #FFE4B5;
     color: #B22222;
     padding: 7px 7px 7px 7px;
@@ -145,22 +155,23 @@ div {
 }
 
 .contacts {
-    display: block;
-    position:absolute;
-    background-color:#FFE4B5;
+    position: absolute;
+    background-color: #FFE4B5;
     font-family: Courier New, monospace;
-    width: 1298px;
-    height:200px;
+    width: auto;
+    height: 150px;
     right: 2px;
     left: 2px;
-    top:650px;
-    color:#B22222;
+    top: 650px;
+    color: #B22222;
     padding-left: 20px;
     padding-top: 20px;
+    margin: 10px;
 }
+
 .inst {
     text-decoration: none;
-    color:#B22222;
+    color: #B22222;
 }
 
 .inst:hover {

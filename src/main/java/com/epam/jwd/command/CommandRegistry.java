@@ -1,6 +1,10 @@
 package com.epam.jwd.command;
 
 
+import com.epam.jwd.command.functions.LoginCommand;
+import com.epam.jwd.command.functions.LogoutCommand;
+import com.epam.jwd.command.functions.RegistrationCommand;
+import com.epam.jwd.command.presentation.*;
 import com.epam.jwd.model.Role;
 
 import java.util.Arrays;
@@ -16,6 +20,7 @@ public enum CommandRegistry {
     LOGOUT(LogoutCommand.INSTANCE, "logout"),
     REGISTRATION(RegistrationCommand.INSTANCE,"registration",Role.UNAUTHORIZED_USER),
     SHOW_REGISTRATION(ShowRegistrationPageCommand.INSTANCE,"show_registration",Role.UNAUTHORIZED_USER),
+    SWOT_LOTS(ShowLotsPageCommand.INSTANCE,"show_lots"),
     DEFAULT(ShowMainPageCommand.INSTANCE, ""),
     ERROR(ShowErrorPageCommand.INSTANCE, "show_error");
 
