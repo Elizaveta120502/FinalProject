@@ -7,6 +7,8 @@ public interface CommandRequest {
 
     String getParameter(String name);
 
+    int getParameter(int number);
+
     boolean sessionExists();
 
     boolean addToSession(String name, Object value);

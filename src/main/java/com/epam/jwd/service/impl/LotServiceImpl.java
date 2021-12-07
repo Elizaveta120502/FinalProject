@@ -63,13 +63,13 @@ public class LotServiceImpl implements LotService {
     }
 
     @Override
-    public boolean makeBet(String login, Long lotId, int newCurrentPrice) {
+    public Optional<Lot> makeBet(String login, Long lotId, int newCurrentPrice) {
 
         try {
             if (login == null || lotId < 0
                     || lotId > DAOFactory.getInstance().getLotDAO().readAll().size()
                     || newCurrentPrice <= 0) {
-                return false;
+                return Optional.empty();
             } else {
                 Optional<Account> user = DAOFactory.getInstance().getAccountDAO().findUserByLogin(login);
                 Optional<Lot> lot = DAOFactory.getInstance().getLotDAO().readById(lotId);
@@ -79,12 +79,12 @@ public class LotServiceImpl implements LotService {
                         lot.get().getLotStatus(), lot.get().getAuctionItem(),
                         lot.get().getShipment(), lot.get().getPayment(), user.get());
                 DAOFactory.getInstance().getLotDAO().update(lotWithNewCurrentPrice, lot.get().getId());
-                return true;
+                return Optional.of(lotWithNewCurrentPrice);
             }
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
             Thread.currentThread().interrupt();
-            return false;
+            return Optional.empty();
         }
 
     }
@@ -132,15 +132,15 @@ public class LotServiceImpl implements LotService {
     }
 
     @Override
-    public boolean buyLot(Long lotId, String shipmentMethod, String paymentMethod, String login) {
-
+    public Optional<Lot> buyLot(Long lotId, String shipmentMethod, String paymentMethod, String login) {
+        Lot lotToBuy;
         try {
             if (lotId > 0 || lotId < DAOFactory.getInstance().getLotDAO().readAll().size()) {
                 Optional<Lot> lot = DAOFactory.getInstance().getLotDAO().readById(lotId);
                 if (lot.get().getLotStatus() == LotStatus.CURRENT) {
                     Optional<Account> customer = DAOFactory.getInstance().getAccountDAO().findUserByLogin(login);
 
-                    Lot lotToBuy = new Lot(lotId, lot.get().getStartingPrice(),
+                    lotToBuy = new Lot(lotId, lot.get().getStartingPrice(),
                             lot.get().getItemsAmount(), lot.get().getCurrentPrice(),
                             LotStatus.INACTIVE, lot.get().getAuctionItem(),
                             ServiceFactory.getInstance().shipmentService()
@@ -151,14 +151,14 @@ public class LotServiceImpl implements LotService {
                     DAOFactory.getInstance().getLotDAO().update(lotToBuy, lot.get().getId());
 
                 } else {
-                    return false;
+                    return Optional.empty();
                 }
             }
-            return true;
+            return Optional.empty();
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
             Thread.currentThread().interrupt();
-            return false;
+            return Optional.empty();
         }
 
     }

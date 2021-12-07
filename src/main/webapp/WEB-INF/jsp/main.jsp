@@ -23,7 +23,7 @@
 
 <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-    <c:if test="${not empty sessionScope.user}">
+    <c:if test="${not empty sessionScope.user }">
         <a href="/controller?command=show_lots">Lots</a>
     </c:if>
     <a href="#">Services</a>

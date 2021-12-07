@@ -12,6 +12,7 @@ public enum LogoutCommand implements Command {
     private static final String USER_SESSION_ATTRIBUTE_NAME = "user";
     private static final String INDEX_PATH = "/";
 
+
     private final RequestFactory requestFactory;
 
     LogoutCommand(RequestFactory requestFactory) {
@@ -21,8 +22,7 @@ public enum LogoutCommand implements Command {
     @Override
     public CommandResponse execute(CommandRequest request) {
         if (noLoggedInUserPresent(request)) {
-            //todo: error - no user found cannot logout
-            return null;
+            return requestFactory.createRedirectResponse(INDEX_PATH);
         }
         request.clearSession();
         return requestFactory.createRedirectResponse(INDEX_PATH);

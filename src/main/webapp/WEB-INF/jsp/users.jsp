@@ -4,12 +4,26 @@
 <html>
 <head>
     <title>Users list</title>
+    <link rel="shortcut icon" type="image/png"
+          href="https://img.icons8.com/external-konkapp-flat-konkapp/50/000000/external-sakura-japan-konkapp-flat-konkapp.png"/>
 </head>
 <body>
+
+<style>
+    <%@include file="/WEB-INF/css/usersStyle.css"%>
+    <%@include file="/WEB-INF/css/welcomebackground.css"%>
+</style>
 <h3>All Users</h3>
 <ul>
     <c:forEach var="user" items="${requestScope.users}">
-        <li>${user.login} ${user.role.roleName} ${user.status}</li>
+        <div class="user-wrapper">
+            <c:if test="${not empty sessionScope.user }">
+            <a class="user" href="/controller?command=show_user_block">
+
+        ${user.login} ${user.email} ${user.role.roleName} ${user.status}
+            </a>
+            </c:if>
+        </div>
     </c:forEach>
 
 

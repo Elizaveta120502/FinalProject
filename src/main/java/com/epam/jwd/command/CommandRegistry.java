@@ -1,9 +1,7 @@
 package com.epam.jwd.command;
 
 
-import com.epam.jwd.command.functions.LoginCommand;
-import com.epam.jwd.command.functions.LogoutCommand;
-import com.epam.jwd.command.functions.RegistrationCommand;
+import com.epam.jwd.command.functions.*;
 import com.epam.jwd.command.presentation.*;
 import com.epam.jwd.model.Role;
 
@@ -16,12 +14,18 @@ public enum CommandRegistry {
     MAIN_PAGE(ShowMainPageCommand.INSTANCE, "main_page"),
     SHOW_USERS(ShowUsersPageCommand.INSTANCE, "show_users", Role.ADMINISTRATOR),
     SHOW_LOGIN(ShowLoginPageCommand.INSTANCE, "show_login", Role.UNAUTHORIZED_USER),
-    LOGIN(LoginCommand.INSTANCE, "login", Role.UNAUTHORIZED_USER),
-    LOGOUT(LogoutCommand.INSTANCE, "logout"),
     REGISTRATION(RegistrationCommand.INSTANCE,"registration",Role.UNAUTHORIZED_USER),
     SHOW_REGISTRATION(ShowRegistrationPageCommand.INSTANCE,"show_registration",Role.UNAUTHORIZED_USER),
-    SWOT_LOTS(ShowLotsPageCommand.INSTANCE,"show_lots"),
+    SHOW_LOTS(ShowLotsPageCommand.INSTANCE,"show_lots"),
     SHOW_LOTS_PICTURES(ShowLotsPicturesCommand.INSTANCE,"show_lots_pictures"),
+    SHOW_BLOCK_USER(ShowPageToBlockUser.INSTANCE,"show_user_block", Role.ADMINISTRATOR),
+    SHOW_MAKING_BET(ShowMakeBetPageCommand.INSTANCE,"show_bet",Role.CLIENT,Role.ADMINISTRATOR),
+    SHOW_BUY_LOT(ShowBuyLotPageCommand.INSTANCE,"show_buy",Role.CLIENT,Role.ADMINISTRATOR),
+    MAKE_BET(MakeBetCommand.INSTANCE,"make_bet",Role.CLIENT,Role.ADMINISTRATOR),
+    LOGIN(LoginCommand.INSTANCE, "login", Role.UNAUTHORIZED_USER),
+    LOGOUT(LogoutCommand.INSTANCE, "logout"),
+    BLOCK_USER(BlockUserCommand.INSTANCE,"block_user",Role.ADMINISTRATOR),
+    BUY_LOT(BlockUserCommand.INSTANCE,"buy_lot"),
     DEFAULT(ShowMainPageCommand.INSTANCE, ""),
     ERROR(ShowErrorPageCommand.INSTANCE, "show_error");
 

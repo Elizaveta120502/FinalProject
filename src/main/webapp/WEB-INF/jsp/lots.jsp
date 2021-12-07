@@ -7,31 +7,38 @@
           href="https://img.icons8.com/external-konkapp-flat-konkapp/50/000000/external-sakura-japan-konkapp-flat-konkapp.png"/>
 </head>
 <body>
-<%--<ul>--%>
-<%--<c:forEach var="lot" items="${requestScope.lots}">--%>
-<%--    <li>${lot} </li>--%>
-<%--</c:forEach>--%>
-<%--</ul>--%>
+
 <style>
     <%@include file="/WEB-INF/css/welcomebackground.css"%>
     <%@include file="/WEB-INF/css/lotsStyle.css"%>
+    <%@include file="/WEB-INF/css/makeBetStyle.css"%>
 </style>
 
-
+<div class="main_button">
+    <a class="make_bet_text" href = "/controller?command=show_bet">Make bet</a>
+</div>
+<div class="buy_button">
+    <a class="make_bet_text" href = "/controller?command=show_buy">Make bet</a>
+</div>
 <ul>
+
     <c:forEach var="lot" items="${requestScope.lots}">
-        <li class="lot-wrapper">
-       <pre> <div class="lot">№ ${lot.id} ${lot.auctionItem.title}
+        <div class="lot-wrapper">
 
-           Starting price: ${lot.startingPrice}
 
-           Current price: ${lot.currentPrice}
+            <div class="lot">№ ${lot.id} ${lot.auctionItem.title}
 
-           Winner: ${lot.account.login}
+                Starting price: ${lot.startingPrice}
+
+                Current price: ${lot.currentPrice}
+
+                Winner: ${lot.account.login}
+                <img class="photo" src="${lot.auctionItem.picture.pictureURL}">
+
+
+
+            </div>
         </div>
-</pre>
-
-        </li>
     </c:forEach>
 </ul>
 

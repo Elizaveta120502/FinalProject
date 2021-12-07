@@ -22,6 +22,7 @@ public class LotDAOImpl extends AbstractDAO<Lot> implements LotDAO<Lot> {
     private static final String TABLE_NAME = "lots";
     private static final String TABLE_NAME_EXTENDED = "lots inner join lot_status on lots.lot_status_id = lot_status.id  \n" +
             "            left join auction_items on auction_items.id = lots.auction_items_id \n" +
+            "            left join pictures on auction_items.pictures_id = pictures.id \n" +
             "            left join account on account.id = lots.account_id\n" +
             "            left join role on role.id = account.role_id\n" +
             "            left join status on account.status_id = status.id\n" +
@@ -79,7 +80,9 @@ public class LotDAOImpl extends AbstractDAO<Lot> implements LotDAO<Lot> {
     private final String ALL_COLUMNS = LOT_ID + COMMA + LOT_STARTING_PRICE + COMMA +
             LOT_ITEMS_AMOUNT + COMMA + LOT_CURRENT_PRICE + COMMA + LOT_STATUS_ID +
             COMMA + LOT_STATUS_DESCR + COMMA + AUCTION_ITEMS_ID + COMMA + AUCTION_ITEM_TITLE + COMMA +
-            AUCTION_ITEM_PRICE + COMMA + AUCTION_ITEM_IN_STOCK + COMMA + SHIPMENT_ID + COMMA + SHIPMENT_EXPECTED_DATE +
+            AUCTION_ITEM_PRICE + COMMA + AUCTION_ITEM_IN_STOCK + COMMA + PICTURE_ID + COMMA
+            + PICTURE_URL + COMMA + PICTURE_NAME + COMMA
+            + SHIPMENT_ID + COMMA + SHIPMENT_EXPECTED_DATE +
             COMMA + SHIPMENT_ACTUAL_DATE + COMMA + SHIPMENT_COST + COMMA + SHIPMENT_METHOD_ID + COMMA + SHIPMENT_METHOD +
             COMMA + PAYMENT_ID + COMMA + PAYMENT_TIME + COMMA + PAYMENT_METHOD_ID + COMMA + PAYMENT_METHOD + COMMA +
             ACCOUNT_ID + COMMA + ACCOUNT_LOGIN + COMMA + ACCOUNT_PASSWORD + COMMA + ACCOUNT_EMAIL + COMMA + ACCOUNT_ROLE_ID + COMMA
@@ -95,8 +98,6 @@ public class LotDAOImpl extends AbstractDAO<Lot> implements LotDAO<Lot> {
             "%s = '%s',%s = '%s', %s = '%s',%s = '%s',%s = '%s',%s = '%s',%s = '%s' " + WHERE_QUERY;
     private final String DELETE_BY_QUERY = "delete from lots" + SPACE + WHERE_QUERY;
     private final String FIND_PRICE = SELECT_ALL + SPACE + WHERE_QUERY_WITH_PARAM;
-
-
 
 
     protected LotDAOImpl(ConnectionPool pool) {
@@ -308,8 +309,6 @@ public class LotDAOImpl extends AbstractDAO<Lot> implements LotDAO<Lot> {
             return false;
         }
     }
-
-
 
 
     private static Lot extractLot(ResultSet resultSet) throws EntityExtractionFailedException {

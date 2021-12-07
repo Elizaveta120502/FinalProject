@@ -33,8 +33,7 @@ public enum LoginCommand implements Command {
     @Override
     public CommandResponse execute(CommandRequest request) throws InterruptedException {
         if (request.sessionExists() && request.retrieveFromSession(USER_SESSION_ATTRIBUTE_NAME).isPresent()) {
-            //todo: error - user already logged in
-            return null;
+            throw new UnsupportedOperationException("user already exists");
         }
         final String login = request.getParameter(LOGIN_REQUEST_PARAM_NAME);
         final String password = request.getParameter(PASSWORD_REQUEST_PARAM_NAME);

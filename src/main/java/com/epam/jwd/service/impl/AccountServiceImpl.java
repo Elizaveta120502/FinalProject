@@ -73,52 +73,55 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Set<Account> blockUser(String login, String email) {
-        // Set<Account> blockedUsers = new LinkedHashSet<>();
+    public Optional<Account> blockUser(String login, String email) {
+
 
         try {
             if (login == null || email == null) {
-                return Collections.emptySet();
+                return  Optional.empty();
             } else {
                 Optional<Account> accountToBlock =
                         DAOFactory.getInstance().getAccountDAO().findUserByLogin(login);
-                AccountServiceImpl.blockedUsers.add(accountToBlock.get());
+                LoggerProvider.getLOG().debug(accountToBlock);
                 DAOFactory.getInstance().getAccountDAO().delete(accountToBlock.get());
-                return AccountServiceImpl.blockedUsers;
+                return accountToBlock;
+
             }
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
             Thread.currentThread().interrupt();
-            return AccountServiceImpl.blockedUsers;
+            return  Optional.empty();
         }
 
     }
 
     @Override
-    public boolean deleteAccount(String login, String password) {
+    public Optional<Account> deleteAccount(String login, String password) {
+        Optional<Account> deleteAccount = null;
         try {
             if (login == null || password == null || password.length() != 6) {
-                return false;
+                Optional.empty();
             } else {
-                Optional<Account> deleteAccount = DAOFactory.getInstance().getAccountDAO().findUserByLogin(login);
+                 deleteAccount = DAOFactory.getInstance().getAccountDAO().findUserByLogin(login);
                 if (deleteAccount.get().getPassword().equals(password)) {
                     DAOFactory.getInstance().getAccountDAO().delete(deleteAccount.get());
                     if (!DAOFactory.getInstance().getAccountDAO().findUserByLogin(deleteAccount.get().getLogin()).isPresent()) {
-                        return true;
+                        return deleteAccount;
                     } else {
-                        return false;
+                        return  Optional.empty();
                     }
                 } else {
                     LoggerProvider.getLOG().error("password not confirmed");
-                    return false;
+                    return  Optional.empty();
                 }
 
             }
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
             Thread.currentThread().interrupt();
-            return false;
+            return Optional.empty();
         }
+        return Optional.empty();
     }
 
 
