@@ -5,14 +5,11 @@ import com.epam.jwd.command.CommandRequest;
 import com.epam.jwd.command.CommandResponse;
 import com.epam.jwd.controller.PropertyContext;
 import com.epam.jwd.controller.RequestFactory;
-import com.epam.jwd.model.Account;
 import com.epam.jwd.model.Lot;
 import com.epam.jwd.service.AccountService;
 import com.epam.jwd.service.LotService;
 import com.epam.jwd.service.ServiceFactory;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 import java.util.Optional;
 
 public enum MakeBetCommand implements Command {
@@ -20,16 +17,16 @@ public enum MakeBetCommand implements Command {
             ServiceFactory.getInstance().lotService(),
             RequestFactory.getInstance(),PropertyContext.instance());
 
+
     private static final String INDEX_PATH = "/controller?command=show_lots";
     private static final String BET_JSP_PATH = "/WEB-INF/jsp/bet.jsp";
 
-    private static final String ERROR_BET_PASS_ATTRIBUTE = "errorBetPassMessage";
-    private static final String USER_SESSION_ATTRIBUTE_NAME = "user";
+
     private static final String LOT_SESSION_ATTRIBUTE_NAME = "lot";
     private static final String LOGIN_REQUEST_PARAM_NAME = "login";
     private static final String LOT_ID_REQUEST_PARAM_NAME = "id";
     private static final String PRICE_REQUEST_PARAM_NAME = "newCurrentPrice";
-    private static final String ERROR_LOGIN_PASS_MESSAGE = "Choose lot number and enter your login";
+    private static final String ERROR_BET_MESSAGE = "Choose lot number and enter your login";
     private static final String OPERATION_WAS_UNSUCCESSFUL ="The operation was unsuccessful";
 
     private final AccountService accountService;

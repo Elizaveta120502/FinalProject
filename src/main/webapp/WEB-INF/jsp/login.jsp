@@ -23,12 +23,12 @@
     <div class="login_text">
         <form name="login-form" action="/controller?command=login" method="post">
             <label for="login-input">Login:</label>
-            <input id="login-input" type="text" name="login" value=""/>
+            <input id="login-input" type="text" name="login" required value=""/>
     </div>
     <br>
     <div class="password_text">
         <label for="password-input">Password:</label>
-        <input id="password-input" type="password" name="password" value=""/>
+        <input id="password-input" type="password" name="password" pattern="[0-9a-zA-Z]+" maxlength=6 required value=""/>
         <br/>
     </div>
     <c:if test="${not empty requestScope.errorLoginPassMessage}">

@@ -22,18 +22,18 @@
 <form name="registration-form" action="/controller?command=registration" method="post">
     <div class="login_reg_text">
     <label for="login-register">Login:</label>
-    <input id="login-register" type="text" name="login" value=""/>
+    <input id="login-register" type="text" name="login" required value=""/>
     </div>
     <br>
     <div class="password_reg_text">
     <label for="password-input" >Password:</label>
-    <input id="password-input" type="password" name="password" value=""/>
+    <input id="password-input" type="password" name="password" pattern="[0-9a-zA-Z]+" maxlength=6 required value=""/>
     </div>
     <br/>
     <br>
     <div class="email_reg_text">
     <label for="login-input" >email:</label>
-    <input id="login-input" type="text" name="email" value=""/>
+    <input id="login-input" type="text" name="email" pattern="^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$" required value=""/>
     </div>
     <br/>
     <c:if test="${not empty requestScope.errorLoginPassMessage}">

@@ -15,17 +15,17 @@
         <form  name="login-form" action="/controller?command=make_bet" method="post">
             <div class="login_style">
             <label for="login-input">Login:</label>
-            <input id="login-input" type="text" name="login" value=""/>
+            <input id="login-input" type="text" name="login" required  readonly value="${user.login}"/>
     </div>
     <br>
     <div class="number">
         <label >Lot №:</label>
-        <input type="number" name="id" value=""/>
+        <input type="number" name="id" min=1  required value=""/>
         <br/>
     </div>
     <div class="price_style">
         <label for="price-input">new current price:</label>
-        <input id="price-input" type="number" name="newCurrentPrice" value=""/>
+        <input id="price-input" type="number" name="newCurrentPrice" min=1 required value=""/>
         <br/>
     </div>
     <div>

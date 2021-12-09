@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ page import="com.epam.jwd.model.Status" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -13,14 +13,13 @@
     <%@include file="/WEB-INF/css/usersStyle.css"%>
     <%@include file="/WEB-INF/css/welcomebackground.css"%>
 </style>
-<h3>All Users</h3>
 <ul>
     <c:forEach var="user" items="${requestScope.users}">
         <div class="user-wrapper">
             <c:if test="${not empty sessionScope.user }">
             <a class="user" href="/controller?command=show_user_block">
 
-        ${user.login} ${user.email} ${user.role.roleName} ${user.status}
+        ${user.login} ${user.email} ${user.role.roleName} ${user.status.name().toLowerCase()}
             </a>
             </c:if>
         </div>

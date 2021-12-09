@@ -18,27 +18,29 @@
     <a class="make_bet_text" href = "/controller?command=show_bet">Make bet</a>
 </div>
 <div class="buy_button">
-    <a class="make_bet_text" href = "/controller?command=show_buy">Make bet</a>
+    <a class="make_bet_text" href = "/controller?command=show_buy">Buy lot</a>
 </div>
 <ul>
 
     <c:forEach var="lot" items="${requestScope.lots}">
+
         <div class="lot-wrapper">
+           <div class="lot"><pre> № ${lot.id} ${lot.auctionItem.title}
 
+  Starting price: ${lot.startingPrice}
 
-            <div class="lot">№ ${lot.id} ${lot.auctionItem.title}
+  Current price: ${lot.currentPrice}
 
-                Starting price: ${lot.startingPrice}
+  Items in stoke:${lot.auctionItem.inStoke}
 
-                Current price: ${lot.currentPrice}
-
-                Winner: ${lot.account.login}
+  Winner: ${lot.account.login}
+               </pre>
                 <img class="photo" src="${lot.auctionItem.picture.pictureURL}">
 
-
-
             </div>
+
         </div>
+
     </c:forEach>
 </ul>
 

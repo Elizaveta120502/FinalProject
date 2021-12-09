@@ -14,7 +14,7 @@ public enum BlockUserCommand implements Command {
     INSTANCE(ServiceFactory.getInstance().userService(), RequestFactory.getInstance());
 
 
-    private static final String INDEX_PATH = "/";
+    private static final String INDEX_PATH = "/controller?command=show_users";
     private static final String LOGIN = "login";
     private static final String EMAIL = "email";
     private static final String USER_SESSION_ATTRIBUTE_NAME = "user";
@@ -47,6 +47,6 @@ public enum BlockUserCommand implements Command {
         request.clearSession();
         request.createSession();
         request.addToSession(USER_SESSION_ATTRIBUTE_NAME, blockedUsers);
-        return requestFactory.createRedirectResponse(BLOCK_USER_JSP);
+        return requestFactory.createRedirectResponse(INDEX_PATH);
     }
 }
