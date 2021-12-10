@@ -13,7 +13,6 @@
     <%@include file="/WEB-INF/css/lotsStyle.css"%>
     <%@include file="/WEB-INF/css/makeBetStyle.css"%>
 </style>
-
 <div class="main_button">
     <a class="make_bet_text" href = "/controller?command=show_bet">Make bet</a>
 </div>
@@ -29,7 +28,7 @@
 
   Starting price: ${lot.startingPrice}
 
-  Current price: ${lot.currentPrice}
+  Current price: ${lot.currentPrice}$
 
   Items in stoke:${lot.auctionItem.inStoke}
 

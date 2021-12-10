@@ -20,12 +20,12 @@ public class AuctionItemsDAOImpl extends AbstractDAO<AuctionItem> implements Auc
 
     private static final String TABLE_NAME = "auction_items join pictures on pictures.id = auction_items.pictures_id ";
 
-    private static final String AUCTION_ITEM_ID = "id";
-    private static final String AUCTION_ITEM_TITLE = "title";
-    private static final String AUCTION_ITEM_PRICE = "price";
-    private static final String AUCTION_ITEMS_IN_STOCK = "in_stock";
+    private static final String AUCTION_ITEM_ID = "auction_items.id";
+    private static final String AUCTION_ITEM_TITLE = "auction_items.title";
+    private static final String AUCTION_ITEM_PRICE = "auction_items.price";
+    private static final String AUCTION_ITEMS_IN_STOCK = "auction_items.in_stock";
 
-    private static final String PICTURE_ID = "pictures.id";
+    private static final String PICTURE_ID = "auction_items.pictures_id";
     private static final String PICTURE_URL = "pictures.url";
     private static final String PICTURES_NAME = "pictures.name";
 
@@ -34,22 +34,23 @@ public class AuctionItemsDAOImpl extends AbstractDAO<AuctionItem> implements Auc
     private final String WHERE_QUERY_WITH_PARAM = "where %s = ?";
     private final String WHERE_QUERY_FOR_STRING = "where %s = '%s'";
 
-    private final String SELECT_ALL_QUERY = String.format("select %s,%s,%s,%s from " + getTableName(),
-            AUCTION_ITEM_ID, AUCTION_ITEM_TITLE, AUCTION_ITEM_PRICE, AUCTION_ITEMS_IN_STOCK);
+    private final String SELECT_ALL_QUERY = String.format("select %s,%s,%s,%s,%s,%s,%s from " + getTableName(),
+            AUCTION_ITEM_ID, AUCTION_ITEM_TITLE, AUCTION_ITEM_PRICE, AUCTION_ITEMS_IN_STOCK,
+            PICTURE_ID,PICTURE_URL,PICTURES_NAME);
 
     private final String INSERT_INTO_QUERY = "insert into  " + getTableName() +
             SPACE + "values (%s,'%s',%s,%s)";
 
-    private final String READ_BY_ID_QUERY = String.format("select %s,%s,%s,%s from %s where %s = ?",
-            AUCTION_ITEM_ID, AUCTION_ITEM_TITLE, AUCTION_ITEM_PRICE, AUCTION_ITEMS_IN_STOCK, getTableName(), AUCTION_ITEM_ID);
+    private final String READ_BY_ID_QUERY = String.format("select %s,%s,%s,%s,%s from %s where %s = ?",
+            AUCTION_ITEM_ID, AUCTION_ITEM_TITLE, AUCTION_ITEM_PRICE, AUCTION_ITEMS_IN_STOCK,PICTURE_ID, getTableName(), AUCTION_ITEM_ID);
 
-    private final String UPDATE_TABLE_QUERY = "update " + getTableName() + " set %s = '%s', %s = '%s', %s = '%s',%s = '%s' " + WHERE_QUERY;
+    private final String UPDATE_TABLE_QUERY = "update " + getTableName() + " set %s = '%s', %s = '%s', %s = '%s',%s = '%s',%s = '%s'" + WHERE_QUERY;
 
     private final String DELETE_ALL = "delete from " + getTableName();
     private final String DELETE_BY_QUERY = "delete from " + getTableName() + SPACE + WHERE_QUERY;
 
-    private final String FIND_ITEM_BY_QUERY = String.format("select %s,%s,%s,%s from", AUCTION_ITEM_ID, AUCTION_ITEM_TITLE,
-            AUCTION_ITEM_PRICE, AUCTION_ITEMS_IN_STOCK) + SPACE + getTableName() + SPACE + WHERE_QUERY_WITH_PARAM;
+    private final String FIND_ITEM_BY_QUERY = String.format("select %s,%s,%s,%s,%s from", AUCTION_ITEM_ID, AUCTION_ITEM_TITLE,
+            AUCTION_ITEM_PRICE, AUCTION_ITEMS_IN_STOCK,PICTURE_ID) + SPACE + getTableName() + SPACE + WHERE_QUERY_WITH_PARAM;
 
 
     private final String FIND_ITEMS_IN_STOKE_BY_TITLE = "select " + AUCTION_ITEMS_IN_STOCK + " from " + getTableName() +

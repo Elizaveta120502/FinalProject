@@ -26,9 +26,12 @@
     <c:if test="${not empty sessionScope.user }">
         <a href="/controller?command=show_lots">Lots</a>
     </c:if>
-    <a href="#">Services</a>
-    <a href="#">Clients</a>
-    <a href="#">Contact</a>
+    <c:if test="${not empty sessionScope.user && sessionScope.user.role eq Role.ADMINISTRATOR}">
+            <a href="/controller?command=show_users">Users list</a>
+    </c:if>
+    <c:if test="${not empty sessionScope.user}">
+        <a href="/controller?command=show_items">Auction items</a>
+    </c:if>
 </div>
 <span class="menu" onclick="openNav()">Menu❀</span>
 <br>
@@ -74,7 +77,6 @@
         </c:if>
         <c:if test="${not empty sessionScope.user && sessionScope.user.role eq Role.ADMINISTRATOR}">
             <div>
-                <a class="start_button" href="/controller?command=show_users">Users list</a>
             </div>
         </c:if>
         <c:if test="${not empty sessionScope.user && sessionScope.user.role eq Role.CLIENT }">

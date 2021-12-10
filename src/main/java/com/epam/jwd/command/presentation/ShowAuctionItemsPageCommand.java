@@ -6,30 +6,34 @@ import com.epam.jwd.command.CommandResponse;
 import com.epam.jwd.controller.RequestFactory;
 import com.epam.jwd.dao.impl.DAOFactory;
 import com.epam.jwd.logger.LoggerProvider;
-import com.epam.jwd.model.Account;
+import com.epam.jwd.model.AuctionItem;
 import com.epam.jwd.service.EntityService;
 import com.epam.jwd.service.ServiceFactory;
 
 import java.util.List;
 
-public enum ShowUsersPageCommand implements Command {
-    INSTANCE(ServiceFactory.getInstance().serviceFor(Account.class),
+public enum ShowAuctionItemsPageCommand implements Command {
+    INSTANCE(ServiceFactory.getInstance().serviceFor(AuctionItem.class),
             RequestFactory.getInstance());
 
-    private static List<Account> USERS = null;
+    private static List<AuctionItem> ITEMS = null;
+
+
 
     static {
+
         try {
-            USERS = DAOFactory.getInstance().getAccountDAO().readAll();
+            ITEMS = DAOFactory.getInstance().getAuctionItemsDAO().readAll();
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
             Thread.currentThread().interrupt();
         }
+
     }
 
-    private static final String USERS_ATTRIBUTE_NAME = "users";
+    private static final String ITEMS_ATTRIBUTE_NAME = "auction_items";
 
-    private static final CommandResponse FORWARD_TO_USERS_PAGE = new CommandResponse() {
+    private static final CommandResponse FORWARD_TO_ITEMS_PAGE = new CommandResponse() {
         @Override
         public boolean isRedirect() {
             return false;
@@ -37,14 +41,14 @@ public enum ShowUsersPageCommand implements Command {
 
         @Override
         public String getPath() {
-            return "/WEB-INF/jsp/users.jsp";
+            return "/WEB-INF/jsp/items.jsp";
         }
     };
 
-    private final EntityService<Account> service;
+    private final EntityService<AuctionItem> service;
     private final RequestFactory requestFactory;
 
-    ShowUsersPageCommand(EntityService<Account> service, RequestFactory requestFactory) {
+    ShowAuctionItemsPageCommand(EntityService<AuctionItem> service, RequestFactory requestFactory) {
         this.service = service;
         this.requestFactory = requestFactory;
     }
@@ -52,8 +56,7 @@ public enum ShowUsersPageCommand implements Command {
     @Override
     public CommandResponse execute(CommandRequest request) {
 
-        request.addAttributeToJsp(USERS_ATTRIBUTE_NAME, USERS);
-        return FORWARD_TO_USERS_PAGE;
+        request.addAttributeToJsp(ITEMS_ATTRIBUTE_NAME, ITEMS);
+        return FORWARD_TO_ITEMS_PAGE;
     }
-
 }

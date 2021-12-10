@@ -1,14 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<Resources className="org.apache.catalina.webresources.StandardRoot">
-<PreResources className="org.apache.catalina.webresources.DirResourceSet"
-              base="${catalina.base}"
-              internalPath="/"
-              webAppMount="/WEB-INF/classes"/>
-</Resources>
+
 <html>
 <head>
     <title>Block user</title>
+    <link rel="shortcut icon" type="image/png"
+          href="https://img.icons8.com/external-konkapp-flat-konkapp/50/000000/external-sakura-japan-konkapp-flat-konkapp.png"/>
 
 </head>
 <body>
