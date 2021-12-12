@@ -38,6 +38,9 @@
     <c:if test="${not empty sessionScope.user && sessionScope.user.role eq Role.ADMINISTRATOR}">
         <a href="/controller?command=show_delete_item">Delete product</a>
     </c:if>
+    <c:if test="${not empty sessionScope.user}">
+        <a href="/controller?command=show_delete_account">Delete account</a>
+    </c:if>
 </div>
 <span class="menu" onclick="openNav()">Menu❀</span>
 <br>

@@ -5,6 +5,7 @@
     <title>Adding auction item</title>
     <link rel="shortcut icon" type="image/png"
           href="https://img.icons8.com/external-konkapp-flat-konkapp/50/000000/external-sakura-japan-konkapp-flat-konkapp.png"/>
+
 </head>
 <body>
 

@@ -29,6 +29,9 @@ public enum CommandRegistry {
 
     SHOW_USERS(ShowUsersPageCommand.INSTANCE, "show_users", Role.ADMINISTRATOR),
 
+    DELETE_ACCOUNT(DeleteAccountCommand.INSTANCE,"delete_account",Role.ADMINISTRATOR,Role.CLIENT),
+    SHOW_DELETE_ACCOUNT(ShowDeleteUserPageCommand.INSTANCE,"show_delete_account",Role.ADMINISTRATOR,Role.CLIENT),
+
     SHOW_LOTS(ShowLotsPageCommand.INSTANCE, "show_lots"),
     MAKE_BET(MakeBetCommand.INSTANCE, "make_bet", Role.CLIENT, Role.ADMINISTRATOR),
     SHOW_MAKING_BET(ShowMakeBetPageCommand.INSTANCE, "show_bet", Role.CLIENT, Role.ADMINISTRATOR),

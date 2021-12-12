@@ -97,7 +97,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Optional<Account> deleteAccount(String login, String password) {
-        Optional<Account> deleteAccount = null;
+        Optional<Account> deleteAccount;
         try {
             if (login == null || password == null || password.length() != 6) {
                 Optional.empty();
