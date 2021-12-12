@@ -44,9 +44,8 @@ public enum BlockUserCommand implements Command {
             request.addAttributeToJsp(ERROR_BLOCK_PASS_ATTRIBUTE, ERROR_LOGIN_EMAIL_MESSAGE);
             return requestFactory.createForwardResponse(BLOCK_USER_JSP);
         }
-        request.clearSession();
-        request.createSession();
-        request.addToSession(USER_SESSION_ATTRIBUTE_NAME, blockedUsers);
+
+        request.addAttributeToJsp(USER_SESSION_ATTRIBUTE_NAME, blockedUsers.get());
         return requestFactory.createRedirectResponse(INDEX_PATH);
     }
 }

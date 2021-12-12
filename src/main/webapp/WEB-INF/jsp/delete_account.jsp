@@ -12,7 +12,7 @@
 <form name="delete-form" action="/controller?command=delete_account" method="post">
     <div>
         <label for="login-input">Login:</label>
-        <input id="login-input" type="text" name="login" required value="${user.login}"/>
+        <input id="login-input" type="text" name="login"  readonly required value="${user.login}"/>
     </div>
     <br>
     <div class="password_text">
