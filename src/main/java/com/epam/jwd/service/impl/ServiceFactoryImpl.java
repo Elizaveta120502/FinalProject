@@ -32,12 +32,12 @@ public enum ServiceFactoryImpl implements ServiceFactory {
                 case "AuctionItem":
                     return new AuctionItemServiceImpl(DAOFactory.getInstance().getAuctionItemsDAO());
                 case "Lot":
-                    return  new LotServiceImpl(DAOFactory.getInstance().getLotDAO());
+                    return new LotServiceImpl(DAOFactory.getInstance().getLotDAO());
                 case "Payment":
-                    return  new PaymentServiceImpl(DAOFactory.getInstance().getPaymentDAO());
+                    return new PaymentServiceImpl(DAOFactory.getInstance().getPaymentDAO());
                 case "Shipment":
-                    return  new ShipmentServiceImpl(DAOFactory.getInstance().getShipmentDAO());
-                case "Picture" :
+                    return new ShipmentServiceImpl(DAOFactory.getInstance().getShipmentDAO());
+                case "Picture":
                     return new PictureServiceImpl(DAOFactory.getInstance().getPictureDAO());
                 default:
                     throw new IllegalArgumentException(String.format(SERVICE_NOT_FOUND, className));

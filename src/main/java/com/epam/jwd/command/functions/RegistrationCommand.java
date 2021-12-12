@@ -37,7 +37,7 @@ public enum RegistrationCommand implements Command {
         final String login = request.getParameter(LOGIN_REQUEST_PARAM_NAME);
         final String password = request.getParameter(PASSWORD_REQUEST_PARAM_NAME);
         final String email = request.getParameter(EMAIL_REQUEST_PARAM_NAME);
-        final Optional<Account> user = accountService.registrationForClients(login, password,email);
+        final Optional<Account> user = accountService.registrationForClients(login, password, email);
         if (!user.isPresent()) {
             request.addAttributeToJsp(ERROR_LOGIN_PASS_ATTRIBUTE, ERROR_LOGIN_PASS_MESSAGE);
             return requestFactory.createForwardResponse(REGISTRATION_JSP_PATH);

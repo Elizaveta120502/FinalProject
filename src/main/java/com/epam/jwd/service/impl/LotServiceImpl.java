@@ -31,16 +31,16 @@ public class LotServiceImpl implements LotService {
     @Override
     public boolean approveLot(Lot newLot) {
         try {
-            if (!newLot.equals(null) ) {
+            if (!newLot.equals(null)) {
                 getInstance().getLotDAO().create(newLot);
                 return true;
-            }else{
+            } else {
                 return false;
             }
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
             Thread.currentThread().interrupt();
-           return false;
+            return false;
         }
 
     }
@@ -121,7 +121,7 @@ public class LotServiceImpl implements LotService {
             if (!newLot.equals(null)) {
                 getInstance().getLotDAO().deleteById(newLot.getId());
                 return true;
-            }else{
+            } else {
                 return false;
             }
         } catch (InterruptedException e) {
@@ -182,7 +182,7 @@ public class LotServiceImpl implements LotService {
 
                     getInstance().getLotDAO().create(newLot);
 
-                }else{
+                } else {
                     Optional.empty();
                 }
             }

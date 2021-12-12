@@ -16,10 +16,10 @@
     <c:forEach var="user" items="${requestScope.users}">
         <div class="user-wrapper">
             <c:if test="${not empty sessionScope.user }">
-            <a class="user" href="/controller?command=show_user_block">
+                <a class="user" href="/controller?command=show_user_block">
 
-        ${user.login} ${user.email} ${user.role.roleName} ${user.status.name().toLowerCase()}
-            </a>
+                        ${user.login} ${user.email} ${user.role.roleName} ${user.status.name().toLowerCase()}
+                </a>
             </c:if>
         </div>
     </c:forEach>

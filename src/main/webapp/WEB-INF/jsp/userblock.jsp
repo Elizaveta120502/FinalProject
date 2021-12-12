@@ -10,9 +10,9 @@
 </head>
 <body>
 <style>
-<%@include file="/WEB-INF/css/mainStyle.css"%>
-<%@include file="/WEB-INF/css/welcomebackground.css"%>
-<%@include file="/WEB-INF/css/loginStyle.css"%>
+    <%@include file="/WEB-INF/css/mainStyle.css"%>
+    <%@include file="/WEB-INF/css/welcomebackground.css"%>
+    <%@include file="/WEB-INF/css/loginStyle.css"%>
 </style>
 
 <div class="login">
@@ -24,17 +24,18 @@
             <label for="login-input">Login:</label>
             <input id="login-input" type="text" name="login" required value=""/>
 
-    <br>
-    <div>
-        <label>email:</label>
-        <input type="text" name="email" required pattern="^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$" value=""/>
-        <br/>
-    </div>
-    <div>
-        <button>
-            <span>Block</span>
-        </button>
-    </div>
+            <br>
+            <div>
+                <label>email:</label>
+                <input type="text" name="email" required
+                       pattern="^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$" value=""/>
+                <br/>
+            </div>
+            <div>
+                <button>
+                    <span>Block</span>
+                </button>
+            </div>
         </form>
     </div>
 

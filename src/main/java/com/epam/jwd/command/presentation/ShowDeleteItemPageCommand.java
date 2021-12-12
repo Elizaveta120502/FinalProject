@@ -5,20 +5,21 @@ import com.epam.jwd.command.CommandRequest;
 import com.epam.jwd.command.CommandResponse;
 import com.epam.jwd.controller.RequestFactory;
 
-public enum ShowBuyLotPageCommand implements Command {
+public enum ShowDeleteItemPageCommand implements Command {
+
 
     INSTANCE(RequestFactory.getInstance());
 
-    private static final String BUY_JSP_PATH = "/WEB-INF/jsp/buy.jsp";
+    private static final String AUCTION_ITEM_JSP_PATH = "/WEB-INF/jsp/delete_item.jsp";
 
     private final RequestFactory requestFactory;
 
-    ShowBuyLotPageCommand(RequestFactory requestFactory) {
+    ShowDeleteItemPageCommand(RequestFactory requestFactory) {
         this.requestFactory = requestFactory;
     }
 
     @Override
     public CommandResponse execute(CommandRequest request) {
-        return requestFactory.createForwardResponse(BUY_JSP_PATH);
+        return requestFactory.createForwardResponse(AUCTION_ITEM_JSP_PATH);
     }
 }

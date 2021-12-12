@@ -4,11 +4,13 @@ import com.epam.jwd.dao.AuctionItemsDAO;
 import com.epam.jwd.dao.impl.DAOFactory;
 import com.epam.jwd.logger.LoggerProvider;
 import com.epam.jwd.model.AuctionItem;
+import com.epam.jwd.model.Picture;
 import com.epam.jwd.service.AuctionItemsService;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
@@ -37,34 +39,40 @@ public class AuctionItemServiceImpl implements AuctionItemsService {
     }
 
     @Override
-    public boolean addProduct(String title, int price, int inStock) {
+    public Optional<AuctionItem> addProduct(String title, int price, int inStock, String pictureURL) {
         try {
             if (title == null || price <= 0 || inStock <= 0) {
-                return Boolean.FALSE;
+                return Optional.empty();
             } else {
                 long id = DAOFactory.getInstance().getAuctionItemsDAO().readAll().size() + 1;
-                AuctionItem newAuctionItem = new AuctionItem(id, title, price, inStock,null);
-                return DAOFactory.getInstance().getAuctionItemsDAO().create(newAuctionItem);
+                Picture picture = new Picture(id, pictureURL, title + id);
+                DAOFactory.getInstance().getPictureDAO().create(picture);
+                AuctionItem newAuctionItem = new AuctionItem(id, title, price, inStock, picture);
+                DAOFactory.getInstance().getAuctionItemsDAO().create(newAuctionItem);
+                return Optional.of(newAuctionItem);
             }
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
             Thread.currentThread().interrupt();
-            return Boolean.FALSE;
+            return Optional.empty();
         }
     }
 
     @Override
-    public boolean deleteProduct(Long id) {
+    public Optional<Long> deleteProduct(Long id) {
         try {
-            if (id > 0 && id < DAOFactory.getInstance().getLotDAO().readAll().size()) {
-                return DAOFactory.getInstance().getAuctionItemsDAO().deleteById(id);
-            } else {
-                return false;
+            if (id > 0 && id < DAOFactory.getInstance().getAuctionItemsDAO().readAll().size()+1) {
+                DAOFactory.getInstance().getAuctionItemsDAO().deleteById(id);
+                DAOFactory.getInstance().getPictureDAO().deleteById(id);
+                DAOFactory.getInstance().getLotDAO().deleteByAuctionItemId(id);
+                 return  Optional.of(id);
+            }else{
+                return  Optional.empty();
             }
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
             Thread.currentThread().interrupt();
-            return Boolean.FALSE;
+            return Optional.empty();
         }
     }
 

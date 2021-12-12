@@ -42,7 +42,7 @@ public class DAOFactory {
         return shipmentDAO;
     }
 
-    public PictureDAO getPictureDAO(){
+    public PictureDAO getPictureDAO() {
         return pictureDAO;
     }
 

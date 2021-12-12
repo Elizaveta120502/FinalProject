@@ -26,3 +26,4 @@ public interface ShipmentService extends EntityService<Shipment> {
     }
 
 }
+

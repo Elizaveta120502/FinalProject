@@ -19,7 +19,6 @@ public enum ShowAuctionItemsPageCommand implements Command {
     private static List<AuctionItem> ITEMS = null;
 
 
-
     static {
 
         try {

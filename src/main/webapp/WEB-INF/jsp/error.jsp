@@ -13,19 +13,19 @@
 </style>
 <div class="land_error">
     <div class="text_block_error">
-    <h2 class="text_error">Access denied</h2>
+        <h2 class="text_error">Access denied</h2>
         <h4 class="text_error">Your role does not match the access level for this page
-        Your role:
-        <c:if test="${empty sessionScope.user }">
-            ${Role.UNAUTHORIZED_USER.name().toLowerCase()}
-        </c:if>
-        <c:if test="${not empty sessionScope.user && sessionScope.user.role eq Role.ADMINISTRATOR}">
-            ${Role.ADMINISTRATOR.name().toLowerCase()}
-        </c:if>
-        <c:if test="${not empty sessionScope.user && sessionScope.user.role eq Role.CLIENT }">
-            ${Role.CLIENT.name().toLowerCase()}
-        </c:if>
-    </h4>
+            Your role:
+            <c:if test="${empty sessionScope.user }">
+                ${Role.UNAUTHORIZED_USER.name().toLowerCase()}
+            </c:if>
+            <c:if test="${not empty sessionScope.user && sessionScope.user.role eq Role.ADMINISTRATOR}">
+                ${Role.ADMINISTRATOR.name().toLowerCase()}
+            </c:if>
+            <c:if test="${not empty sessionScope.user && sessionScope.user.role eq Role.CLIENT }">
+                ${Role.CLIENT.name().toLowerCase()}
+            </c:if>
+        </h4>
     </div>
 </div>
 </body>

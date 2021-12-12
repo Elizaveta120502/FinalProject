@@ -27,10 +27,16 @@
         <a href="/controller?command=show_lots">Lots</a>
     </c:if>
     <c:if test="${not empty sessionScope.user && sessionScope.user.role eq Role.ADMINISTRATOR}">
-            <a href="/controller?command=show_users">Users list</a>
+        <a href="/controller?command=show_users">Users list</a>
     </c:if>
     <c:if test="${not empty sessionScope.user}">
         <a href="/controller?command=show_items">Auction items</a>
+    </c:if>
+    <c:if test="${not empty sessionScope.user}">
+        <a href="/controller?command=show_add_item">Add product</a>
+    </c:if>
+    <c:if test="${not empty sessionScope.user && sessionScope.user.role eq Role.ADMINISTRATOR}">
+        <a href="/controller?command=show_delete_item">Delete product</a>
     </c:if>
 </div>
 <span class="menu" onclick="openNav()">Menu❀</span>
@@ -72,16 +78,16 @@
 
 <div class="start">
 
-        <c:if test="${empty sessionScope.user }">
-            <div class="start_text">To start you need to register or sign in</div>
-        </c:if>
-        <c:if test="${not empty sessionScope.user && sessionScope.user.role eq Role.ADMINISTRATOR}">
-            <div>
-            </div>
-        </c:if>
-        <c:if test="${not empty sessionScope.user && sessionScope.user.role eq Role.CLIENT }">
-            <div></div>
-        </c:if>
+    <c:if test="${empty sessionScope.user }">
+        <div class="start_text">To start you need to register or sign in</div>
+    </c:if>
+    <c:if test="${not empty sessionScope.user && sessionScope.user.role eq Role.ADMINISTRATOR}">
+        <div>
+        </div>
+    </c:if>
+    <c:if test="${not empty sessionScope.user && sessionScope.user.role eq Role.CLIENT }">
+        <div></div>
+    </c:if>
 
 </div>
 

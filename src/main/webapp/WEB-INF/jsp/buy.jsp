@@ -19,9 +19,9 @@
 
 
     <form name="buy-form" action="/controller?command=buy_lot" method="post">
-        <div class ="lot_id">
-            <label for="lotId" >Lot №:</label>
-            <input id="lotId" type="number" name="lotId" min=1  required value=""/>
+        <div class="lot_id">
+            <label for="lotId">Lot №:</label>
+            <input id="lotId" type="number" name="lotId" min=1 required value=""/>
         </div>
         <br>
         <div class="shipment">
@@ -38,23 +38,22 @@
             <p><input name="payment" type="radio" value="on Credit" checked>on Credit</p>
             <p><input name="payment" type="radio" value="Maestro" checked>Maestro</p>
         </div>
-        <div  class="account">
+        <div class="account">
             <label for="account-input">Your login:</label>
-            <input id="account-input" type="text" name="account" required  readonly value="${user.login}"/>
+            <input id="account-input" type="text" name="account" required readonly value="${user.login}"/>
         </div>
         <c:if test="${not empty requestScope.errorLotMessage}">
             <b>${requestScope.errorLotMessage}</b>
             <br>
         </c:if>
         <div>
-            <button class = "buy_button">
+            <button class="buy_button">
                 Buy
             </button>
         </div>
     </form>
 
 </div>
-
 
 
 </body>

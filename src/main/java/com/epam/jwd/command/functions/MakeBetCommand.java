@@ -15,7 +15,7 @@ import java.util.Optional;
 public enum MakeBetCommand implements Command {
     INSTANCE(ServiceFactory.getInstance().userService(),
             ServiceFactory.getInstance().lotService(),
-            RequestFactory.getInstance(),PropertyContext.instance());
+            RequestFactory.getInstance(), PropertyContext.instance());
 
 
     private static final String INDEX_PATH = "/controller?command=show_lots";
@@ -27,15 +27,15 @@ public enum MakeBetCommand implements Command {
     private static final String LOT_ID_REQUEST_PARAM_NAME = "id";
     private static final String PRICE_REQUEST_PARAM_NAME = "newCurrentPrice";
     private static final String ERROR_BET_MESSAGE = "Choose lot number and enter your login";
-    private static final String OPERATION_WAS_UNSUCCESSFUL ="The operation was unsuccessful";
+    private static final String OPERATION_WAS_UNSUCCESSFUL = "The operation was unsuccessful";
 
     private final AccountService accountService;
     private final LotService lotService;
     private final RequestFactory requestFactory;
     private final PropertyContext propertyContext;
 
-    MakeBetCommand(AccountService userService,LotService lotService,
-                   RequestFactory requestFactory,PropertyContext propertyContext) {
+    MakeBetCommand(AccountService userService, LotService lotService,
+                   RequestFactory requestFactory, PropertyContext propertyContext) {
         this.accountService = userService;
         this.lotService = lotService;
         this.requestFactory = requestFactory;
@@ -48,10 +48,10 @@ public enum MakeBetCommand implements Command {
         final String login = request.getParameter(LOGIN_REQUEST_PARAM_NAME);
         final int id = Integer.parseInt(request.getParameter(LOT_ID_REQUEST_PARAM_NAME));
         final int newCurrentPrice = Integer.parseInt(request.getParameter(PRICE_REQUEST_PARAM_NAME));
-        final Optional<Lot> bet = lotService.makeBet(login,(long) id, newCurrentPrice);
+        final Optional<Lot> bet = lotService.makeBet(login, (long) id, newCurrentPrice);
         request.clearSession();
         request.createSession();
-        request.addToSession(LOT_SESSION_ATTRIBUTE_NAME,bet.get());
+        request.addToSession(LOT_SESSION_ATTRIBUTE_NAME, bet.get());
 
         if (!bet.isPresent()) {
             request.addAttributeToJsp(LOT_SESSION_ATTRIBUTE_NAME, OPERATION_WAS_UNSUCCESSFUL);

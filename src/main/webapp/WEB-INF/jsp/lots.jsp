@@ -14,17 +14,17 @@
     <%@include file="/WEB-INF/css/makeBetStyle.css"%>
 </style>
 <div class="main_button">
-    <a class="make_bet_text" href = "/controller?command=show_bet">Make bet</a>
+    <a class="make_bet_text" href="/controller?command=show_bet">Make bet</a>
 </div>
 <div class="buy_button">
-    <a class="make_bet_text" href = "/controller?command=show_buy">Buy lot</a>
+    <a class="make_bet_text" href="/controller?command=show_buy">Buy lot</a>
 </div>
 <ul>
 
     <c:forEach var="lot" items="${requestScope.lots}">
 
         <div class="lot-wrapper">
-           <div class="lot"><pre> № ${lot.id} ${lot.auctionItem.title}
+            <div class="lot"><pre> № ${lot.id} ${lot.auctionItem.title}
 
   Starting price: ${lot.startingPrice}
 

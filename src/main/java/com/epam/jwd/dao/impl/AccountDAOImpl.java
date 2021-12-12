@@ -211,24 +211,6 @@ public class AccountDAOImpl extends AbstractDAO<Account> implements AccountDAO<A
         }
     }
 
-//    @Override
-//    public List<Account> findBestUsers() {
-//
-//        try {
-//            List<Account> users = DAOFactory.getInstance().getAccountDAO().readAll();
-//            List<Account> bestUsers = null;
-//            for (Account account: users){
-//                if (account.getStatus().getId() == 4L || account.getStatus().getId() == 5L){
-//                   bestUsers.add(account);
-//                }
-//            }
-//            return bestUsers;
-//        } catch (InterruptedException e) {
-//            LoggerProvider.getLOG().error("takeConnection interrupted");
-//            Thread.currentThread().interrupt();
-//            return Collections.emptyList();
-//        }
-//    }
 
     @Override
     protected String getTableName() {

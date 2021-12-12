@@ -25,8 +25,8 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Optional<Account> authenticate(String login, String password) throws InterruptedException {
-            final Optional<Account> readUser = DAOFactory.getInstance().getAccountDAO().findUserByLogin(login);
-            return readUser.filter(user -> user.getPassword().equals(password));
+        final Optional<Account> readUser = DAOFactory.getInstance().getAccountDAO().findUserByLogin(login);
+        return readUser.filter(user -> user.getPassword().equals(password));
 
     }
 
@@ -35,7 +35,7 @@ public class AccountServiceImpl implements AccountService {
         long newId;
         try {
             if (login == null || password == null || email == null
-                    || password.length() < 6 || password.length() > 6 ) {
+                    || password.length() < 6 || password.length() > 6) {
                 return Optional.empty();
             } else {
                 newId = DAOFactory.getInstance().getAccountDAO().readAll().size() + 1;
@@ -78,7 +78,7 @@ public class AccountServiceImpl implements AccountService {
 
         try {
             if (login == null || email == null) {
-                return  Optional.empty();
+                return Optional.empty();
             } else {
                 Optional<Account> accountToBlock =
                         DAOFactory.getInstance().getAccountDAO().findUserByLogin(login);
@@ -90,7 +90,7 @@ public class AccountServiceImpl implements AccountService {
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
             Thread.currentThread().interrupt();
-            return  Optional.empty();
+            return Optional.empty();
         }
 
     }
@@ -102,17 +102,17 @@ public class AccountServiceImpl implements AccountService {
             if (login == null || password == null || password.length() != 6) {
                 Optional.empty();
             } else {
-                 deleteAccount = DAOFactory.getInstance().getAccountDAO().findUserByLogin(login);
+                deleteAccount = DAOFactory.getInstance().getAccountDAO().findUserByLogin(login);
                 if (deleteAccount.get().getPassword().equals(password)) {
                     DAOFactory.getInstance().getAccountDAO().delete(deleteAccount.get());
                     if (!DAOFactory.getInstance().getAccountDAO().findUserByLogin(deleteAccount.get().getLogin()).isPresent()) {
                         return deleteAccount;
                     } else {
-                        return  Optional.empty();
+                        return Optional.empty();
                     }
                 } else {
                     LoggerProvider.getLOG().error("password not confirmed");
-                    return  Optional.empty();
+                    return Optional.empty();
                 }
 
             }

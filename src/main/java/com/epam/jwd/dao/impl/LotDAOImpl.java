@@ -100,6 +100,8 @@ public class LotDAOImpl extends AbstractDAO<Lot> implements LotDAO<Lot> {
     private final String FIND_PRICE = SELECT_ALL + SPACE + WHERE_QUERY_WITH_PARAM;
 
 
+
+
     protected LotDAOImpl(ConnectionPool pool) {
         super(pool);
     }
@@ -194,6 +196,20 @@ public class LotDAOImpl extends AbstractDAO<Lot> implements LotDAO<Lot> {
     @Override
     public boolean deleteById(Long id) {
         String sql = String.format(DELETE_BY_QUERY, LOT_ID, id);
+        int executeUpdateIndicator = 0;
+        try {
+            executeUpdateIndicator = StatementProvider.getInstance().executeUpdate(sql);
+        } catch (InterruptedException e) {
+            LoggerProvider.getLOG().error("takeConnection interrupted");
+            Thread.currentThread().interrupt();
+            return Boolean.FALSE;
+        }
+        return executeUpdateIndicator == 1;
+    }
+
+    @Override
+    public boolean deleteByAuctionItemId(Long auctionItemId){
+        String sql = String.format(DELETE_BY_QUERY,AUCTION_ITEMS_ID,auctionItemId);
         int executeUpdateIndicator = 0;
         try {
             executeUpdateIndicator = StatementProvider.getInstance().executeUpdate(sql);

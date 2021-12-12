@@ -26,8 +26,8 @@ public enum BlockUserCommand implements Command {
     private final AccountService accountService;
     private final RequestFactory requestFactory;
 
-     BlockUserCommand(AccountService accountService, RequestFactory requestFactory) {
-        this.accountService=accountService;
+    BlockUserCommand(AccountService accountService, RequestFactory requestFactory) {
+        this.accountService = accountService;
         this.requestFactory = requestFactory;
 
     }
@@ -35,11 +35,11 @@ public enum BlockUserCommand implements Command {
 
     @Override
     public CommandResponse execute(CommandRequest request) throws InterruptedException {
-        final String login= request.getParameter(LOGIN);
+        final String login = request.getParameter(LOGIN);
         final String email = request.getParameter(EMAIL);
 
 
-           Optional<Account> blockedUsers = accountService.blockUser(login,email);
+        Optional<Account> blockedUsers = accountService.blockUser(login, email);
         if (!blockedUsers.isPresent()) {
             request.addAttributeToJsp(ERROR_BLOCK_PASS_ATTRIBUTE, ERROR_LOGIN_EMAIL_MESSAGE);
             return requestFactory.createForwardResponse(BLOCK_USER_JSP);

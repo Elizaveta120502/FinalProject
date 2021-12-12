@@ -14,16 +14,16 @@
 </style>
 <div>
     <c:forEach var="aitem" items="${requestScope.auction_items}">
-        <div class="item-wrapper">
-            <div class="item">
-                Title: ${aitem.title}
-                Price: ${aitem.price}$<br>
-                Amount of items: ${aitem.inStoke}
-                <img class="item_picture" src="${aitem.picture.pictureURL}">
-            </div>
+    <div class="item-wrapper">
+        <div class="item">
+            Title: ${aitem.title}
+            Price: ${aitem.price}$<br>
+            Amount of items: ${aitem.inStoke}
+            <img class="item_picture" src="${aitem.picture.pictureURL}">
         </div>
-        </div>
-    </c:forEach>
+    </div>
+</div>
+</c:forEach>
 </div>
 </body>
 </html>

@@ -63,10 +63,11 @@ public class RoleFilter implements Filter {
     }
 
     private Role retrieveCurrentUserRole(HttpServletRequest request) {
-            Role role = Optional.ofNullable(request.getSession(false))
-                    .map(s -> (Account) s.getAttribute(USER_SESSION_ATTRIBUTE_NAME))
-                    .map(Account::getRole)
-                    .orElse(Role.UNAUTHORIZED_USER);
+        Role role = Optional.ofNullable(request.getSession(false))
+                .map(s -> (Account) s.getAttribute(USER_SESSION_ATTRIBUTE_NAME))
+                .map(Account::getRole)
+                .orElse(Role.UNAUTHORIZED_USER);
+        LoggerProvider.getLOG().debug(role);
         return role;
     }
 

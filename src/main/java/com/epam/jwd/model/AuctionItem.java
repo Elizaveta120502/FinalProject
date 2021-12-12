@@ -10,7 +10,7 @@ public class AuctionItem implements DBEntity {
     private int inStoke;
     private Picture picture;
 
-    public AuctionItem(Long id, String title, int price, int inStoke,Picture picture) {
+    public AuctionItem(Long id, String title, int price, int inStoke, Picture picture) {
         this.id = id;
         this.title = title;
         this.price = price;
