@@ -1,7 +1,44 @@
 .delete_account{
-
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    top: 50px;
+    background: #FFE4B5;
+    color: #537a14;
+    left: 400px;
+    border-radius: 50px;
+    border: 5px solid #537a14;
 }
 
 .delete_account_text{
+    position: absolute;
+    top: 90px;
+    left: 80px;
+    color: #8B0000;
+    width: 400px;
+}
+
+.delete_account_button{
+    position: absolute;
+    top: 160px;
+    left: 120px;
+    background: #FFEFD5;
+    border: 2px solid #FFA07A;
+    border-radius: 20px;
+    margin: 5px 5px 5px 5px;
+    color: #8B0000;
+    padding: 10px;
+    font-family: Perpetua;
+    width: 100px;
 
 }
+
+.delete_account_button:hover {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.delete_account_button:active {
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+

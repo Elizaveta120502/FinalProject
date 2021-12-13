@@ -8,32 +8,41 @@
 
 </head>
 <body>
+<style>
+    <%@include file="/WEB-INF/css/welcomebackground.css"%>
+    <%@include file="/WEB-INF/css/deleteAccountStyle.css"%>
+</style>
+<div class="delete_account">
+    <form name="delete-form" action="/controller?command=delete_account" method="post">
 
-<form name="delete-form" action="/controller?command=delete_account" method="post">
-    <div>
-        <label for="login-input">Login:</label>
-        <input id="login-input" type="text" name="login"  readonly required value="${user.login}"/>
-    </div>
-    <br>
-    <div class="password_text">
-        <label for="password-input">Password:</label>
-        <input id="password-input" type="password" name="password" pattern="[0-9a-zA-Z]+" maxlength=6 required
-               value=""/>
-        <br/>
-    </div>
-    <c:if test="${not empty requestScope.errorUserMessage}">
-        <b >${requestScope.errorUserMessage}</b>
-        <br>
-    </c:if>
-    <div>
-        <button id="login">
-            <span>Delete</span>
-        </button>
-    </div>
-    </div>
+        <div class="delete_account_text">
+            <div>
+                <b>Confirm account deletion</b><br>
+                <label for="login-input">Login:</label>
+                <input id="login-input" type="text" name="login" readonly required value="${user.login}"/>
 
+                <br>
 
-</form>
+                <label for="password-input">Password:</label>
+                <input id="password-input" type="password" name="password" pattern="[0-9a-zA-Z]+" maxlength=6 required
+                       value=""/>
+                <br/>
+            </div>
+            <c:if test="${not empty requestScope.errorUserMessage}">
+                <b>${requestScope.errorUserMessage}</b>
+                <br>
+            </c:if>
+            <div>
+                <button class="delete_account_button">
+                    <span>Delete<br>
+                        <img src="https://github.com/Elizaveta120502/PicturesFinalProject/blob/master/pictures/icon-cornflower.png?raw=true">
+                    </span>
+                </button>
+            </div>
+        </div>
 
+        </form>
+    </form>
+</div>
 </body>
 </html>
