@@ -10,7 +10,7 @@ public interface LotService extends EntityService<Lot> {
 
     boolean approveLot(Lot newLot);
 
-    boolean deleteLot(Long id);
+    Optional<Long> deleteLot(Long id);
 
     Optional<Lot> makeBet(String login, Long lotId, int newCurrentPrice);
 

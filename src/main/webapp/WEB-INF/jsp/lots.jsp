@@ -33,7 +33,22 @@
   Items in stoke:${lot.auctionItem.inStoke}
 
   Winner: ${lot.account.login}
+
+                <form name="lot-form" action="/controller?command=delete_lot" method="post">
+        <div>
+            <label for="delete_item">Enter lot №:</label>
+            <input id="delete_item" type="number" name="id"  min="1"  required value=""/>
+        </div>
+
+        <div>
+            <button>
+                <span>Delete</span>
+            </button>
+        </div>
+                    </form>
+
                </pre>
+
                 <img class="photo" src="${lot.auctionItem.picture.pictureURL}">
 
             </div>

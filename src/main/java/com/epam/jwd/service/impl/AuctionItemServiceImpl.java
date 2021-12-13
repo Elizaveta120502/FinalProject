@@ -61,7 +61,7 @@ public class AuctionItemServiceImpl implements AuctionItemsService {
     @Override
     public Optional<Long> deleteProduct(Long id) {
         try {
-            if (id > 0 && id < DAOFactory.getInstance().getAuctionItemsDAO().readAll().size() + 1) {
+            if (id > 0 ) {
                 DAOFactory.getInstance().getAuctionItemsDAO().deleteById(id);
                 DAOFactory.getInstance().getPictureDAO().deleteById(id);
                 DAOFactory.getInstance().getLotDAO().deleteByAuctionItemId(id);

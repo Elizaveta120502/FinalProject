@@ -37,6 +37,7 @@
 
             <a href="/controller?command=show_users">Users list</a>
             <a href="/controller?command=show_delete_item">Delete product</a>
+            <a href="/controller?command=show_delete_lot">Delete lot</a>
     </c:when>
         <c:otherwise>
             <a href ="/controller?command=show_create_lot">Create lot</a>

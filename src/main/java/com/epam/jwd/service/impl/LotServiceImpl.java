@@ -46,19 +46,18 @@ public class LotServiceImpl implements LotService {
     }
 
     @Override
-    public boolean deleteLot(Long id) {
+    public Optional<Long> deleteLot(Long id) {
         try {
-            if (id <= DAOFactory.getInstance().getLotDAO().readAll().size() &&
-                    id >= 0) {
+            if (id >= 0) {
                 DAOFactory.getInstance().getLotDAO().deleteById(id);
-                return true;
+                return Optional.of(id);
             } else {
-                return false;
+                return Optional.empty();
             }
         } catch (InterruptedException e) {
             LoggerProvider.getLOG().error("takeConnection interrupted");
             Thread.currentThread().interrupt();
-            return false;
+            return Optional.empty();
         }
     }
 
