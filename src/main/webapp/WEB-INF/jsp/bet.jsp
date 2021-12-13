@@ -36,8 +36,8 @@
                 <span>Make bet!</span>
             </button>
         </div>
-</div>
-</form>
+
+    </form>
 
 </div>
 </body>

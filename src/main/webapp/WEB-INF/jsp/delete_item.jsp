@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <title>Delete auction item</title>
@@ -10,7 +11,7 @@
 <div>
     <form name="item-form" action="/controller?command=delete_item" method="post">
         <div>
-            <label for="delete_item">Enter lot №:</label>
+            <label for="delete_item">Enter item №:</label>
             <input id="delete_item" type="number" name="id"  min="1"  required value=""/>
         </div>
 

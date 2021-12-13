@@ -20,5 +20,5 @@ public interface LotService extends EntityService<Lot> {
 
     Optional<Lot> buyLot(Long lotId, String shipmentMethod, String paymentMethod, String login);
 
-    Optional<Lot> sendRequestToApproveLot(int startingPrice, int itemsAmount, String auctionItem, String login);
+    Optional<Lot> createNewLot(int startingPrice, int itemsAmount, String auctionItem, String login);
 }

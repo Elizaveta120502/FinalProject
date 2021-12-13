@@ -35,6 +35,10 @@ public class AuctionItem implements DBEntity {
         return inStoke;
     }
 
+    public void setInStoke(int inStoke) {
+        this.inStoke = inStoke;
+    }
+
     public Picture getPicture() {
         return picture;
     }

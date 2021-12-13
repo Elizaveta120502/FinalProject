@@ -26,18 +26,22 @@
     <c:if test="${not empty sessionScope.user }">
         <a href="/controller?command=show_lots">Lots</a>
     </c:if>
-    <c:if test="${not empty sessionScope.user && sessionScope.user.role eq Role.ADMINISTRATOR}">
-        <a href="/controller?command=show_users">Users list</a>
-    </c:if>
     <c:if test="${not empty sessionScope.user}">
         <a href="/controller?command=show_items">Auction items</a>
     </c:if>
     <c:if test="${not empty sessionScope.user}">
         <a href="/controller?command=show_add_item">Add product</a>
     </c:if>
-    <c:if test="${not empty sessionScope.user && sessionScope.user.role eq Role.ADMINISTRATOR}">
-        <a href="/controller?command=show_delete_item">Delete product</a>
-    </c:if>
+    <c:choose>
+        <c:when test="${not empty sessionScope.user && sessionScope.user.role eq Role.ADMINISTRATOR}">
+
+            <a href="/controller?command=show_users">Users list</a>
+            <a href="/controller?command=show_delete_item">Delete product</a>
+    </c:when>
+        <c:otherwise>
+            <a href ="/controller?command=show_create_lot">Create lot</a>
+        </c:otherwise>
+</c:choose>
     <c:if test="${not empty sessionScope.user}">
         <a href="/controller?command=show_delete_account">Delete account</a>
     </c:if>

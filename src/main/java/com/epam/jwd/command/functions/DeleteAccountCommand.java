@@ -37,14 +37,14 @@ public enum DeleteAccountCommand implements Command {
 
     @Override
     public CommandResponse execute(CommandRequest request) throws InterruptedException {
-       final String login = request.getParameter(LOGIN_REQUEST_PARAM_NAME);
-       final String password = request.getParameter(PASSWORD_REQUEST_PARAM_NAME);
+        final String login = request.getParameter(LOGIN_REQUEST_PARAM_NAME);
+        final String password = request.getParameter(PASSWORD_REQUEST_PARAM_NAME);
 
-       Optional<Account>  deletedAccount = userService.deleteAccount(login,password);
-       if (!deletedAccount.isPresent()){
-           request.addAttributeToJsp(ERROR_USER_ATTRIBUTE, ERROR_USER_MESSAGE);
-           return requestFactory.createForwardResponse(DELETE_ACCOUNT_JSP);
-       }
+        Optional<Account> deletedAccount = userService.deleteAccount(login, password);
+        if (!deletedAccount.isPresent()) {
+            request.addAttributeToJsp(ERROR_USER_ATTRIBUTE, ERROR_USER_MESSAGE);
+            return requestFactory.createForwardResponse(DELETE_ACCOUNT_JSP);
+        }
 
         request.addToSession(ITEM_SESSION_ATTRIBUTE_NAME, deletedAccount.get());
         return requestFactory.createRedirectResponse(INDEX_PATH);

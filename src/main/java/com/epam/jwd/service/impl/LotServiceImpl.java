@@ -164,23 +164,32 @@ public class LotServiceImpl implements LotService {
     }
 
     @Override
-    public Optional<Lot> sendRequestToApproveLot(int startingPrice, int itemsAmount, String auctionItem, String login) {
+    public Optional<Lot> createNewLot(int startingPrice, int itemsAmount, String auctionItem, String login) {
         try {
             Lot newLot = new Lot();
             if (startingPrice <= 0 || itemsAmount <= 0
                     || auctionItem == null) {
                 return Optional.empty();
             } else {
-                long newId = getInstance().getLotDAO().readAll().size() + 1;
                 Optional<Account> account = getInstance().getAccountDAO().findUserByLogin(login);
-                AuctionItem item = getInstance().getAuctionItemsDAO().findAuctionItemByTitle(auctionItem);
-                if (getInstance().getAuctionItemsDAO().readAll().contains(item)) {
+                Optional<AuctionItem> item = getInstance().getAuctionItemsDAO().findAuctionItemByTitle(auctionItem);
+
+                long newId = (long) (21 + Math.random() * 9_223_372);
+
+                if (getInstance().getAuctionItemsDAO().readAll().toString().contains(item.get().getTitle())) {
                     Shipment sh = new Shipment();
                     newLot = new Lot(newId, startingPrice, itemsAmount, startingPrice,
-                            LotStatus.CURRENT, item, new Shipment(null, null, sh.getActualDate(), 0, null),
+                            LotStatus.CURRENT, item.get(), new Shipment(null, null, sh.getActualDate(), 0, null),
                             new Payment(null, null, null), account.get());
 
                     getInstance().getLotDAO().create(newLot);
+                    int newItemsAmount = item.get().getInStoke() - itemsAmount;
+                    if (newItemsAmount >= 0) {
+                        item.get().setInStoke(newItemsAmount);
+                        DAOFactory.getInstance().getAuctionItemsDAO().update(item.get(), item.get().getId());
+                    } else {
+                        return Optional.empty();
+                    }
 
                 } else {
                     Optional.empty();

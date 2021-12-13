@@ -14,11 +14,11 @@ public enum CommandRegistry {
     MAIN_PAGE(ShowMainPageCommand.INSTANCE, "main_page"),
 
     ADD_AUCTION_ITEM(AddItemCommand.INSTANCE, "add_item", Role.CLIENT, Role.ADMINISTRATOR),
-    SHOW_AUCTION_ITEMS(ShowAuctionItemsPageCommand.INSTANCE, "show_items",Role.CLIENT, Role.ADMINISTRATOR),
+    SHOW_AUCTION_ITEMS(ShowAuctionItemsPageCommand.INSTANCE, "show_items", Role.CLIENT, Role.ADMINISTRATOR),
     SHOW_ADDING_ITEMS(ShowAddingAuctionItemPageCommand.INSTANCE, "show_add_item", Role.CLIENT, Role.ADMINISTRATOR),
 
-    DELETE_ITEM(DeleteItemCommand.INSTANCE,"delete_item",Role.ADMINISTRATOR),
-    SHOW_DELETE_ITEMS(ShowDeleteItemPageCommand.INSTANCE,"show_delete_item",Role.ADMINISTRATOR),
+    DELETE_ITEM(DeleteItemCommand.INSTANCE, "delete_item", Role.ADMINISTRATOR),
+    SHOW_DELETE_ITEMS(ShowDeleteItemPageCommand.INSTANCE, "show_delete_item", Role.ADMINISTRATOR),
 
 
     LOGIN(LoginCommand.INSTANCE, "login", Role.UNAUTHORIZED_USER),
@@ -29,8 +29,11 @@ public enum CommandRegistry {
 
     SHOW_USERS(ShowUsersPageCommand.INSTANCE, "show_users", Role.ADMINISTRATOR),
 
-    DELETE_ACCOUNT(DeleteAccountCommand.INSTANCE,"delete_account",Role.ADMINISTRATOR,Role.CLIENT),
-    SHOW_DELETE_ACCOUNT(ShowDeleteUserPageCommand.INSTANCE,"show_delete_account",Role.ADMINISTRATOR,Role.CLIENT),
+    DELETE_ACCOUNT(DeleteAccountCommand.INSTANCE, "delete_account", Role.ADMINISTRATOR, Role.CLIENT),
+    SHOW_DELETE_ACCOUNT(ShowDeleteUserPageCommand.INSTANCE, "show_delete_account", Role.ADMINISTRATOR, Role.CLIENT),
+
+    CREATE_LOT(CreateLotCommand.INSTANCE, "create_lot", Role.CLIENT),
+    SHOW_CREATE_LOT(ShowAddingLotPageCommand.INSTANCE, "show_create_lot", Role.CLIENT),
 
     SHOW_LOTS(ShowLotsPageCommand.INSTANCE, "show_lots"),
     MAKE_BET(MakeBetCommand.INSTANCE, "make_bet", Role.CLIENT, Role.ADMINISTRATOR),

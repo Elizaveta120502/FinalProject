@@ -35,14 +35,9 @@ public enum DeleteItemCommand implements Command {
     public CommandResponse execute(CommandRequest request) throws InterruptedException {
         final Long id = Long.parseLong(request.getParameter(ID_ITEM_REQUEST_PARAM_NAME));
 
-        Optional<Long> deletedItemId =  ServiceFactory.getInstance()
+        Optional<Long> deletedItemId = ServiceFactory.getInstance()
                 .auctionItemsService().deleteProduct(id);
-//        String result;
-//        if (deletedItemId) {
-//            result = "Unsuccessful delete";
-//        } else {
-//            result = "Deleted";
-//        }
+
 
         request.addAttributeToJsp(ITEM_SESSION_ATTRIBUTE_NAME, deletedItemId);
         return requestFactory.createRedirectResponse(INDEX_PATH);
