@@ -9,9 +9,14 @@
 
 </head>
 <body>
+<style>
+    <%@include file="/WEB-INF/css/welcomebackground.css"%>
+    <%@include file="/WEB-INF/css/addLotStyle.css"%>
+</style>
+<div class="add_lot_div">
 <form name="create-lot-form" action="/controller?command=create_lot" method="post">
 
-
+<div class="add_lot_text">
     <div>
         <label for="price_input">Starting price:</label>
         <input id="price_input" type="number" name="startingPrice" min="1" required value=""/>
@@ -25,7 +30,7 @@
     <br/>
     <div>
         <label for="item_name_input">Enter auction item name:</label>
-        <input id="item_name_input"  name="auctionItem" type="text" required value=""/>
+        <input id="item_name_input" name="auctionItem" type="text" required value=""/>
     </div>
     <br>
     <div>
@@ -41,11 +46,14 @@
         <br>
     </c:if>
     <div>
-        <button>
-            <span>Create lot</span>
+        <button class="create_lot_button">
+            <span>Create lot
+            <img src="https://github.com/Elizaveta120502/PicturesFinalProject/blob/master/pictures/icon-pink.png?raw=true">
+            </span>
         </button>
     </div>
-
+    </div>
+</div>
 </form>
 </body>
 </html>
