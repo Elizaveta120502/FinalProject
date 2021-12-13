@@ -9,16 +9,21 @@
 
 </head>
 <body>
-<div>
+<style>
+    <%@include file="/WEB-INF/css/deleteLotStyle.css"%>
+    <%@include file="/WEB-INF/css/welcomebackground.css"%>
+</style>
+<div class = "delete_lot">
     <form name="lot-form" action="/controller?command=delete_lot" method="post">
-        <div>
-            <label for="delete_item">Enter lot №:</label>
-            <input id="delete_item" type="number" name="id"  min="1"  required value=""/>
+        <div class="delete_lot_text">
+            <label for="delete_item">Lot №:</label>
+            <input id="delete_item" type="number" name="id"  min="1" readonly  required value="${lot.id}"/>
         </div>
 
         <div>
-            <button>
+            <button class="delete_button_item">
                 <span>Delete</span>
+                <img src="https://img.icons8.com/color/48/000000/orchid.png"/>
             </button>
         </div>
         <c:if test="${not empty requestScope.errorItemMessage}">

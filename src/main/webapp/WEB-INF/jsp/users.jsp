@@ -20,6 +20,7 @@
 
                         ${user.login} ${user.email} ${user.role.roleName} ${user.status.name().toLowerCase()}
                 </a>
+
             </c:if>
         </div>
     </c:forEach>

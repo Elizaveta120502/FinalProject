@@ -13,6 +13,8 @@
     <%@include file="/WEB-INF/css/lotsStyle.css"%>
     <%@include file="/WEB-INF/css/makeBetStyle.css"%>
 </style>
+
+
 <div class="main_button">
     <a class="make_bet_text" href="/controller?command=show_bet">Make bet</a>
 </div>
@@ -33,20 +35,6 @@
   Items in stoke:${lot.auctionItem.inStoke}
 
   Winner: ${lot.account.login}
-
-                <form name="lot-form" action="/controller?command=delete_lot" method="post">
-        <div>
-            <label for="delete_item">Enter lot №:</label>
-            <input id="delete_item" type="number" name="id"  min="1"  required value=""/>
-        </div>
-
-        <div>
-            <button>
-                <span>Delete</span>
-            </button>
-        </div>
-                    </form>
-
                </pre>
 
                 <img class="photo" src="${lot.auctionItem.picture.pictureURL}">
@@ -58,173 +46,5 @@
     </c:forEach>
 </ul>
 
-
-<%--<ul class="products clearfix">--%>
-<%--    <li class="lot-wrapper">--%>
-<%--        <div class="lot">--%>
-<%--            <div class="lot-photo">--%>
-<%--                <img src="https://github.com/Elizaveta120502/PicturesFinalProject/blob/master/pictures/alstromeria.jpeg?raw=true"--%>
-<%--                     alt="">--%>
-
-<%--            </div>--%>
-
-<%--        </div>--%>
-<%--    </li>--%>
-
-<%--    <li class="lot-wrapper">--%>
-<%--        <div class="lot">--%>
-<%--            <div class="lot-photo">--%>
-<%--                <img src="https://github.com/Elizaveta120502/PicturesFinalProject/blob/master/pictures/begonia.webp?raw=true"--%>
-<%--                     alt="">--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </li>--%>
-<%--    <li class="lot-wrapper">--%>
-<%--        <div class="lot">--%>
-<%--            <div class="lot-photo">--%>
-<%--                <img src="https://github.com/Elizaveta120502/PicturesFinalProject/blob/master/pictures/lemon-tree.jpg?raw=true"--%>
-<%--                     alt="">--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </li>--%>
-<%--    <li class="lot-wrapper">--%>
-<%--        <div class="lot">--%>
-<%--            <div class="lot-photo">--%>
-<%--                <img src="https://github.com/Elizaveta120502/PicturesFinalProject/blob/master/pictures/lily1.jpg?raw=true"--%>
-<%--                     alt="">--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </li>--%>
-<%--    <li class="lot-wrapper">--%>
-<%--        <div class="lot">--%>
-<%--            <div class="lot-photo">--%>
-<%--                <img src="https://github.com/Elizaveta120502/PicturesFinalProject/blob/master/pictures/gypsofila.jpeg?raw=true"--%>
-<%--                     alt="">--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </li>--%>
-<%--    <li class="lot-wrapper">--%>
-<%--        <div class="lot">--%>
-<%--            <div class="lot-photo">--%>
-<%--                <img src="https://github.com/Elizaveta120502/PicturesFinalProject/blob/master/pictures/rom1.jpg?raw=true"--%>
-<%--                     alt="">--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </li>--%>
-<%--    <li class="lot-wrapper">--%>
-<%--        <div class="lot">--%>
-<%--            <div class="lot-photo">--%>
-<%--                <img src="https://github.com/Elizaveta120502/PicturesFinalProject/blob/master/pictures/tulip.jpg?raw=true"--%>
-<%--                     alt="">--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </li>--%>
-<%--    <li class="lot-wrapper">--%>
-<%--        <div class="lot">--%>
-<%--            <div class="lot-photo">--%>
-<%--                <img src="https://github.com/Elizaveta120502/PicturesFinalProject/blob/master/pictures/roses1.jpg?raw=true"--%>
-<%--                     alt="">--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </li>--%>
-<%--    <li class="lot-wrapper">--%>
-<%--        <div class="lot">--%>
-<%--            <div class="lot-photo">--%>
-<%--                <img src="https://github.com/Elizaveta120502/PicturesFinalProject/blob/master/pictures/lotus.jpg?raw=true"--%>
-<%--                     alt="">--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </li>--%>
-<%--    <li class="lot-wrapper">--%>
-<%--        <div class="lot">--%>
-<%--            <div class="lot-photo">--%>
-<%--                <img src="https://github.com/Elizaveta120502/PicturesFinalProject/blob/master/pictures/lavanda2.jpg?raw=true"--%>
-<%--                     alt="">--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </li>--%>
-<%--    <li class="lot-wrapper">--%>
-<%--        <div class="lot">--%>
-<%--            <div class="lot-photo">--%>
-<%--                <img src="https://github.com/Elizaveta120502/PicturesFinalProject/blob/master/pictures/kalanhoe.jpg?raw=true"--%>
-<%--                     alt="">--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </li>--%>
-<%--    <li class="lot-wrapper">--%>
-<%--        <div class="lot">--%>
-<%--            <div class="lot-photo">--%>
-<%--                <img src="https://github.com/Elizaveta120502/PicturesFinalProject/blob/master/pictures/aloejpg.jpg?raw=true"--%>
-<%--                     alt="">--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </li>--%>
-<%--    <li class="lot-wrapper">--%>
-<%--        <div class="lot">--%>
-<%--            <div class="lot-photo">--%>
-<%--                <img src="https://github.com/Elizaveta120502/PicturesFinalProject/blob/master/pictures/cherry blossom.jpg?raw=true"--%>
-<%--                     alt="">--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </li>--%>
-<%--    <li class="lot-wrapper">--%>
-<%--        <div class="lot">--%>
-<%--            <div class="lot-photo">--%>
-<%--                <img src="https://github.com/Elizaveta120502/PicturesFinalProject/blob/master/pictures/orhid.jpg?raw=true"--%>
-<%--                     alt="">--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </li>--%>
-<%--    <li class="lot-wrapper">--%>
-<%--        <div class="lot">--%>
-<%--            <div class="lot-photo">--%>
-<%--                <img src="https://github.com/Elizaveta120502/PicturesFinalProject/blob/master/pictures/sunflower.jpg?raw=true"--%>
-<%--                     alt="">--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </li>--%>
-<%--    <li class="lot-wrapper">--%>
-<%--        <div class="lot">--%>
-<%--            <div class="lot-photo">--%>
-<%--                <img src="https://github.com/Elizaveta120502/PicturesFinalProject/blob/master/pictures/lavanda.jpg?raw=true"--%>
-<%--                     alt="">--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </li>--%>
-<%--    <li class="lot-wrapper">--%>
-<%--        <div class="lot">--%>
-<%--            <div class="lot-photo">--%>
-<%--                <img src="https://github.com/Elizaveta120502/PicturesFinalProject/blob/master/pictures/begonia.jpg?raw=true"--%>
-<%--                     alt="">--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </li>--%>
-<%--    <li class="lot-wrapper">--%>
-<%--        <div class="lot">--%>
-<%--            <div class="lot-photo">--%>
-<%--                <img src="https://github.com/Elizaveta120502/PicturesFinalProject/blob/master/pictures/marg.jpg?raw=true"--%>
-<%--                     alt="">--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </li>--%>
-<%--    <li class="lot-wrapper">--%>
-<%--        <div class="lot">--%>
-<%--            <div class="lot-photo">--%>
-<%--                <img src="https://github.com/Elizaveta120502/PicturesFinalProject/blob/master/pictures/maki2.jpg?raw=true"--%>
-<%--                     alt="">--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </li>--%>
-<%--    <li class="lot-wrapper">--%>
-<%--        <div class="lot">--%>
-<%--            <div class="lot-photo">--%>
-<%--                <img src="https://github.com/Elizaveta120502/PicturesFinalProject/blob/master/pictures/cornflower.jpg?raw=true"--%>
-<%--                     alt="">--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </li>--%>
-
-
-<%--</ul>--%>
 </body>
 </html>

@@ -80,11 +80,16 @@ public class AccountServiceImpl implements AccountService {
             if (login == null || email == null) {
                 return Optional.empty();
             } else {
-                Optional<Account> accountToBlock =
-                        DAOFactory.getInstance().getAccountDAO().findUserByLogin(login);
-                LoggerProvider.getLOG().debug(accountToBlock);
-                DAOFactory.getInstance().getAccountDAO().delete(accountToBlock.get());
-                return accountToBlock;
+                if (DAOFactory.getInstance().getAccountDAO().readAll().toString().contains(login) &&
+                DAOFactory.getInstance().getAccountDAO().readAll().toString().contains(email)) {
+                    Optional<Account> accountToBlock =
+                            DAOFactory.getInstance().getAccountDAO().findUserByLogin(login);
+                    LoggerProvider.getLOG().debug(accountToBlock);
+                    DAOFactory.getInstance().getAccountDAO().delete(accountToBlock.get());
+                    return accountToBlock;
+                }else{
+                    return Optional.empty();
+                }
 
             }
         } catch (InterruptedException e) {

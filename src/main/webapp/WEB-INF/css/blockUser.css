@@ -1,0 +1,47 @@
+.login_block {
+    font-style: oblique;
+    font-weight: 800;
+    background: #FFE4B5;
+    position: absolute;
+    top: 120px;
+    width: 80px;
+    left: 5px;
+    margin: 5px 5px 5px 5px;
+    border-radius: 10px;
+
+
+}
+
+.email_block {
+    font-style: oblique;
+    font-weight: 800;
+    background: #FFE4B5;
+    position: absolute;
+    top: 210px;
+    width: 120px;
+    left: 5px;
+    margin: 5px 5px 5px 5px;
+    border-radius: 10px;
+
+}
+
+.user_block_button{
+    background: #FFE4B5;
+    border: 2px solid #FFA07A;
+    border-radius:50px;
+    position: absolute;
+    top: 330px;
+    width: 100px;
+    height: 50px;
+    right: 200px;
+    margin: 5px 5px 5px 5px;
+    color: #8B0000;
+}
+.user_block_button:hover {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.user_block_button:active {
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}

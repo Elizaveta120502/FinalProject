@@ -48,7 +48,8 @@
     </c:if>
 </div>
 <span class="menu" onclick="openNav()">Menu❀</span>
-<br>
+<%--<jsp:include page="/WEB-INF/jsp/menu.jsp" />--%>
+
 
 
 <c:choose>
