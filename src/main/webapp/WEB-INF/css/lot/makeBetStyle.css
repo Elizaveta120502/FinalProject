@@ -12,19 +12,19 @@
 
 }
 
-.error_bet{
+.error_bet {
     background: #FFE4B5;
     border-radius: 10px;
     position: absolute;
     top: 340px;
-    left:50px;
+    left: 50px;
     text-align: center;
     width: 80%;
 
 
 }
 
-.login_style{
+.login_style {
     font-style: oblique;
     font-weight: 800;
     background: #FFE4B5;
@@ -36,19 +36,19 @@
     border-radius: 10px;
 }
 
-.price_style{
+.price_style {
     font-style: oblique;
     font-weight: 800;
     background: #FFE4B5;
     position: absolute;
     top: 210px;
-    width:  222px;
+    width: 222px;
     left: 5px;
     margin: 5px 5px 5px 5px;
     border-radius: 10px;
 }
 
-.number{
+.number {
     font-style: oblique;
     font-weight: 800;
     background: #FFE4B5;
@@ -60,10 +60,10 @@
     border-radius: 10px;
 }
 
-.bet_button{
+.bet_button {
     background: #FFE4B5;
     border: 2px solid #FFA07A;
-    border-radius:50px;
+    border-radius: 50px;
     position: absolute;
     top: 400px;
     width: 100px;
@@ -73,7 +73,7 @@
     color: #8B0000;
 }
 
-.main_button{
+.main_button {
     background: #FFE4B5;
     border: 2px solid #FFA07A;
     border-radius: 50px;
@@ -87,7 +87,7 @@
     padding-top: 10px;
 }
 
-.buy_button{
+.buy_button {
     background: #FFE4B5;
     border: 2px solid #FFA07A;
     border-radius: 50px;
@@ -101,14 +101,14 @@
     padding-top: 10px;
 }
 
-.make_bet_text{
+.make_bet_text {
     color: #8B0000;
     text-decoration: none;
     text-align: center;
     padding-top: 10px;
 }
 
-.main_text{
+.main_text {
     font-style: oblique;
     font-weight: 800;
     background: #FFE4B5;

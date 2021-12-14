@@ -8,7 +8,6 @@ import com.epam.jwd.model.Role;
 import com.epam.jwd.model.Status;
 import com.epam.jwd.service.AccountService;
 
-import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -35,7 +34,7 @@ public class AccountServiceImpl implements AccountService {
         long newId;
         try {
             if (login == null || password == null || email == null
-                    || password.length() < 6 ) {
+                    || password.length() < 6) {
                 return Optional.empty();
             } else {
                 newId = (long) (21 + Math.random() * 9_223_372);
@@ -52,7 +51,6 @@ public class AccountServiceImpl implements AccountService {
     }
 
 
-
     @Override
     public Optional<Account> blockUser(String login, String email) {
 
@@ -62,13 +60,13 @@ public class AccountServiceImpl implements AccountService {
                 return Optional.empty();
             } else {
                 if (DAOFactory.getInstance().getAccountDAO().readAll().toString().contains(login) &&
-                DAOFactory.getInstance().getAccountDAO().readAll().toString().contains(email)) {
+                        DAOFactory.getInstance().getAccountDAO().readAll().toString().contains(email)) {
                     Optional<Account> accountToBlock =
                             DAOFactory.getInstance().getAccountDAO().findUserByLogin(login);
                     LoggerProvider.getLOG().debug(accountToBlock);
                     DAOFactory.getInstance().getAccountDAO().delete(accountToBlock.get());
                     return accountToBlock;
-                }else{
+                } else {
                     return Optional.empty();
                 }
 

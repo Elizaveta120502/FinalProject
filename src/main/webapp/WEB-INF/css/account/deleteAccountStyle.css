@@ -1,4 +1,4 @@
-.delete_account{
+.delete_account {
     position: absolute;
     width: 500px;
     height: 500px;
@@ -10,7 +10,7 @@
     border: 5px solid #556B2F;
 }
 
-.delete_account_text{
+.delete_account_text {
     position: absolute;
     top: 90px;
     left: 80px;
@@ -18,7 +18,7 @@
     width: 400px;
 }
 
-.delete_account_button{
+.delete_account_button {
     position: absolute;
     top: 160px;
     left: 120px;

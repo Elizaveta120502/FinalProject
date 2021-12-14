@@ -11,12 +11,13 @@
     border-radius: 100px;
 
 }
-.error_register{
+
+.error_register {
     background: #FFE4B5;
     border-radius: 10px;
     position: absolute;
     top: 370px;
-    left:50px;
+    left: 50px;
     text-align: center;
     width: 80%;
 
@@ -35,6 +36,7 @@
     border-radius: 10px;
     text-align: center;
 }
+
 .login_reg_text {
     font-style: oblique;
     font-weight: 800;
@@ -75,10 +77,10 @@
 
 }
 
-.registration_button{
+.registration_button {
     background-color: #FFE4B5;
     border: 2px solid #FFA07A;
-    border-radius:50px;
+    border-radius: 50px;
     position: absolute;
     top: 400px;
     width: 100px;
@@ -87,6 +89,7 @@
     margin: 5px 5px 5px 5px;
     color: #8B0000;
 }
+
 .registration_button:hover {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }

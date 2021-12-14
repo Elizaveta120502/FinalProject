@@ -13,11 +13,11 @@
     <%@include file="/WEB-INF/css/lot/deleteLotStyle.css"%>
     <%@include file="/WEB-INF/css/common/welcomebackground.css"%>
 </style>
-<div class = "delete_lot">
+<div class="delete_lot">
     <form name="lot-form" action="/controller?command=delete_lot" method="post">
         <div class="delete_lot_text">
             <label for="delete_item">Lot №:</label>
-            <input id="delete_item" type="number" name="id"  min="1"   required value=""/>
+            <input id="delete_item" type="number" name="id" min="1" required value=""/>
         </div>
 
         <div>

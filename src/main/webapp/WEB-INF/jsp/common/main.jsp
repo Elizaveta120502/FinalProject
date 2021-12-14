@@ -86,27 +86,28 @@
 </div>
 
 <div class="start">
-        <c:choose>
-            <c:when test="${empty sessionScope.user }">
-                <div class="start_text">
-                    To start you need to register or sign in
-                </div>
-            </c:when>
-            <c:when test="${not empty sessionScope.user && sessionScope.user.role eq Role.ADMINISTRATOR}">
+    <c:choose>
+        <c:when test="${empty sessionScope.user }">
+            <div class="start_text">
+                To start you need to register or sign in
+            </div>
+        </c:when>
+        <c:when test="${not empty sessionScope.user && sessionScope.user.role eq Role.ADMINISTRATOR}">
 
-                <img src="https://github.com/Elizaveta120502/PicturesFinalProject/blob/master/pictures/icon-checked-user.png?raw=true">
-                (${Role.ADMINISTRATOR.name().toLowerCase()})
-                <jwds:welcomeUser text="Hello"/>
+            <img src="https://github.com/Elizaveta120502/PicturesFinalProject/blob/master/pictures/icon-checked-user.png?raw=true">
+            (${Role.ADMINISTRATOR.name().toLowerCase()})
+            <jwds:welcomeUser text="Hello"/>
 
-            </c:when>
-            <c:when test="${not empty sessionScope.user && sessionScope.user.role eq Role.CLIENT }">
+        </c:when>
+        <c:when test="${not empty sessionScope.user && sessionScope.user.role eq Role.CLIENT }">
 
-                <img height="30px" src="https://github.com/Elizaveta120502/PicturesFinalProject/blob/master/pictures/icon-checked-user.png?raw=true">
-                (${Role.CLIENT.name().toLowerCase()})
-                <jwds:welcomeUser text="Hello"/>
-                </br>
-            </c:when>
-        </c:choose>
+            <img height="30px"
+                 src="https://github.com/Elizaveta120502/PicturesFinalProject/blob/master/pictures/icon-checked-user.png?raw=true">
+            (${Role.CLIENT.name().toLowerCase()})
+            <jwds:welcomeUser text="Hello"/>
+            </br>
+        </c:when>
+    </c:choose>
 
 </div>
 

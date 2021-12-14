@@ -13,9 +13,9 @@
     <c:forEach var="shipment" items="${requestScope.shipments}">
         <div class="user-wrapper">
             <c:if test="${not empty sessionScope.user }">
-               <b class="user">${shipment.id})
-                   Expected date:${shipment.expectedDate}<br>
-                   Shipment cost:${shipment.cost}$</b>
+                <b class="user">${shipment.id})
+                    Expected date:${shipment.expectedDate}<br>
+                    Shipment cost:${shipment.cost}$</b>
             </c:if>
         </div>
     </c:forEach>

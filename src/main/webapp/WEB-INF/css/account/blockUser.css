@@ -25,10 +25,10 @@
 
 }
 
-.user_block_button{
+.user_block_button {
     background: #FFE4B5;
     border: 2px solid #FFA07A;
-    border-radius:50px;
+    border-radius: 50px;
     position: absolute;
     top: 330px;
     width: 100px;
@@ -37,6 +37,7 @@
     margin: 5px 5px 5px 5px;
     color: #8B0000;
 }
+
 .user_block_button:hover {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }

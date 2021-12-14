@@ -6,7 +6,6 @@ import com.epam.jwd.command.CommandResponse;
 import com.epam.jwd.controller.RequestFactory;
 import com.epam.jwd.dao.impl.DAOFactory;
 import com.epam.jwd.logger.LoggerProvider;
-import com.epam.jwd.model.Payment;
 import com.epam.jwd.model.Shipment;
 import com.epam.jwd.service.EntityService;
 import com.epam.jwd.service.ServiceFactory;
@@ -19,7 +18,7 @@ public enum ShowShipmentsPageCommand implements Command {
             RequestFactory.getInstance());
 
     private static List<Shipment> SHIPMENTS = null;
-    private static List<Shipment> LOWER_SH =null;
+    private static List<Shipment> LOWER_SH = null;
     private static List<Shipment> HIGHER_SH = null;
 
     static {

@@ -1,5 +1,5 @@
 
-.buy{
+.buy {
     display: block;
     position: absolute;
     width: 600px;
@@ -13,7 +13,7 @@
 
 }
 
-.do_text{
+.do_text {
     font-style: oblique;
     font-weight: 800;
     background: #FFE4B5;
@@ -25,7 +25,7 @@
     text-align: center;
 }
 
-.lot_id{
+.lot_id {
     font-style: oblique;
     font-weight: 800;
     background: #FFE4B5;
@@ -39,7 +39,7 @@
 }
 
 
-.shipment{
+.shipment {
     font-style: oblique;
     font-weight: 800;
     background: #FFE4B5;
@@ -54,7 +54,7 @@
 
 }
 
-.payment{
+.payment {
     font-style: oblique;
     font-weight: 800;
     background: #FFE4B5;
@@ -67,7 +67,7 @@
     font-size: 18px;
 }
 
-.account{
+.account {
     font-style: oblique;
     font-weight: 800;
     background: #FFE4B5;
@@ -80,7 +80,7 @@
 
 }
 
-.buy_button{
+.buy_button {
     background: #FFE4B5;
     border: 2px solid #FFA07A;
     border-radius: 50px;
@@ -94,6 +94,7 @@
     position: absolute;
     align-content: center;
 }
+
 .buy_button:hover {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }

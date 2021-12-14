@@ -47,8 +47,8 @@ public enum CommandRegistry {
     CREATE_LOT(CreateLotCommand.INSTANCE, "create_lot", Role.CLIENT),
     SHOW_CREATE_LOT(ShowAddingLotPageCommand.INSTANCE, "show_create_lot", Role.CLIENT),
 
-    DELETE_LOT(DeleteLotCommand.INSTANCE,"delete_lot",Role.ADMINISTRATOR),
-    SHOW_DELETE_LOT(ShowDeleteLotPageCommand.INSTANCE,"show_delete_lot",Role.ADMINISTRATOR),
+    DELETE_LOT(DeleteLotCommand.INSTANCE, "delete_lot", Role.ADMINISTRATOR),
+    SHOW_DELETE_LOT(ShowDeleteLotPageCommand.INSTANCE, "show_delete_lot", Role.ADMINISTRATOR),
 
     SHOW_LOTS(ShowLotsPageCommand.INSTANCE, "show_lots"),
     MAKE_BET(MakeBetCommand.INSTANCE, "make_bet", Role.CLIENT, Role.ADMINISTRATOR),
@@ -60,7 +60,7 @@ public enum CommandRegistry {
     SHOW_BLOCK_USER(ShowPageToBlockUser.INSTANCE, "show_user_block", Role.ADMINISTRATOR),
     LOGOUT(LogoutCommand.INSTANCE, "logout"),
 
-    SHOW_SHIPMENTS(ShowShipmentsPageCommand.INSTANCE,"show_shipments",Role.ADMINISTRATOR),
+    SHOW_SHIPMENTS(ShowShipmentsPageCommand.INSTANCE, "show_shipments", Role.ADMINISTRATOR),
 
     DEFAULT(ShowMainPageCommand.INSTANCE, ""),
     ERROR(ShowErrorPageCommand.INSTANCE, "show_error");

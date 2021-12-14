@@ -2,7 +2,6 @@ package com.epam.jwd.service;
 
 import com.epam.jwd.model.Lot;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 

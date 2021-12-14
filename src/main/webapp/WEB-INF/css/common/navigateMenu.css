@@ -1,5 +1,4 @@
 
-
 .sidenav {
     display: none;
     height: 100%;
@@ -17,7 +16,7 @@
     padding: 10px 10px 10px 32px;
     text-decoration: none;
     font-size: 25px;
-    color:  #FFA07A;
+    color: #FFA07A;
     display: block;
 }
 
@@ -34,6 +33,11 @@
 }
 
 @media screen and (max-height: 450px) {
-    .sidenav {padding-top: 15px;}
-    .sidenav a {font-size: 18px;}
+    .sidenav {
+        padding-top: 15px;
+    }
+
+    .sidenav a {
+        font-size: 18px;
+    }
 }

@@ -11,14 +11,14 @@
 
 }
 
-.add_lot_text{
-  position: absolute;
+.add_lot_text {
+    position: absolute;
     top: 80px;
     left: 120px;
 
 }
 
-.create_lot_button{
+.create_lot_button {
     position: absolute;
     top: 270px;
     left: 153px;

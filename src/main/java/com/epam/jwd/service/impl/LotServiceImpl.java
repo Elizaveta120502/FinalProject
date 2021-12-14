@@ -2,7 +2,6 @@ package com.epam.jwd.service.impl;
 
 import com.epam.jwd.dao.LotDAO;
 import com.epam.jwd.dao.impl.DAOFactory;
-import com.epam.jwd.database.impl.StatementProvider;
 import com.epam.jwd.logger.LoggerProvider;
 import com.epam.jwd.model.*;
 import com.epam.jwd.service.LotService;
@@ -10,7 +9,9 @@ import com.epam.jwd.service.PaymentService;
 import com.epam.jwd.service.ServiceFactory;
 import com.epam.jwd.service.ShipmentService;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 import static com.epam.jwd.dao.impl.DAOFactory.getInstance;

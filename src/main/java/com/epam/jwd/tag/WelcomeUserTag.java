@@ -1,4 +1,5 @@
 package com.epam.jwd.tag;
+
 import com.epam.jwd.logger.LoggerProvider;
 import com.epam.jwd.model.Account;
 
@@ -42,8 +43,8 @@ public class WelcomeUserTag extends TagSupport {
         try {
             out.write(text);
         } catch (IOException e) {
-           LoggerProvider.getLOG().error("error occurred writing text to jsp. text: {}, tagId: {}", text, id);
-           LoggerProvider.getLOG().error(e);
+            LoggerProvider.getLOG().error("error occurred writing text to jsp. text: {}, tagId: {}", text, id);
+            LoggerProvider.getLOG().error(e);
         }
     }
 

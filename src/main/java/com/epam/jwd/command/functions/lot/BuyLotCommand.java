@@ -3,11 +3,8 @@ package com.epam.jwd.command.functions.lot;
 import com.epam.jwd.command.Command;
 import com.epam.jwd.command.CommandRequest;
 import com.epam.jwd.command.CommandResponse;
-
 import com.epam.jwd.controller.RequestFactory;
-
 import com.epam.jwd.model.Lot;
-
 import com.epam.jwd.service.*;
 
 import java.util.Optional;

@@ -7,7 +7,6 @@ public enum PagePaths {
     ERROR("/WEB-INF/jsp/error/error.jsp");
 
 
-
     private final String path;
 
     PagePaths(String path) {

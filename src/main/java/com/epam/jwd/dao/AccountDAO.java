@@ -3,7 +3,6 @@ package com.epam.jwd.dao;
 import com.epam.jwd.model.Account;
 import com.epam.jwd.model.Role;
 
-import java.util.List;
 import java.util.Optional;
 
 

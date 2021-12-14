@@ -3,7 +3,6 @@ package com.epam.jwd.dao.impl;
 import com.epam.jwd.dao.AbstractDAO;
 import com.epam.jwd.dao.LotDAO;
 import com.epam.jwd.database.ConnectionPool;
-import com.epam.jwd.database.impl.ConnectionPoolImpl;
 import com.epam.jwd.database.impl.StatementProvider;
 import com.epam.jwd.exception.EntityExtractionFailedException;
 import com.epam.jwd.logger.LoggerProvider;
