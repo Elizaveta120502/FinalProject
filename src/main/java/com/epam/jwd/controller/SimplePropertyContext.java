@@ -6,7 +6,7 @@ public class SimplePropertyContext implements PropertyContext {
 
     @Override
     public String get(String name) {
-        return PagePaths.of(name.substring(0)).getPath();
+        return PagePaths.of(name).getPath();
 
     }
 

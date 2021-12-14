@@ -44,7 +44,7 @@ public class AuctionItemServiceImpl implements AuctionItemsService {
             if (title == null || price <= 0 || inStock <= 0) {
                 return Optional.empty();
             } else {
-                long id = DAOFactory.getInstance().getAuctionItemsDAO().readAll().size() + 1;
+                long id = (long) (30 + Math.random() * 9_223_372);
                 Picture picture = new Picture(id, pictureURL, title + id);
                 DAOFactory.getInstance().getPictureDAO().create(picture);
                 AuctionItem newAuctionItem = new AuctionItem(id, title, price, inStock, picture);

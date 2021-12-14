@@ -28,22 +28,6 @@ public class LotServiceImpl implements LotService {
         this.lotDAO = lotDAO;
     }
 
-    @Override
-    public boolean approveLot(Lot newLot) {
-        try {
-            if (!newLot.equals(null)) {
-                getInstance().getLotDAO().create(newLot);
-                return true;
-            } else {
-                return false;
-            }
-        } catch (InterruptedException e) {
-            LoggerProvider.getLOG().error("takeConnection interrupted");
-            Thread.currentThread().interrupt();
-            return false;
-        }
-
-    }
 
     @Override
     public Optional<Long> deleteLot(Long id) {
@@ -66,7 +50,6 @@ public class LotServiceImpl implements LotService {
 
         try {
             if (login == null || lotId < 0
-                    || lotId > DAOFactory.getInstance().getLotDAO().readAll().size()
                     || newCurrentPrice <= 0) {
                 return Optional.empty();
             } else {
@@ -114,27 +97,12 @@ public class LotServiceImpl implements LotService {
         }
     }
 
-    @Override
-    public boolean notApproveLot(Lot newLot) {
-        try {
-            if (!newLot.equals(null)) {
-                getInstance().getLotDAO().deleteById(newLot.getId());
-                return true;
-            } else {
-                return false;
-            }
-        } catch (InterruptedException e) {
-            LoggerProvider.getLOG().error("takeConnection interrupted");
-            Thread.currentThread().interrupt();
-            return false;
-        }
-    }
 
     @Override
     public Optional<Lot> buyLot(Long lotId, String shipmentMethod, String paymentMethod, String login) {
         Lot lotToBuy;
         try {
-            if (lotId > 0 || lotId < DAOFactory.getInstance().getLotDAO().readAll().size()) {
+            if (lotId > 0) {
                 Optional<Lot> lot = DAOFactory.getInstance().getLotDAO().readById(lotId);
                 if (lot.get().getLotStatus() == LotStatus.CURRENT) {
                     Optional<Account> customer = DAOFactory.getInstance().getAccountDAO().findUserByLogin(login);

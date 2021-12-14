@@ -11,8 +11,6 @@ public interface AccountService extends EntityService<Account> {
 
     Optional<Account> registrationForClients(String login, String password, String email);
 
-    boolean registrationForAdmins(String login, String password, String email);
-
     Optional<Account> blockUser(String login, String email);
 
     Optional<Account> deleteAccount(String login, String password) throws InterruptedException;

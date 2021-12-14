@@ -25,7 +25,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public Optional<Payment> makePayment(PaymentMethod paymentMethod) {
 
-        if (paymentMethod == PaymentMethod.NOT_PAID) {
+        if (paymentMethod.equals(PaymentMethod.NOT_PAID)) {
             return Optional.empty();
         } else {
 

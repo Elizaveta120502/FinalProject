@@ -1,8 +1,20 @@
 package com.epam.jwd.command;
 
 
-import com.epam.jwd.command.functions.*;
-import com.epam.jwd.command.presentation.*;
+import com.epam.jwd.command.functions.account.*;
+import com.epam.jwd.command.functions.item.AddItemCommand;
+import com.epam.jwd.command.functions.item.DeleteItemCommand;
+import com.epam.jwd.command.functions.lot.BuyLotCommand;
+import com.epam.jwd.command.functions.lot.CreateLotCommand;
+import com.epam.jwd.command.functions.lot.DeleteLotCommand;
+import com.epam.jwd.command.functions.lot.MakeBetCommand;
+import com.epam.jwd.command.presentation.account.*;
+import com.epam.jwd.command.presentation.common.ShowMainPageCommand;
+import com.epam.jwd.command.presentation.error.ShowErrorPageCommand;
+import com.epam.jwd.command.presentation.item.ShowAddingAuctionItemPageCommand;
+import com.epam.jwd.command.presentation.item.ShowAuctionItemsPageCommand;
+import com.epam.jwd.command.presentation.item.ShowDeleteItemPageCommand;
+import com.epam.jwd.command.presentation.lot.*;
 import com.epam.jwd.model.Role;
 
 import java.util.Arrays;
@@ -48,6 +60,7 @@ public enum CommandRegistry {
     SHOW_BLOCK_USER(ShowPageToBlockUser.INSTANCE, "show_user_block", Role.ADMINISTRATOR),
     LOGOUT(LogoutCommand.INSTANCE, "logout"),
 
+    SHOW_SHIPMENTS(ShowShipmentsPageCommand.INSTANCE,"show_shipments",Role.ADMINISTRATOR),
 
     DEFAULT(ShowMainPageCommand.INSTANCE, ""),
     ERROR(ShowErrorPageCommand.INSTANCE, "show_error");

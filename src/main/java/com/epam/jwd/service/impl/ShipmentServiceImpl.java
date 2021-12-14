@@ -29,7 +29,7 @@ public class ShipmentServiceImpl implements ShipmentService {
                 Timestamp actual = Timestamp.valueOf(actualTime);
                 LocalDateTime expectedDate = actualTime.plusDays(30L);
                 Timestamp expected = Timestamp.valueOf(expectedDate);
-                long id = DAOFactory.getInstance().getShipmentDAO().readAll().size() + 1;
+                long id = (long) (30 + Math.random() * 9_223_372);
 
                 Optional<Shipment> newShipment = Optional.of(new Shipment(id, expected, actual,
                         DAOFactory.getInstance().getShipmentDAO().

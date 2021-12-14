@@ -3,12 +3,10 @@ package com.epam.jwd.controller;
 public enum PagePaths {
 
     INDEX("/"),
-    MAIN("/WEB-INF/jsp/main.jsp"),
-    LOGIN("/WEB-INF/jsp/login.jsp"),
-    USERS("/WEB-INF/jsp/users.jsp"),
-    ERROR("/WEB-INF/jsp/error.jsp"),
-    LOTS("/WEB-INF/jsp/lots.jsp"),
-    BYU("/WEB-INF/jsp/buy.jsp");
+    MAIN("/WEB-INF/jsp/common/main.jsp"),
+    ERROR("/WEB-INF/jsp/error/error.jsp");
+
+
 
     private final String path;
 

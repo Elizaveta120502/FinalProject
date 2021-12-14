@@ -35,10 +35,10 @@ public class AccountServiceImpl implements AccountService {
         long newId;
         try {
             if (login == null || password == null || email == null
-                    || password.length() < 6 || password.length() > 6) {
+                    || password.length() < 6 ) {
                 return Optional.empty();
             } else {
-                newId = DAOFactory.getInstance().getAccountDAO().readAll().size() + 1;
+                newId = (long) (21 + Math.random() * 9_223_372);
                 Optional<Account> newAccount = Optional.of(new Account(newId, login, password, email, Role.CLIENT,
                         Status.MYSTERY));
                 DAOFactory.getInstance().getAccountDAO().create(newAccount.get());
@@ -51,26 +51,7 @@ public class AccountServiceImpl implements AccountService {
         }
     }
 
-    @Override
-    public boolean registrationForAdmins(String login, String password, String email) {
-        long newId;
-        try {
-            if (login == null || password == null || email == null
-                    || password.length() <= 6 || password.length() > 0) {
-                newId = DAOFactory.getInstance().getAccountDAO().readAll().size() + 1;
-                Account newAccount = new Account(newId, login, password, email, Role.ADMINISTRATOR,
-                        Status.SUPREME);
-                DAOFactory.getInstance().getAccountDAO().create(newAccount);
-                return true;
-            } else {
-                return false;
-            }
-        } catch (InterruptedException e) {
-            LoggerProvider.getLOG().error("takeConnection interrupted");
-            Thread.currentThread().interrupt();
-            return false;
-        }
-    }
+
 
     @Override
     public Optional<Account> blockUser(String login, String email) {

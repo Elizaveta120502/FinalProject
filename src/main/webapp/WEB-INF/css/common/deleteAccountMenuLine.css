@@ -1,0 +1,8 @@
+.delete_account_line{
+    position: absolute;
+    text-decoration: overline;
+    color: darkred;
+    bottom: 84px;
+    z-index: 2;
+
+}

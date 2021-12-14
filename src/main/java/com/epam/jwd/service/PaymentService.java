@@ -13,7 +13,7 @@ public interface PaymentService extends EntityService<Payment> {
     static PaymentMethod choosePaymentType(String paymentMethod) {
 
         switch (paymentMethod) {
-            case "Erip":
+            case "ERIP":
                 return PaymentMethod.ERIP;
             case "Mastercard":
                 return PaymentMethod.MASTERCARD;

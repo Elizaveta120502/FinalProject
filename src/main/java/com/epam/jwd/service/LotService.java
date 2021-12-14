@@ -8,7 +8,6 @@ import java.util.Set;
 
 public interface LotService extends EntityService<Lot> {
 
-    boolean approveLot(Lot newLot);
 
     Optional<Long> deleteLot(Long id);
 
@@ -16,7 +15,6 @@ public interface LotService extends EntityService<Lot> {
 
     Set<Lot> blockLot(Long lotId);
 
-    boolean notApproveLot(Lot newLot);
 
     Optional<Lot> buyLot(Long lotId, String shipmentMethod, String paymentMethod, String login);
 
