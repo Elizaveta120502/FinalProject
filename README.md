@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 Final Project -
 Flower Auction
 
@@ -41,7 +41,7 @@ The application has three user roles
 - access to the list of auction items
 
 
-=======
+
 Final Project -
 Flower Auction
 
@@ -82,4 +82,4 @@ The application has three user roles
 - delete account
 - access to the list of lots
 - access to the list of auction items
->>>>>>> fbfa46953c78a333b778ca605d10acf84d5433b7
+
